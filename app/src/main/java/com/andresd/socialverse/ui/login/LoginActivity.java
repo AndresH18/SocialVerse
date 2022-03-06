@@ -27,6 +27,9 @@ import com.andresd.socialverse.ui.login.LoginViewModel;
 import com.andresd.socialverse.ui.login.LoginViewModelFactory;
 import com.andresd.socialverse.databinding.ActivityLoginBinding;
 
+/**
+ * FIXME: Adjust for firebase user authentication
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
@@ -39,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // request loginViewModel
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
@@ -47,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
 
+
+        /* Check that the credentials are correctly formatted */
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
             public void onChanged(@Nullable LoginFormState loginFormState) {
@@ -63,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        /* add an action for the  result of the login */
         loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
             @Override
             public void onChanged(@Nullable LoginResult loginResult) {
@@ -79,10 +86,12 @@ public class LoginActivity extends AppCompatActivity {
                 setResult(Activity.RESULT_OK);
 
                 //Complete and destroy login activity once successful
-                finish();
+                // TODO
+                /*finish();*/ // Comment to prevent activity from ending
             }
         });
 
+        /* Password and User TextFields Change Listeners */
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -100,8 +109,11 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         };
+        /* Adding the text listeners to the username and password editText */
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
+
+        /* Add 'next' button action to Done in order to login */
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -114,6 +126,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        /* add on click listener to login button */
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +135,11 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         });
+
+
+        // TESTING: Delete test user and password
+        binding.username.setText("testing@socialverse.test");
+        binding.password.setText("socialTest");
     }
 
     private void updateUiWithUser(LoggedInUserView model) {

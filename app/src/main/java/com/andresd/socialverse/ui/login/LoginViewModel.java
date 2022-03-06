@@ -11,6 +11,9 @@ import com.andresd.socialverse.data.Result;
 import com.andresd.socialverse.data.model.LoggedInUser;
 import com.andresd.socialverse.R;
 
+/**
+ * FIXME: Adjust for firebase user authentication
+ */
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();

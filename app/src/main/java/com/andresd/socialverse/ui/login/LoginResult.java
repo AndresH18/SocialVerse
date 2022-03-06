@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 
 /**
  * Authentication result : success (user details) or error message.
+ * FIXME: Adjust for firebase user authentication
  */
 class LoginResult {
     @Nullable
