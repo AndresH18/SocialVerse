@@ -1,15 +1,20 @@
 package com.andresd.socialverse.ui.login;
 
+import android.util.Patterns;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import android.util.Patterns;
-
-import com.andresd.socialverse.data.LoginRepository;
-import com.andresd.socialverse.data.Result;
-import com.andresd.socialverse.data.model.LoggedInUser;
 import com.andresd.socialverse.R;
+import com.andresd.socialverse.data.Result;
+import com.andresd.socialverse.data.model.LoginRepository;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * FIXME: Adjust for firebase user authentication
@@ -18,9 +23,10 @@ public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
+
     private LoginRepository loginRepository;
 
-    LoginViewModel(LoginRepository loginRepository) {
+    LoginViewModel(@NonNull LoginRepository loginRepository) {
         this.loginRepository = loginRepository;
     }
 
@@ -33,17 +39,30 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void login(String username, String password) {
-        // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
+        loginRepository.login(username, password);
 
-        if (result instanceof Result.Success) {
-            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
-        } else {
-            loginResult.setValue(new LoginResult(R.string.login_failed));
-        }
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.signInWithEmailAndPassword(username, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Result<FirebaseUser> result = new Result.Success<FirebaseUser>(auth.getCurrentUser());
+                            loginResult.setValue(new LoginResult(new LoggedInUserView(username)));
+                        } else {
+                            loginResult.setValue(new LoginResult(R.string.login_failed));
+                        }
+                    }
+                });
+
     }
 
+    /**
+     * TODO: FIXME
+     *
+     * @param username
+     * @param password
+     */
     public void loginDataChanged(String username, String password) {
         if (!isUserNameValid(username)) {
             loginFormState.setValue(new LoginFormState(R.string.invalid_username, null));
@@ -54,7 +73,7 @@ public class LoginViewModel extends ViewModel {
         }
     }
 
-    // A placeholder username validation check
+    // A placeholder username validation check TODO
     private boolean isUserNameValid(String username) {
         if (username == null) {
             return false;
