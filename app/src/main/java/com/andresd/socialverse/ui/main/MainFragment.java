@@ -12,9 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.andresd.socialverse.data.model.LoginRepository;
 import com.andresd.socialverse.databinding.MainFragmentBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class MainFragment extends Fragment {
     private static final String TAG = MainFragment.class.getSimpleName();
@@ -22,7 +22,7 @@ public class MainFragment extends Fragment {
     private MainFragmentBinding binding;
 
     private MainViewModel mViewModel;
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private LoginRepository mAuth = LoginRepository.getInstance();
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -33,6 +33,12 @@ public class MainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = MainFragmentBinding.inflate(inflater, container, false);
+        binding.logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+            }
+        });
         return binding.getRoot();
     }
 

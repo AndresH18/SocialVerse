@@ -8,16 +8,15 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.andresd.socialverse.R;
+import com.andresd.socialverse.data.Result;
 import com.andresd.socialverse.data.model.LoggedInUser;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
+import com.andresd.socialverse.data.model.LoginRepository;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * FIXME: Adjust for firebase user authentication
  */
-public class LoginViewModel extends ViewModel {
+public class LoginViewModel extends ViewModel implements LoginRepository.OnLoginSuccessfulListener {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
@@ -34,19 +33,7 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void login(String username, String password) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.signInWithEmailAndPassword(username, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            LoggedInUser data = new LoggedInUser(auth.getCurrentUser().getUid(), auth.getCurrentUser().getDisplayName());
-                            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
-                        } else {
-                            loginResult.setValue(new LoginResult(R.string.login_failed));
-                        }
-                    }
-                });
+        LoginRepository.getInstance().login(username, password, this);
     }
 
     /**
@@ -80,5 +67,14 @@ public class LoginViewModel extends ViewModel {
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
         return password != null && password.trim().length() > 5;
+    }
+
+
+    @Override
+    public void onLoginSuccessful(@NonNull Result.Success<FirebaseUser> result) {
+        FirebaseUser user = result.getData();
+        LoggedInUser data = new LoggedInUser(user.getUid(), user.getDisplayName());
+        loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
+
     }
 }
