@@ -8,12 +8,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.andresd.socialverse.R;
-import com.andresd.socialverse.data.model.LoginRepository;
+import com.andresd.socialverse.data.model.LoggedInUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 /**
  * FIXME: Adjust for firebase user authentication
@@ -23,10 +22,7 @@ public class LoginViewModel extends ViewModel {
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
 
-    private LoginRepository loginRepository;
-
-    LoginViewModel(@NonNull LoginRepository loginRepository) {
-        this.loginRepository = loginRepository;
+    LoginViewModel() {
     }
 
     LiveData<LoginFormState> getLoginFormState() {
@@ -38,22 +34,19 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void login(String username, String password) {
-        loginRepository.login(username, password);
-
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Result<FirebaseUser> result = new Result.Success<FirebaseUser>(auth.getCurrentUser());
-                            loginResult.setValue(new LoginResult(new LoggedInUserView(username)));
+                            LoggedInUser data = new LoggedInUser(auth.getCurrentUser().getUid(), auth.getCurrentUser().getDisplayName());
+                            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
                         } else {
                             loginResult.setValue(new LoginResult(R.string.login_failed));
                         }
                     }
                 });
-
     }
 
     /**
