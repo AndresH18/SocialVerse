@@ -24,9 +24,7 @@ import com.andresd.socialverse.MainActivity;
 import com.andresd.socialverse.R;
 import com.andresd.socialverse.databinding.ActivityLoginBinding;
 
-/**
- * FIXME: Adjust for firebase user authentication
- */
+
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
