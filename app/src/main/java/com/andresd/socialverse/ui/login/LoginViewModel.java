@@ -1,27 +1,27 @@
 package com.andresd.socialverse.ui.login;
 
+import android.util.Patterns;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import android.util.Patterns;
-
-import com.andresd.socialverse.data.LoginRepository;
+import com.andresd.socialverse.R;
 import com.andresd.socialverse.data.Result;
 import com.andresd.socialverse.data.model.LoggedInUser;
-import com.andresd.socialverse.R;
+import com.andresd.socialverse.data.model.LoginRepository;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * FIXME: Adjust for firebase user authentication
  */
-public class LoginViewModel extends ViewModel {
+public class LoginViewModel extends ViewModel implements LoginRepository.OnLoginSuccessfulListener {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
-    private LoginRepository loginRepository;
 
-    LoginViewModel(LoginRepository loginRepository) {
-        this.loginRepository = loginRepository;
+    LoginViewModel() {
     }
 
     LiveData<LoginFormState> getLoginFormState() {
@@ -33,17 +33,15 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void login(String username, String password) {
-        // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
-
-        if (result instanceof Result.Success) {
-            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
-        } else {
-            loginResult.setValue(new LoginResult(R.string.login_failed));
-        }
+        LoginRepository.getInstance().login(username, password, this);
     }
 
+    /**
+     * TODO: FIXME
+     *
+     * @param username
+     * @param password
+     */
     public void loginDataChanged(String username, String password) {
         if (!isUserNameValid(username)) {
             loginFormState.setValue(new LoginFormState(R.string.invalid_username, null));
@@ -54,7 +52,7 @@ public class LoginViewModel extends ViewModel {
         }
     }
 
-    // A placeholder username validation check
+    // A placeholder username validation check TODO
     private boolean isUserNameValid(String username) {
         if (username == null) {
             return false;
@@ -69,5 +67,14 @@ public class LoginViewModel extends ViewModel {
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
         return password != null && password.trim().length() > 5;
+    }
+
+
+    @Override
+    public void onLoginSuccessful(@NonNull Result.Success<FirebaseUser> result) {
+        FirebaseUser user = result.getData();
+        LoggedInUser data = new LoggedInUser(user.getUid(), user.getDisplayName());
+        loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
+
     }
 }

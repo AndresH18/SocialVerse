@@ -1,16 +1,8 @@
 package com.andresd.socialverse.ui.login;
 
 import android.app.Activity;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -22,9 +14,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.andresd.socialverse.MainActivity;
 import com.andresd.socialverse.R;
-import com.andresd.socialverse.ui.login.LoginViewModel;
-import com.andresd.socialverse.ui.login.LoginViewModelFactory;
 import com.andresd.socialverse.databinding.ActivityLoginBinding;
 
 /**
@@ -82,12 +79,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    setResult(Activity.RESULT_OK);
+                    startActivity(intent);
+                    //Complete and destroy login activity once successful
+                    finish();
                 }
-                setResult(Activity.RESULT_OK);
-
-                //Complete and destroy login activity once successful
-                // TODO
-                /*finish();*/ // Comment to prevent activity from ending
             }
         });
 

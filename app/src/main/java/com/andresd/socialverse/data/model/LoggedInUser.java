@@ -2,7 +2,6 @@ package com.andresd.socialverse.data.model;
 
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository
- * FIXME: Adjust for firebase user authentication
  */
 public class LoggedInUser {
 
