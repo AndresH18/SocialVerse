@@ -45,7 +45,7 @@ public class LoginRepository {
         return instance;
     }
 
-    public void login(@NonNull String username,@NonNull String password, @NonNull OnLoginSuccessfulListener onLoginSuccessfulListener) {
+    public void login(@NonNull String username, @NonNull String password, @NonNull OnLoginSuccessfulListener onLoginSuccessfulListener) {
         Task<AuthResult> loginTask = mAuth
                 .signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

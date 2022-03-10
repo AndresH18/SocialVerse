@@ -17,6 +17,7 @@ import com.andresd.socialverse.databinding.MainFragmentBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
 
 public class MainFragment extends Fragment {
+
     private static final String TAG = MainFragment.class.getSimpleName();
 
     private MainFragmentBinding binding;

@@ -52,7 +52,8 @@ public class LoginViewModel extends ViewModel implements LoginRepository.OnLogin
         }
     }
 
-    // A placeholder username validation check TODO
+    // A placeholder username validation check
+    // TODO : Check for correct in case email address format
     private boolean isUserNameValid(String username) {
         if (username == null) {
             return false;

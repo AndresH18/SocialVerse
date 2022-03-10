@@ -4,7 +4,6 @@ import androidx.annotation.Nullable;
 
 /**
  * Data validation state of the login form.
- * FIXME: Adjust for firebase user authentication
  */
 class LoginFormState {
     @Nullable
