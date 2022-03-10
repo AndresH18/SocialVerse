@@ -21,12 +21,19 @@ public class LoginRepository {
 
     // private constructor : singleton access
     private LoginRepository() {
+        currentUser = mAuth.getCurrentUser();
+
         mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (mAuth.getCurrentUser() == null) {
+                if (currentUser != mAuth.getCurrentUser()) {
+                    // TODO: Notify user changed event
+                    currentUser = mAuth.getCurrentUser();
+                } else if (mAuth.getCurrentUser() == null) {
+                    // TODO: Notify SignOut event
                     currentUser = null;
                 }
+                //
             }
         });
     }
@@ -38,7 +45,7 @@ public class LoginRepository {
         return instance;
     }
 
-    public void login(String username, String password, OnLoginSuccessfulListener onLoginSuccessfulListener) {
+    public void login(@NonNull String username,@NonNull String password, @NonNull OnLoginSuccessfulListener onLoginSuccessfulListener) {
         Task<AuthResult> loginTask = mAuth
                 .signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -68,5 +75,9 @@ public class LoginRepository {
 
     public interface OnLoginSuccessfulListener {
         void onLoginSuccessful(@NonNull Result.Success<FirebaseUser> result);
+    }
+
+    public interface OnSignOutListener {
+        void onSignOut();
     }
 }

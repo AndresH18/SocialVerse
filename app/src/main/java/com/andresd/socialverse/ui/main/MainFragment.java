@@ -28,17 +28,20 @@ public class MainFragment extends Fragment {
         return new MainFragment();
     }
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = MainFragmentBinding.inflate(inflater, container, false);
+
         binding.logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mAuth.signOut();
             }
         });
+
         return binding.getRoot();
     }
 
@@ -49,14 +52,13 @@ public class MainFragment extends Fragment {
         // TODO: Use the ViewModel
         if (getActivity() != null) {
             if (mAuth.getCurrentUser() == null) {
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                getActivity().startActivity(intent);
+                Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+                getActivity().startActivity(loginIntent);
                 getActivity().finish();
             }
         } else {
             Log.w(TAG, "Fragment is not attached");
         }
-
     }
 
     @Override
