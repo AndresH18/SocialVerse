@@ -13,7 +13,7 @@ import com.andresd.socialverse.data.model.LoggedInUser;
 import com.andresd.socialverse.data.model.LoginRepository;
 
 /**
- * FIXME: Adjust for firebase user authentication
+ *
  */
 public class LoginViewModel extends ViewModel implements LoginRepository.OnLoginSuccessfulListener {
 
