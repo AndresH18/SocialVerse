@@ -11,7 +11,6 @@ import com.andresd.socialverse.R;
 import com.andresd.socialverse.data.Result;
 import com.andresd.socialverse.data.model.LoggedInUser;
 import com.andresd.socialverse.data.model.LoginRepository;
-import com.google.firebase.auth.FirebaseUser;
 
 /**
  * FIXME: Adjust for firebase user authentication
@@ -72,10 +71,7 @@ public class LoginViewModel extends ViewModel implements LoginRepository.OnLogin
 
 
     @Override
-    public void onLoginSuccessful(@NonNull Result.Success<FirebaseUser> result) {
-        FirebaseUser user = result.getData();
-        LoggedInUser data = new LoggedInUser(user.getUid(), user.getDisplayName());
-        loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
-
+    public void onLoginSuccessful(@NonNull Result.Success<LoggedInUser> result) {
+        loginResult.setValue(new LoginResult(new LoggedInUserView(result.getData().getDisplayName())));
     }
 }

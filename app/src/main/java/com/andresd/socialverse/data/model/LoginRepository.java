@@ -9,7 +9,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LoginRepository {
 
@@ -17,23 +16,29 @@ public class LoginRepository {
 
     private static volatile LoginRepository instance;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private FirebaseUser currentUser;
+    private LoggedInUser user;
 
     // private constructor : singleton access
     private LoginRepository() {
-        currentUser = mAuth.getCurrentUser();
-
+        if (mAuth.getCurrentUser() != null) {
+            user = LoggedInUser.createUserFromFirebase(mAuth.getCurrentUser());
+        }
         mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (currentUser != mAuth.getCurrentUser()) {
-                    // TODO: Notify user changed event
-                    currentUser = mAuth.getCurrentUser();
-                } else if (mAuth.getCurrentUser() == null) {
+                if (mAuth.getCurrentUser() == null) {
+                    user = null;
                     // TODO: Notify SignOut event
-                    currentUser = null;
+
+                } else if (user == null) {
+                    user = LoggedInUser.createUserFromFirebase(mAuth.getCurrentUser());
+                    // TODO: Notify login event?
+                    //  Should this be done here considering that the #login will handle the login logic?
+                } else if (!user.getUserId().equals(mAuth.getCurrentUser().getUid())) {
+                    // TODO: Notify user changed event
+                    user = LoggedInUser.createUserFromFirebase(mAuth.getCurrentUser());
                 }
-                //
+
             }
         });
     }
@@ -43,6 +48,7 @@ public class LoginRepository {
             instance = new LoginRepository();
         }
         return instance;
+//        return instance == null ? instance = new LoginRepository() : instance;
     }
 
     public void login(@NonNull String username, @NonNull String password, @NonNull OnLoginSuccessfulListener onLoginSuccessfulListener) {
@@ -52,9 +58,13 @@ public class LoginRepository {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            currentUser = mAuth.getCurrentUser();
-                            onLoginSuccessfulListener.onLoginSuccessful(new Result.Success<>(currentUser));
-                            Log.d(TAG, "User successfully signed in.");
+                            if (mAuth.getCurrentUser() != null) {
+                                user = LoggedInUser.createUserFromFirebase(mAuth.getCurrentUser());
+                                onLoginSuccessfulListener.onLoginSuccessful(new Result.Success<>(user));
+                                Log.d(TAG, "User successfully signed in.");
+                            } else {
+                                Log.e(TAG, "onComplete: LoginTask successful but user is null");
+                            }
                         } else {
                             Log.w(TAG, "Failed to sign in user.");
                         }
@@ -68,13 +78,12 @@ public class LoginRepository {
 
     }
 
-    public FirebaseUser getCurrentUser() {
-        return currentUser;
+    public LoggedInUser getUser() {
+        return user;
     }
 
-
     public interface OnLoginSuccessfulListener {
-        void onLoginSuccessful(@NonNull Result.Success<FirebaseUser> result);
+        void onLoginSuccessful(@NonNull Result.Success<LoggedInUser> result);
     }
 
     public interface OnSignOutListener {

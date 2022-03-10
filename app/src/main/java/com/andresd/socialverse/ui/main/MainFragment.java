@@ -52,7 +52,7 @@ public class MainFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         // TODO: Use the ViewModel
         if (getActivity() != null) {
-            if (mAuth.getCurrentUser() == null) {
+            if (mAuth.getUser() == null) {
                 Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
                 getActivity().startActivity(loginIntent);
                 getActivity().finish();
