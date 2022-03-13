@@ -1,4 +1,4 @@
-package com.andresd.socialverse.ui.login;
+package com.andresd.socialverse.ui.login.signin;
 
 /**
  * Class exposing authenticated user details to the UI.
