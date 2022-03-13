@@ -11,12 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.andresd.socialverse.databinding.FragmentSearchBinding;
+import com.andresd.socialverse.databinding.SearchFragmentBinding;
 
 
 public class SearchFragment extends Fragment {
 
-    private FragmentSearchBinding binding;
+    private SearchFragmentBinding binding;
     private SearchViewModel searchViewModel;
 
     public static SearchFragment newInstance() {
@@ -28,7 +28,7 @@ public class SearchFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
-        binding = FragmentSearchBinding.inflate(inflater, container, false);
+        binding = SearchFragmentBinding.inflate(inflater, container, false);
 
         searchViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override

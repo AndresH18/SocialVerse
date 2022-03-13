@@ -11,12 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.andresd.socialverse.databinding.FragmentGroupsBinding;
+import com.andresd.socialverse.databinding.GroupsFragmentBinding;
 
 
 public class GroupsFragment extends Fragment {
 
-    private FragmentGroupsBinding binding;
+    private GroupsFragmentBinding binding;
     private GroupsViewModel groupsViewModel;
 
 
@@ -29,7 +29,7 @@ public class GroupsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         groupsViewModel = new ViewModelProvider(this).get(GroupsViewModel.class);
-        binding = FragmentGroupsBinding.inflate(inflater, container, false);
+        binding = GroupsFragmentBinding.inflate(inflater, container, false);
 
         groupsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override

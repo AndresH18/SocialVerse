@@ -11,7 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.andresd.socialverse.data.model.LoginRepository;
-import com.andresd.socialverse.databinding.ActivityMainBinding;
+import com.andresd.socialverse.databinding.MainActivityBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,14 +19,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private LoginRepository mAuth = LoginRepository.getInstance();
-    private ActivityMainBinding binding;
+    private MainActivityBinding binding;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // setting the content view,
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = MainActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // check if the user is logged in
