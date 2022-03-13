@@ -1,4 +1,4 @@
-package com.andresd.socialverse.ui.home;
+package com.andresd.socialverse.ui.main.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
