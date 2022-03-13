@@ -22,19 +22,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.andresd.socialverse.MainActivity;
 import com.andresd.socialverse.R;
-import com.andresd.socialverse.databinding.ActivityLoginBinding;
+import com.andresd.socialverse.databinding.LoginActivityBinding;
 
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
-    private ActivityLoginBinding binding;
+    private LoginActivityBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        binding = LoginActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // request loginViewModel
