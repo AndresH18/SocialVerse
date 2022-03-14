@@ -49,6 +49,7 @@ public class SignInViewModel extends ViewModel implements LoginRepository.OnLogi
 
     // A placeholder username validation check
     // TODO : Check for correct in case email address format
+    // FIXME: it is checking if it is a username or an email, should it only be email?
     private boolean isUserNameValid(String username) {
         if (username == null) {
             return false;
