@@ -30,12 +30,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // check if the user is logged in
-        if (mAuth.getUser() == null) {
+        // FIXME: UNCOMMENT
+//        if (mAuth.getUser() == null) {
             Log.d(TAG, "onCreate: User is not logged, starting LoginActivity");
             Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(loginIntent);
             finish();
-        }
+//        }
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_groups,

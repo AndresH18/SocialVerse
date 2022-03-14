@@ -22,6 +22,7 @@ import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.andresd.socialverse.R;
 import com.andresd.socialverse.databinding.SignInFragmentBinding;
@@ -49,7 +50,8 @@ public class SignInFragment extends Fragment {
 
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
-        final Button loginButton = binding.login;
+        final Button signInButton = binding.login;
+        final Button signUpButton = binding.signUpButton;
         final ProgressBar loadingProgressBar = binding.loading;
 
 
@@ -60,7 +62,7 @@ public class SignInFragment extends Fragment {
                 if (loginFormState == null) {
                     return;
                 }
-                loginButton.setEnabled(loginFormState.isDataValid());
+                signInButton.setEnabled(loginFormState.isDataValid());
                 if (loginFormState.getUsernameError() != null) {
                     usernameEditText.setError(getString(loginFormState.getUsernameError()));
                 }
@@ -127,13 +129,37 @@ public class SignInFragment extends Fragment {
             }
         });
 
-        /* add on click listener to login button */
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        /* add on click listener to signIn button */
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 mViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+            }
+        });
+
+        /* add on click listener to signUp button */
+        /* this is another way of creating the listener
+        signUpButton.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.signinToSignup));
+
+        or using safeargs
+
+        SignInFragmentDirections.SigninToSignup action = SignInFragmentDirections.signinToSignup();
+        action.setEmail(usernameEditText.getText().toString());
+        action.setPassword(passwordEditText.getText().toString());
+        signUpButton.setOnClickListener(Navigation.createNavigateOnClickListener(action));
+
+         */
+        binding.signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Navigation.findNavController(v).navigate(R.id.signinToSignup);
+                // using safe args
+                SignInFragmentDirections.SigninToSignup action = SignInFragmentDirections.signinToSignup();
+                action.setEmail(usernameEditText.getText().toString());
+                action.setPassword(passwordEditText.getText().toString());
+                Navigation.findNavController(v).navigate(action);
             }
         });
 
@@ -172,6 +198,12 @@ public class SignInFragment extends Fragment {
             Log.e(TAG, "onAttach: activity must implement" + LoginListener.class.getSimpleName(), classCastException);
             throw new ClassCastException(getActivity().toString() + " must implement " + LoginListener.class.getSimpleName());
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     public interface LoginListener {

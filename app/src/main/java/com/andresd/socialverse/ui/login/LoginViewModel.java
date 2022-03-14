@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 /**
  *
  */
+@Deprecated
 public class LoginViewModel extends ViewModel {
 
     LoginViewModel() {

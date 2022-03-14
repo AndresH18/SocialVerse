@@ -4,8 +4,10 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.andresd.socialverse.R;
 import com.andresd.socialverse.data.Result;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,7 +53,7 @@ public class LoginRepository {
 //        return instance == null ? instance = new LoginRepository() : instance;
     }
 
-    public void login(@NonNull String username, @NonNull String password, @NonNull OnLoginSuccessfulListener onLoginSuccessfulListener) {
+    public void login(@NonNull String username, @NonNull String password, @NonNull OnLoginResultListener onLoginResultListener) {
         Task<AuthResult> loginTask = mAuth
                 .signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -60,7 +62,7 @@ public class LoginRepository {
                         if (task.isSuccessful()) {
                             if (mAuth.getCurrentUser() != null) {
                                 user = LoggedInUser.createUserFromFirebase(mAuth.getCurrentUser());
-                                onLoginSuccessfulListener.onLoginSuccessful(new Result.Success<>(user));
+                                onLoginResultListener.onLoginSuccessful(new Result.Success<>(user));
                                 Log.d(TAG, "User successfully signed in.");
                             } else {
                                 Log.e(TAG, "onComplete: LoginTask successful but user is null");
@@ -68,6 +70,15 @@ public class LoginRepository {
                         } else {
                             Log.w(TAG, "Failed to sign in user.");
                         }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.wtf(TAG, "onFailure: Login failed", e);
+                        // if (e instanceof FirebaseAuthInvalidUserException) {
+                        onLoginResultListener.onLoginFailed(R.string.login_failed);
+
                     }
                 });
 
@@ -82,8 +93,11 @@ public class LoginRepository {
         return user;
     }
 
-    public interface OnLoginSuccessfulListener {
+    public interface OnLoginResultListener {
+
         void onLoginSuccessful(@NonNull Result.Success<LoggedInUser> result);
+
+        void onLoginFailed(@NonNull Integer error);
     }
 
     public interface OnSignOutListener {

@@ -11,12 +11,21 @@
         android:label="sign_in_fragment"
         tools:layout="@layout/sign_in_fragment" >
         <action
-            android:id="@+id/action_signInFragment_to_signUpFragment"
+            android:id="@+id/signinToSignup"
             app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.andresd.socialverse.ui.login.signup.SignUpFragment"
         android:label="sign_up_fragment"
-        tools:layout="@layout/sign_up_fragment" />
+        tools:layout="@layout/sign_up_fragment" >
+        <argument
+            android:name="email"
+            app:argType="string"
+            android:defaultValue='"No Email"' />
+        <argument
+            android:name="password"
+            app:argType="string"
+            android:defaultValue="No Password" />
+    </fragment>
 </navigation>

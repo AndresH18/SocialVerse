@@ -11,12 +11,13 @@ import com.andresd.socialverse.data.Result;
 import com.andresd.socialverse.data.model.LoggedInUser;
 import com.andresd.socialverse.data.model.LoginRepository;
 
-public class SignInViewModel extends ViewModel implements LoginRepository.OnLoginSuccessfulListener {
+public class SignInViewModel extends ViewModel implements LoginRepository.OnLoginResultListener {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
 
-    SignInViewModel() {}
+    SignInViewModel() {
+    }
 
     public void login(String username, String password) {
         LoginRepository.getInstance().login(username, password, this);
@@ -67,6 +68,12 @@ public class SignInViewModel extends ViewModel implements LoginRepository.OnLogi
 
     @Override
     public void onLoginSuccessful(@NonNull Result.Success<LoggedInUser> result) {
-        loginResult.setValue(new LoginResult(new LoggedInUserView(result.getData().getDisplayName())));
+        loginResult.postValue(new LoginResult(new LoggedInUserView(result.getData().getDisplayName())));
+    }
+
+    @Override
+    public void onLoginFailed(@NonNull Integer error) {
+        loginResult.postValue(new LoginResult(error));
+
     }
 }

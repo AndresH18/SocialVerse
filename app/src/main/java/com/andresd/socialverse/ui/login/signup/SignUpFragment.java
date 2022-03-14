@@ -21,19 +21,28 @@ public class SignUpFragment extends Fragment {
         return new SignUpFragment();
     }
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = SignUpFragmentBinding.inflate(inflater, container, false);
 
+        mViewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
+        // TODO: Use the ViewModel
+
+
         return binding.getRoot();
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
-        // TODO: Use the ViewModel
+    public void onStart() {
+        super.onStart();
+        SignUpFragmentArgs args = SignUpFragmentArgs.fromBundle(getArguments());
+        String email = args.getEmail();
+        String password = args.getPassword();
+        // FIXME: Use the viewmodel
+        binding.passwordEditText.setText(password);
+        binding.emailEditText.setText(email);
     }
 
 }

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.andresd.socialverse.MainActivity;
 import com.andresd.socialverse.databinding.LoginActivityBinding;
@@ -14,7 +13,7 @@ import com.andresd.socialverse.ui.login.signin.SignInFragment;
 
 public class LoginActivity extends AppCompatActivity implements SignInFragment.LoginListener {
 
-    private LoginViewModel loginViewModel;
+    //    private LoginViewModel loginViewModel;
     private LoginActivityBinding binding;
 
     @Override
@@ -24,9 +23,8 @@ public class LoginActivity extends AppCompatActivity implements SignInFragment.L
         binding = LoginActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // request loginViewModel
-        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
+        // request login View Model
+//        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory()).get(LoginViewModel.class);
 
 
     }
