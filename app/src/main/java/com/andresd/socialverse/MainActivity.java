@@ -31,17 +31,21 @@ public class MainActivity extends AppCompatActivity {
 
         // check if the user is logged in
         // FIXME: UNCOMMENT
-//        if (mAuth.getUser() == null) {
+        if (mAuth.getUser() == null) {
             Log.d(TAG, "onCreate: User is not logged, starting LoginActivity");
             Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(loginIntent);
             finish();
-//        }
+        }
 
+        setSupportActionBar(binding.toolbar);
+
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_groups,
                 R.id.navigation_search).build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+//        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build(); Ver si esto también sirve
+
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
