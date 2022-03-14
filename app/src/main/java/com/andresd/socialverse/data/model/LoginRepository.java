@@ -33,17 +33,16 @@ public class LoginRepository {
                     user = null;
                     // TODO: Notify SignOut event
 
-                } else {
-                    signOut();
-                    if (user == null) {
-                        user = LoggedInUser.createUserFromFirebase(mAuth.getCurrentUser());
-                        // TODO: Notify login event?
-                        //  Should this be done here considering that the #login will handle the login logic?
-                    } else if (!user.getUserId().equals(mAuth.getCurrentUser().getUid())) {
-                        // TODO: Notify user changed event
-                        user = LoggedInUser.createUserFromFirebase(mAuth.getCurrentUser());
-                    }
+                } else if (user == null) {
+                    user = LoggedInUser.createUserFromFirebase(mAuth.getCurrentUser());
+                    // TODO: Notify login event?
+                    //  Should this be done here considering that the #login will handle the login logic?
+                } else if (!user.getUserId().equals(mAuth.getCurrentUser().getUid())) {
+                    // TODO: Notify user changed event
+                    user = LoggedInUser.createUserFromFirebase(mAuth.getCurrentUser());
                 }
+
+                // TODO: SIGN OUT EVENT
 
             }
         });
