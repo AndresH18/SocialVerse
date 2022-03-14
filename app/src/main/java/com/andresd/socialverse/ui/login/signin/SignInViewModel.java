@@ -19,8 +19,8 @@ public class SignInViewModel extends ViewModel implements LoginRepository.OnLogi
     SignInViewModel() {
     }
 
-    public void login(String username, String password) {
-        LoginRepository.getInstance().login(username, password, this);
+    public void signIn(String username, String password) {
+        LoginRepository.getInstance().signIn(username, password, this);
     }
 
     public MutableLiveData<LoginFormState> getLoginFormState() {

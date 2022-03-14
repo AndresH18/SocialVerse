@@ -20,6 +20,7 @@ public class LoginRepository {
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private LoggedInUser user;
 
+
     // private constructor : singleton access
     private LoginRepository() {
         if (mAuth.getCurrentUser() != null) {
@@ -32,13 +33,16 @@ public class LoginRepository {
                     user = null;
                     // TODO: Notify SignOut event
 
-                } else if (user == null) {
-                    user = LoggedInUser.createUserFromFirebase(mAuth.getCurrentUser());
-                    // TODO: Notify login event?
-                    //  Should this be done here considering that the #login will handle the login logic?
-                } else if (!user.getUserId().equals(mAuth.getCurrentUser().getUid())) {
-                    // TODO: Notify user changed event
-                    user = LoggedInUser.createUserFromFirebase(mAuth.getCurrentUser());
+                } else {
+                    signOut();
+                    if (user == null) {
+                        user = LoggedInUser.createUserFromFirebase(mAuth.getCurrentUser());
+                        // TODO: Notify login event?
+                        //  Should this be done here considering that the #login will handle the login logic?
+                    } else if (!user.getUserId().equals(mAuth.getCurrentUser().getUid())) {
+                        // TODO: Notify user changed event
+                        user = LoggedInUser.createUserFromFirebase(mAuth.getCurrentUser());
+                    }
                 }
 
             }
@@ -53,7 +57,7 @@ public class LoginRepository {
 //        return instance == null ? instance = new LoginRepository() : instance;
     }
 
-    public void login(@NonNull String username, @NonNull String password, @NonNull OnLoginResultListener onLoginResultListener) {
+    public void signIn(@NonNull String username, @NonNull String password, @NonNull OnLoginResultListener onLoginResultListener) {
         Task<AuthResult> loginTask = mAuth
                 .signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -76,7 +80,7 @@ public class LoginRepository {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.wtf(TAG, "onFailure: Login failed", e);
-                        // if (e instanceof FirebaseAuthInvalidUserException) {
+                        // if (e instanceof FirebaseAuthInvalidUserException)
                         onLoginResultListener.onLoginFailed(R.string.login_failed);
 
                     }
@@ -84,9 +88,13 @@ public class LoginRepository {
 
     }
 
+    public void signUp() {
+        // TODO: IMPLEMENT SIGN UP
+    }
+
     public void signOut() {
         mAuth.signOut();
-
+        // TODO: NOTIFY SIGN_OUT, EVENT USING CALLBACKS
     }
 
     public LoggedInUser getUser() {

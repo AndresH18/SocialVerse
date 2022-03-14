@@ -38,9 +38,9 @@ public class SignUpFragment extends Fragment {
     public void onStart() {
         super.onStart();
         SignUpFragmentArgs args = SignUpFragmentArgs.fromBundle(getArguments());
-        String email = args.getEmail();
-        String password = args.getPassword();
-        // FIXME: Use the viewmodel
+        String email = args.getEmail().trim();
+        String password = args.getPassword().trim();
+        // FIXME: Use the viewmodel for the
         binding.passwordEditText.setText(password);
         binding.emailEditText.setText(email);
     }

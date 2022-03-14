@@ -22,10 +22,10 @@
         <argument
             android:name="email"
             app:argType="string"
-            android:defaultValue='"No Email"' />
+            android:defaultValue=" " />
         <argument
             android:name="password"
             app:argType="string"
-            android:defaultValue="No Password" />
+            android:defaultValue=" " />
     </fragment>
 </navigation>

@@ -122,7 +122,7 @@ public class SignInFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    mViewModel.login(usernameEditText.getText().toString(),
+                    mViewModel.signIn(usernameEditText.getText().toString(),
                             passwordEditText.getText().toString());
                 }
                 return false;
@@ -134,7 +134,7 @@ public class SignInFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                mViewModel.login(usernameEditText.getText().toString(),
+                mViewModel.signIn(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         });
@@ -160,6 +160,8 @@ public class SignInFragment extends Fragment {
                 action.setEmail(usernameEditText.getText().toString());
                 action.setPassword(passwordEditText.getText().toString());
                 Navigation.findNavController(v).navigate(action);
+                // TODO: TRY USING NO DEFAULT VALUE AND ALLOWING FOR NULL, EDITTEXT SHOULD USE EMPTY IF
+                //  A NULL IS PASSED IN setText()
             }
         });
 
