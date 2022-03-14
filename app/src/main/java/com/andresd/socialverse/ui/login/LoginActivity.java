@@ -19,6 +19,9 @@ import com.andresd.socialverse.ui.login.signin.SignInFragment;
 public class LoginActivity extends AppCompatActivity implements SignInFragment.LoginListener {
 
     //    private LoginViewModel loginViewModel;
+    private AppBarConfiguration appBarConfiguration;
+    private NavController navController;
+
     private LoginActivityBinding binding;
 
     @Override
@@ -33,8 +36,8 @@ public class LoginActivity extends AppCompatActivity implements SignInFragment.L
 
         setSupportActionBar(binding.toolbar);
 
-        NavController navController = Navigation.findNavController(this, R.id.login_nav_host_fragment);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+        navController = Navigation.findNavController(this, R.id.login_nav_host_fragment);
+        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController);
 
     }
@@ -50,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements SignInFragment.L
 
     @Override
     public boolean onSupportNavigateUp() {
-        return super.onSupportNavigateUp();
-
+        return NavigationUI.navigateUp(navController, appBarConfiguration)
+                || super.onSupportNavigateUp();
     }
 }
