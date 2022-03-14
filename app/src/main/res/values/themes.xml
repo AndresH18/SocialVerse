@@ -33,4 +33,9 @@
         <item name="colorOnPrimary">@color/black</item>
         <item name="colorOnSecondary">@color/white</item>
     </style>
+
+    <!-- TODO: parent hacia las anteriores -->
+    <style name="Theme.SocialVerse.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.SocialVerse.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
