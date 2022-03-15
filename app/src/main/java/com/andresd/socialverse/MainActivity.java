@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
             mAuth.signOut();
         }
         return true;
-
     }
 
     @Override
