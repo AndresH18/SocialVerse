@@ -12,6 +12,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.andresd.socialverse.databinding.SignUpFragmentBinding;
 
+/**
+ * TODO: Create Forms
+ */
 public class SignUpFragment extends Fragment {
 
     private SignUpViewModel mViewModel;
