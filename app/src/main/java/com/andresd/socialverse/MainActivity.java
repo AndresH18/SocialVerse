@@ -5,18 +5,27 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.andresd.socialverse.data.model.LoggedInUser;
 import com.andresd.socialverse.data.model.LoginRepository;
 import com.andresd.socialverse.databinding.MainActivityBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
-
+/**
+ * TODO: Ver como usar hilos para que se pueda hacer uso de LoginRepository sin necesidad de usar
+ *  LiveData ahi.
+ *
+ * TODO: Ver como poner lo de SignInViewModel y SignUpViewModel dentro de LoginViewModel y
+ *  compartirlo en los fragmentos.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -47,12 +56,9 @@ public class MainActivity extends AppCompatActivity {
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_groups,
                 R.id.navigation_search).build();
-//        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build(); Ver si esto también sirve
-
+//        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build(); esto también sirve
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-
-
         /*        // Used by the default navigation component,
         // No longer required, pending to delete
         if (savedInstanceState == null) {
@@ -60,6 +66,18 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.container, MainFragment.newInstance())
                     .commitNow();
         }*/
+
+        mAuth.getUser().observe(this, new Observer<LoggedInUser>() {
+            @Override
+            public void onChanged(LoggedInUser loggedInUser) {
+                if (loggedInUser == null) {
+                    // TODO: sign out from activity
+                    Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
     }
 
 
