@@ -7,25 +7,44 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.andresd.socialverse.R;
+import com.andresd.socialverse.data.Result;
+import com.andresd.socialverse.data.model.LoggedInUser;
 import com.andresd.socialverse.data.model.LoginRepository;
 
-public class SignInViewModel extends ViewModel {
+public class SignInViewModel extends ViewModel implements LoginRepository.OnLoginResultListener {
 
-    private MutableLiveData<SignInFormState> signInFormState = new MutableLiveData<>();
+    private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
+    private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
 
-
-    public void loginDataChanged(String username, String password) {
-        if (!isUserNameValid(username)) {
-            signInFormState.setValue(new SignInFormState(R.string.invalid_username, null));
-        } else if (!isPasswordValid(password)) {
-            signInFormState.setValue(new SignInFormState(null, R.string.invalid_password));
-        } else {
-            signInFormState.setValue(new SignInFormState(true));
-        }
+    SignInViewModel() {
     }
 
-    public void signIn(@NonNull String username, @NonNull String password) {
-        LoginRepository.getInstance().signIn(username, password);
+    public void signIn(String username, String password) {
+        LoginRepository.getInstance().signIn(username, password, this);
+    }
+
+    public MutableLiveData<LoginFormState> getLoginFormState() {
+        return loginFormState;
+    }
+
+    public MutableLiveData<LoginResult> getLoginResult() {
+        return loginResult;
+    }
+
+    /**
+     * TODO: FIXME
+     *
+     * @param username
+     * @param password
+     */
+    public void loginDataChanged(String username, String password) {
+        if (!isUserNameValid(username)) {
+            loginFormState.setValue(new LoginFormState(R.string.invalid_username, null));
+        } else if (!isPasswordValid(password)) {
+            loginFormState.setValue(new LoginFormState(null, R.string.invalid_password));
+        } else {
+            loginFormState.setValue(new LoginFormState(true));
+        }
     }
 
     // A placeholder username validation check
@@ -47,7 +66,15 @@ public class SignInViewModel extends ViewModel {
         return password != null && password.trim().length() > 5;
     }
 
-    public MutableLiveData<SignInFormState> getSignInFormState() {
-        return signInFormState;
+
+    @Override
+    public void onLoginSuccessful(@NonNull Result.Success<LoggedInUser> result) {
+        loginResult.postValue(new LoginResult(new LoggedInUserView(result.getData().getDisplayName())));
+    }
+
+    @Override
+    public void onLoginFailed(@NonNull Integer error) {
+        loginResult.postValue(new LoginResult(error));
+
     }
 }
