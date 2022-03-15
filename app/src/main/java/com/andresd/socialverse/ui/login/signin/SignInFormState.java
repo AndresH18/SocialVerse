@@ -1,4 +1,4 @@
-package com.andresd.socialverse.ui.login2.signin;
+package com.andresd.socialverse.ui.login.signin;
 
 import androidx.annotation.Nullable;
 

@@ -15,7 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.andresd.socialverse.data.model.LoginRepository;
 import com.andresd.socialverse.databinding.MainActivityBinding;
-import com.andresd.socialverse.ui.login2.LoginActivity;
+import com.andresd.socialverse.ui.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         // check if the user is logged in
         // FIXME: UNCOMMENT
-        if (mAuth.getUser() == null) {
+        if (mAuth.getUser().getValue() == null) {
             Log.d(TAG, "onCreate: User is not logged, starting LoginActivity");
             Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(loginIntent);
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.sign_out) {
-            LoginRepository.getInstance().signOut();
+            mAuth.signOut();
         }
         return true;
 
