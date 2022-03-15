@@ -97,9 +97,8 @@ public class SignInFragment2 extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                    TODO: SIGN IN
-//                    mViewModel.signIn(usernameEditText.getText().toString(),
-//                            passwordEditText.getText().toString());
+                    mViewModel.signIn(usernameEditText.getText().toString(),
+                            passwordEditText.getText().toString());
                 }
                 return false;
             }
@@ -110,9 +109,8 @@ public class SignInFragment2 extends Fragment {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-//                TODO: SIGN IN
-//                mViewModel.signIn(usernameEditText.getText().toString(),
-//                        passwordEditText.getText().toString());
+                mViewModel.signIn(usernameEditText.getText().toString(),
+                        passwordEditText.getText().toString());
             }
         });
 
