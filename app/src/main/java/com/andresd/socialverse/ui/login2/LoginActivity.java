@@ -3,8 +3,10 @@ package com.andresd.socialverse.ui.login2;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -48,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onChanged(LoggedInUser loggedInUser) {
                 if (loggedInUser != null) {
                     signIn();
+                } else {
+                    showLoginFailed(R.string.login_failed);
                 }
             }
         });
@@ -63,6 +67,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void signUp() {
         // TODO
+    }
+
+    private void showLoginFailed(@StringRes Integer errorString) {
+        Toast.makeText(this, errorString, Toast.LENGTH_SHORT).show();
     }
 
 

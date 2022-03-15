@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -140,7 +139,6 @@ public class SignInFragment2 extends Fragment {
             }
         });
 
-
         // TESTING: Delete test user and password
         binding.username.setText("testing@socialverse.test");
         binding.password.setText("socialTest");
@@ -152,17 +150,6 @@ public class SignInFragment2 extends Fragment {
         String welcome = getString(R.string.welcome) + string;
         Toast.makeText(getActivity(), welcome, Toast.LENGTH_SHORT).show();
     }
-
-//    private void updateUiWithUser(LoggedInUserView model) {
-//        String welcome = getString(R.string.welcome) + model.getDisplayName();
-//        // initiate successful logged in experience
-//        Toast.makeText(getActivity(), welcome, Toast.LENGTH_LONG).show();
-//    }
-
-    private void showLoginFailed(@StringRes Integer errorString) {
-        Toast.makeText(getActivity(), errorString, Toast.LENGTH_SHORT).show();
-    }
-
 
     @Override
     public void onDestroy() {
