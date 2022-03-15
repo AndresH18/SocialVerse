@@ -15,14 +15,16 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginRepository {
 
     private static final String TAG = LoginRepository.class.getSimpleName();
-
     private static volatile LoginRepository instance;
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
     private LoggedInUser user;
+
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
 
     // private constructor : singleton access
     private LoginRepository() {
+
         if (mAuth.getCurrentUser() != null) {
             user = LoggedInUser.createUserFromFirebase(mAuth.getCurrentUser());
         }
@@ -78,7 +80,7 @@ public class LoginRepository {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.wtf(TAG, "onFailure: Login failed", e);
+                        Log.w(TAG, "onFailure: Login failed", e);
                         // if (e instanceof FirebaseAuthInvalidUserException)
                         onLoginResultListener.onLoginFailed(R.string.login_failed);
 

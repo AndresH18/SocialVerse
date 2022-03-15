@@ -15,7 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.andresd.socialverse.data.model.LoginRepository;
 import com.andresd.socialverse.databinding.MainActivityBinding;
-import com.andresd.socialverse.ui.login.LoginActivity;
+import com.andresd.socialverse.ui.login2.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,7 +65,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.sign_out) {
+            LoginRepository.getInstance().signOut();
+        }
+        return true;
+
     }
 
     @Override

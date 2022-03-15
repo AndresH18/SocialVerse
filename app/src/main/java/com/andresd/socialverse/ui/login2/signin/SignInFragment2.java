@@ -1,9 +1,8 @@
-package com.andresd.socialverse.ui.login.signin;
+package com.andresd.socialverse.ui.login2.signin;
 
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,25 +24,24 @@ import androidx.navigation.Navigation;
 
 import com.andresd.socialverse.R;
 import com.andresd.socialverse.databinding.SignInFragmentBinding;
+import com.andresd.socialverse.ui.login.signin.SignInFragmentDirections;
 
-public class SignInFragment extends Fragment {
+public class SignInFragment2 extends Fragment {
 
-    private static final String TAG = SignInFragment.class.getSimpleName();
+    private static final String TAG = SignInFragment2.class.getSimpleName();
 
-    private SignInFragmentListener signInCallback;
-    private SignInViewModel mViewModel;
+    private SignInViewModel2 mViewModel;
     private SignInFragmentBinding binding;
 
-
-    public static SignInFragment newInstance() {
-        return new SignInFragment();
+    public static SignInFragment2 newInstance() {
+        return new SignInFragment2();
     }
 
+    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this, new SignInViewModelProvider())
-                .get(SignInViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(SignInViewModel2.class);
         binding = SignInFragmentBinding.inflate(inflater, container, false);
 
 
@@ -53,42 +51,19 @@ public class SignInFragment extends Fragment {
         final Button signUpButton = binding.signUpButton;
         final ProgressBar loadingProgressBar = binding.loading;
 
-
         /* Check that the credentials are correctly formatted */
-        mViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
+        mViewModel.getSignInFormState().observe(this, new Observer<SignInFormState>() {
             @Override
-            public void onChanged(@Nullable LoginFormState loginFormState) {
-                if (loginFormState == null) {
+            public void onChanged(@Nullable SignInFormState signInFormState) {
+                if (signInFormState == null) {
                     return;
                 }
-                signInButton.setEnabled(loginFormState.isDataValid());
-                if (loginFormState.getUsernameError() != null) {
-                    usernameEditText.setError(getString(loginFormState.getUsernameError()));
+                signInButton.setEnabled(signInFormState.isDataValid());
+                if (signInFormState.getUsernameError() != null) {
+                    usernameEditText.setError(getString(signInFormState.getUsernameError()));
                 }
-                if (loginFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
-                }
-            }
-        });
-
-        /* add an action for the  result of the login */
-        mViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
-            @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
-                    return;
-                }
-                loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
-                }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
-                    if (signInCallback != null) {
-                        signInCallback.onSignIn();
-                    } else {
-                        Log.e(TAG, "onChanged: loginCallback is null");
-                    }
+                if (signInFormState.getPasswordError() != null) {
+                    passwordEditText.setError(getString(signInFormState.getPasswordError()));
                 }
             }
         });
@@ -111,6 +86,7 @@ public class SignInFragment extends Fragment {
                         passwordEditText.getText().toString());
             }
         };
+
         /* Adding the text listeners to the username and password editText */
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
@@ -121,8 +97,9 @@ public class SignInFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    mViewModel.signIn(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+//                    TODO: SIGN IN
+//                    mViewModel.signIn(usernameEditText.getText().toString(),
+//                            passwordEditText.getText().toString());
                 }
                 return false;
             }
@@ -133,8 +110,9 @@ public class SignInFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                mViewModel.signIn(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+//                TODO: SIGN IN
+//                mViewModel.signIn(usernameEditText.getText().toString(),
+//                        passwordEditText.getText().toString());
             }
         });
 
@@ -172,48 +150,25 @@ public class SignInFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
-        // TODO: Use the ViewModel
-    }
-
-
     private void updateUiWithUser(String string) {
         String welcome = getString(R.string.welcome) + string;
         Toast.makeText(getActivity(), welcome, Toast.LENGTH_SHORT).show();
     }
 
-    private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
-        Toast.makeText(getActivity(), welcome, Toast.LENGTH_LONG).show();
-    }
+//    private void updateUiWithUser(LoggedInUserView model) {
+//        String welcome = getString(R.string.welcome) + model.getDisplayName();
+//        // initiate successful logged in experience
+//        Toast.makeText(getActivity(), welcome, Toast.LENGTH_LONG).show();
+//    }
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getActivity(), errorString, Toast.LENGTH_SHORT).show();
     }
 
-//    @Override
-//    public void onAttach(@NonNull Context context) {
-//        super.onAttach(context);
-//        try {
-//            signInCallback = (SignInFragmentListener) getActivity();
-//        } catch (ClassCastException classCastException) {
-//            Log.e(TAG, "onAttach: activity must implement" + SignInFragmentListener.class.getSimpleName(), classCastException);
-//            throw new ClassCastException(getActivity().toString() + " must implement " + SignInFragmentListener.class.getSimpleName());
-//        }
-//    }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        super.onDestroy();
         binding = null;
     }
-
-    public interface SignInFragmentListener {
-        void onSignIn();
-    }
-
 }

@@ -75,6 +75,5 @@ public class SignInViewModel extends ViewModel implements LoginRepository.OnLogi
     @Override
     public void onLoginFailed(@NonNull Integer error) {
         loginResult.postValue(new LoginResult(error));
-
     }
 }
