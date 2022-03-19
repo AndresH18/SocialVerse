@@ -58,7 +58,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (loggedInUser != null) {
                     signIn();
                 } else {
-                    showLoginFailed(R.string.login_failed);
+                    // FIXME: como se agrega el observer al livedata, este recibe el valor de la livedata
+                    //  es por esto que se muestra
+//                    showLoginFailed(R.string.login_failed);
                 }
             }
         });

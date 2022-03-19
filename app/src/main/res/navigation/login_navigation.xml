@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.andresd.socialverse.ui.login.signin.SignInFragment"
+        android:name="com.andresd.socialverse.ui.login.SignInFragment"
         android:label="Sign In"
         tools:layout="@layout/sign_in_fragment" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.andresd.socialverse.ui.login.signup.SignUpFragment"
+        android:name="com.andresd.socialverse.ui.login.SignUpFragment"
         android:label="Sign Up"
         tools:layout="@layout/sign_up_fragment" >
         <argument

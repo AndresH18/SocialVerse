@@ -1,4 +1,4 @@
-package com.andresd.socialverse.ui.login.signin;
+package com.andresd.socialverse.ui.login;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -28,7 +28,7 @@ public class SignInFragment extends Fragment {
 
     private static final String TAG = SignInFragment.class.getSimpleName();
 
-    private SignInViewModel mViewModel;
+    private LoginViewModel mViewModel;
     private SignInFragmentBinding binding;
 
     public static SignInFragment newInstance() {
@@ -39,7 +39,7 @@ public class SignInFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
         binding = SignInFragmentBinding.inflate(inflater, container, false);
 
 

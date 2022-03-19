@@ -1,4 +1,4 @@
-package com.andresd.socialverse.ui.login.signup;
+package com.andresd.socialverse.ui.login;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,7 +17,7 @@ import com.andresd.socialverse.databinding.SignUpFragmentBinding;
  */
 public class SignUpFragment extends Fragment {
 
-    private SignUpViewModel mViewModel;
+    private LoginViewModel mViewModel;
     private SignUpFragmentBinding binding;
 
     public static SignUpFragment newInstance() {
@@ -30,7 +30,7 @@ public class SignUpFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = SignUpFragmentBinding.inflate(inflater, container, false);
 
-        mViewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
         // TODO: Use the ViewModel
 
 
