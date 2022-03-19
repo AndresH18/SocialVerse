@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.andresd.socialverse.R;
 import com.andresd.socialverse.data.model.LoggedInUser;
-import com.andresd.socialverse.data.model.LoginRepository;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginViewModel extends ViewModel {
     /* TODO
@@ -16,12 +16,16 @@ public class LoginViewModel extends ViewModel {
         de que contenga livedata.
         Tambien Revisar como poner SignInViewModel y SignUpViewModel dentro de LoginViewModel.
      */
-    private MutableLiveData<LoggedInUser> loggedInUser = LoginRepository.getInstance().getUser();
+    private MutableLiveData<LoggedInUser> loggedInUser = new MutableLiveData<>();
     private MutableLiveData<SignInFormState> signInFormState = new MutableLiveData<>();
 
+    LoginViewModel() {
+        //
+    }
 
     public void signIn(@NonNull String username, @NonNull String password) {
-        LoginRepository.getInstance().signIn(username, password);
+//        LoginRepository.getInstance().signIn(username, password);
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(username, password);
     }
 
     public void loginDataChanged(String username, String password) {

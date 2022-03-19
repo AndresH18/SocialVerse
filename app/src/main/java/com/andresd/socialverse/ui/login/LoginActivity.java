@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = LoginActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory()).get(LoginViewModel.class);
 
         setSupportActionBar(binding.toolbar);
 

@@ -5,20 +5,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.andresd.socialverse.data.model.LoggedInUser;
-import com.andresd.socialverse.data.model.LoginRepository;
 import com.andresd.socialverse.databinding.MainActivityBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
+import com.google.firebase.auth.FirebaseAuth;
+
 /**
  * TODO: Ver como usar hilos para que se pueda hacer uso de LoginRepository sin necesidad de usar
  *  LiveData ahi.
@@ -30,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private LoginRepository mAuth = LoginRepository.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private MainActivityBinding binding;
 
 
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         // check if the user is logged in
         // FIXME: UNCOMMENT
-        if (mAuth.getUser().getValue() == null) {
+        if (mAuth.getCurrentUser() == null) {
             Log.d(TAG, "onCreate: User is not logged, starting LoginActivity");
             Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(loginIntent);
@@ -67,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
                     .commitNow();
         }*/
 
+/* TODO: Create sign out listener
+
         mAuth.getUser().observe(this, new Observer<LoggedInUser>() {
             @Override
             public void onChanged(LoggedInUser loggedInUser) {
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_LONG).show();
                 }
             }
-        });
+        });*/
 
 
     }

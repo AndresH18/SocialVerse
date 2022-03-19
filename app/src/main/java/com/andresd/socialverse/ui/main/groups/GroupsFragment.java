@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.andresd.socialverse.data.model.LoginRepository;
 import com.andresd.socialverse.databinding.GroupsFragmentBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class GroupsFragment extends Fragment {
@@ -39,7 +39,7 @@ public class GroupsFragment extends Fragment {
             }
         });
 
-        binding.button.setOnClickListener(v-> LoginRepository.getInstance().signOut());
+        binding.button.setOnClickListener(v -> FirebaseAuth.getInstance().signOut());
 
         return binding.getRoot();
     }

@@ -30,7 +30,7 @@ public class SignUpFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = SignUpFragmentBinding.inflate(inflater, container, false);
 
-        mViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity(), new LoginViewModelFactory()).get(LoginViewModel.class);
         // TODO: Use the ViewModel
 
 

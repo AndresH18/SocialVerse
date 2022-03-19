@@ -39,7 +39,7 @@ public class SignInFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity(), new LoginViewModelFactory()).get(LoginViewModel.class);
         binding = SignInFragmentBinding.inflate(inflater, container, false);
 
 
@@ -94,6 +94,7 @@ public class SignInFragment extends Fragment {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                // TODO: make sure that the form state is valid
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     mViewModel.signIn(usernameEditText.getText().toString(),
                             passwordEditText.getText().toString());
