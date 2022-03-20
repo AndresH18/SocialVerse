@@ -7,17 +7,28 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.andresd.socialverse.R;
-import com.andresd.socialverse.data.model.LoggedInUser;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseNetworkException;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginViewModel extends ViewModel {
     /* TODO
         Esto se puede cambiar cuando se sepan de hilos, para asi poder usar el LoginRepository sin necesidad
         de que contenga livedata.
-        Tambien Revisar como poner SignInViewModel y SignUpViewModel dentro de LoginViewModel.
      */
-    private MutableLiveData<LoggedInUser> loggedInUser = new MutableLiveData<>();
+//    private MutableLiveData<LoggedInUser> loggedInUser = new MutableLiveData<>();
     private MutableLiveData<SignInFormState> signInFormState = new MutableLiveData<>();
+    private MutableLiveData<SignUpFormState> signUpFormState = new MutableLiveData<>();
+    private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>(LoginResult.NO_ACTION);
+
+    private Map<String, Integer> signUpErrorMap = new HashMap<>();
 
     LoginViewModel() {
         //
@@ -25,17 +36,62 @@ public class LoginViewModel extends ViewModel {
 
     public void signIn(@NonNull String username, @NonNull String password) {
 //        LoginRepository.getInstance().signIn(username, password);
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(username, password);
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(username, password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        loginResult.postValue(LoginResult.SUCCESSFUL);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if (e instanceof FirebaseAuthInvalidUserException) {
+                            loginResult.postValue(LoginResult.WRONG_USERNAME);
+                        } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                            loginResult.postValue(LoginResult.WRONG_PASSWORD);
+                        } else if (e instanceof FirebaseNetworkException) {
+                            loginResult.postValue(LoginResult.NO_NETWORK_CONNECTION);
+                        } else {
+                            loginResult.postValue(LoginResult.FAILED);
+                        }
+                    }
+                });
     }
 
-    public void loginDataChanged(String username, String password) {
+    public void signUp(@NonNull String firstName, @NonNull String lastName, @NonNull String email, @NonNull String password) {
+        // TODO: Talves remplazar firstName y lastName por Nombre?
+        // TODO: IMPLEMENT SIGN UP WITH FIREBASE
+    }
+
+    public void signInDataChanged(String username, String password) {
         if (!isUserNameValid(username)) {
             signInFormState.setValue(new SignInFormState(R.string.invalid_username, null));
-        } else if (!isPasswordValid(password)) {
+        } else if (isPasswordInvalid(password)) {
             signInFormState.setValue(new SignInFormState(null, R.string.invalid_password));
         } else {
             signInFormState.setValue(new SignInFormState(true));
         }
+    }
+
+    public void signUpDataChanged(@NonNull String firstName, @NonNull String lastName,
+                                  @NonNull String email, @NonNull String password) {
+
+        signUpErrorMap.clear();
+
+        if (isNameInvalid(firstName)) {
+            signUpErrorMap.put(SignUpFormState.FIRST_NAME_ERROR_KEY, R.string.invalid_first_name);
+        }
+        if (isNameInvalid(lastName)) {
+            signUpErrorMap.put(SignUpFormState.LAST_NAME_ERROR_KEY, R.string.invalid_last_name);
+        }
+        if (!isEmailValid(email)) {
+            signUpErrorMap.put(SignUpFormState.EMAIL_ERROR_KEY, R.string.invalid_email);
+        }
+        if (isPasswordInvalid(password)) {
+            signUpErrorMap.put(SignUpFormState.PASSWORD_ERROR_KEY, R.string.invalid_password);
+        }
+        signUpFormState.setValue(new SignUpFormState(signUpErrorMap));
     }
 
     // A placeholder username validation check
@@ -52,13 +108,28 @@ public class LoginViewModel extends ViewModel {
         }
     }
 
-    // A placeholder password validation check
-    private boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() > 5;
+    private boolean isNameInvalid(@NonNull String name) {
+        name = name.trim();
+        return name.isEmpty() || name.length() < 2 || !name.matches("[a-zA-Z]+");
     }
 
-    public MutableLiveData<LoggedInUser> getLoggedInUser() {
-        return loggedInUser;
+    private boolean isEmailValid(@NonNull String email) {
+        email = email.trim();
+        // should use eia.edu.co ???
+        return !email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    // A placeholder password validation check
+    private boolean isPasswordInvalid(@NonNull String password) {
+        return password.trim().length() <= 5;
+    }
+
+    public MutableLiveData<SignUpFormState> getSignUpFormState() {
+        return signUpFormState;
+    }
+
+    public MutableLiveData<LoginResult> getLoginResult() {
+        return loginResult;
     }
 
     public MutableLiveData<SignInFormState> getSignInFormState() {

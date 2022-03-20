@@ -3,7 +3,7 @@ package com.andresd.socialverse.ui.login;
 import androidx.annotation.Nullable;
 
 /**
- * Data validation state of the login form.
+ * Data validation state of the Sign In form.
  */
 class SignInFormState {
     @Nullable

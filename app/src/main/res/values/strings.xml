@@ -1,30 +1,48 @@
 <resources>
     <string name="app_name">SocialVerse</string>
+
     <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in</string>
-    <string name="action_register">Register</string>
-    <string name="action_sign_up">Sign Up</string>
-    <string name="action_sign_out">Sign Out</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
     <string name="title_activity_bottom_navigation">BottomNavigation</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_search">Search</string>
     <string name="title_groups">Groups</string>
+
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_register">Register</string>
+    <string name="action_sign_up">Sign Up</string>
+    <string name="action_sign_out">Sign Out</string>
+
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <!--TODO: create better strings for sign up form errors -->
+    <string name="invalid_first_name">Invalid First Name</string>
+    <string name="invalid_last_name">Invalid Last Name</string>
+    <string name="invalid_email">Invalid Email</string>
+
+
+    <string name="login_failed">"Login failed"</string>
+
     <string name="label_first_name">First Name</string>
     <string name="label_last_name">Last Name</string>
     <string name="label_password">Password</string>
     <string name="label_email">Email</string>
     <string name="label_settings">Settings</string>
+
     <string name="hint_first_name">Enter your First Name</string>
     <string name="hint_last_name">Enter your Last Name</string>
     <string name="hint_email">Enter your Email</string>
     <string name="hint_password">Enter a Password</string>
+
+
+    <string name="result_failed">Operation Failed</string>
+    <string name="result_wrong_username">Invalid Username</string>
+    <string name="result_wrong_password">Invalid Password</string>
+    <string name="result_no_network_connection">No Network Connection</string>
 
 </resources>

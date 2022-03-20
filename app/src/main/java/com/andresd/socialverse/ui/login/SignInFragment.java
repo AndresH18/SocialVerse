@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,7 +20,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.andresd.socialverse.R;
 import com.andresd.socialverse.databinding.SignInFragmentBinding;
 
 public class SignInFragment extends Fragment {
@@ -49,8 +47,18 @@ public class SignInFragment extends Fragment {
         final Button signUpButton = binding.signUpButton;
         final ProgressBar loadingProgressBar = binding.loading;
 
+
+        /* Check result from the sign */
+        mViewModel.getLoginResult().observe(getViewLifecycleOwner(), new Observer<LoginResult>() {
+            @Override
+            public void onChanged(LoginResult loginResult) {
+                // remove the loadingProgressBar
+                loadingProgressBar.setVisibility(View.GONE);
+            }
+        });
+
         /* Check that the credentials are correctly formatted */
-        mViewModel.getSignInFormState().observe(this, new Observer<SignInFormState>() {
+        mViewModel.getSignInFormState().observe(getViewLifecycleOwner(), new Observer<SignInFormState>() {
             @Override
             public void onChanged(@Nullable SignInFormState signInFormState) {
                 if (signInFormState == null) {
@@ -80,7 +88,7 @@ public class SignInFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                mViewModel.loginDataChanged(usernameEditText.getText().toString(),
+                mViewModel.signInDataChanged(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         };
@@ -91,11 +99,11 @@ public class SignInFragment extends Fragment {
 
         /* Add 'next' button action to Done in order to login */
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 // TODO: make sure that the form state is valid
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    loadingProgressBar.setVisibility(View.VISIBLE);
                     mViewModel.signIn(usernameEditText.getText().toString(),
                             passwordEditText.getText().toString());
                 }
@@ -125,7 +133,7 @@ public class SignInFragment extends Fragment {
         signUpButton.setOnClickListener(Navigation.createNavigateOnClickListener(action));
 
          */
-        binding.signUpButton.setOnClickListener(new View.OnClickListener() {
+        signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Navigation.findNavController(v).navigate(R.id.signinToSignup);
@@ -134,7 +142,7 @@ public class SignInFragment extends Fragment {
                 action.setEmail(usernameEditText.getText().toString());
                 action.setPassword(passwordEditText.getText().toString());
                 Navigation.findNavController(v).navigate(action);
-                // TODO: TRY USING NO DEFAULT VALUE AND ALLOWING FOR NULL, EDITTEXT SHOULD USE EMPTY IF
+                // TODO : TRY USING NO DEFAULT VALUE AND ALLOWING FOR NULL, EDITTEXT SHOULD USE EMPTY IF
                 //  A NULL IS PASSED IN setText()
             }
         });
@@ -144,11 +152,6 @@ public class SignInFragment extends Fragment {
         binding.password.setText("socialTest");
 
         return binding.getRoot();
-    }
-
-    private void updateUiWithUser(String string) {
-        String welcome = getString(R.string.welcome) + string;
-        Toast.makeText(getActivity(), welcome, Toast.LENGTH_SHORT).show();
     }
 
     @Override
