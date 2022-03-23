@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,13 +18,6 @@ import com.andresd.socialverse.databinding.MainActivityBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
-/**
- * TODO: Ver como usar hilos para que se pueda hacer uso de LoginRepository sin necesidad de usar
- *  LiveData ahi.
- *
- * TODO: Ver como poner lo de SignInViewModel y SignUpViewModel dentro de LoginViewModel y
- *  compartirlo en los fragmentos.
- */
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -40,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // check if the user is logged in
-        // FIXME: UNCOMMENT
         if (mAuth.getCurrentUser() == null) {
             Log.d(TAG, "onCreate: User is not logged, starting LoginActivity");
             Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
@@ -84,11 +77,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.sign_out) {
-            mAuth.signOut();
+            signOut();
         }
         return true;
     }
 
+    private void signOut() {
+        mAuth.signOut();
+        Toast.makeText(this, R.string.result_logout_successful, Toast.LENGTH_SHORT).show();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);

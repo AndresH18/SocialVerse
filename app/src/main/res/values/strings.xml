@@ -1,6 +1,7 @@
 <resources>
+    <!--Name of the app-->
     <string name="app_name">SocialVerse</string>
-
+    <!--Titles-->
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_bottom_navigation">BottomNavigation</string>
     <string name="title_home">Home</string>
@@ -8,10 +9,12 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_search">Search</string>
     <string name="title_groups">Groups</string>
-
+    <string name="title_sign_in">Sign In</string>
+    <string name="title_sign_up">Sign Up</string>
+    <!--Prompts-->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-
+    <!--Actions-->
     <string name="action_sign_in">Sign in</string>
     <string name="action_register">Register</string>
     <string name="action_sign_up">Sign Up</string>
@@ -27,22 +30,22 @@
 
 
     <string name="login_failed">"Login failed"</string>
-
+    <!--Labels-->
     <string name="label_first_name">First Name</string>
     <string name="label_last_name">Last Name</string>
     <string name="label_password">Password</string>
     <string name="label_email">Email</string>
     <string name="label_settings">Settings</string>
-
+    <!--Hints-->
     <string name="hint_first_name">Enter your First Name</string>
     <string name="hint_last_name">Enter your Last Name</string>
     <string name="hint_email">Enter your Email</string>
     <string name="hint_password">Enter a Password</string>
-
-
+    <!--Results-->
     <string name="result_failed">Operation Failed</string>
     <string name="result_wrong_username">Invalid Username</string>
     <string name="result_wrong_password">Invalid Password</string>
     <string name="result_no_network_connection">No Network Connection</string>
+    <string name="result_logout_successful">Logged Out</string>
 
 </resources>
