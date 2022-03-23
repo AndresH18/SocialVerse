@@ -27,12 +27,18 @@ import com.google.firebase.auth.FirebaseAuth;
  *     {@link com.google.android.material.bottomnavigation.BottomNavigationView}.</p>
  */
 public class MainActivity extends AppCompatActivity {
-
+    /**
+     * Logcat tag
+     */
     private static final String TAG = MainActivity.class.getSimpleName();
-
+    /**
+     * FirebaseAuth Reference
+     */
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    /**
+     * Binding to main_activity.xlm
+     */
     private MainActivityBinding binding;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
