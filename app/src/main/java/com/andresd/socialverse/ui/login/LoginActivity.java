@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
+    @SignUpElement
     private void signUp() {
         // TODO
     }

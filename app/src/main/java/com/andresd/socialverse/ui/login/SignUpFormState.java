@@ -7,6 +7,7 @@ import java.util.Map;
 /**
  * Data validation state of the Sign Up form.
  */
+@SignUpElement
 final class SignUpFormState {
 
     public static final String FIRST_NAME_ERROR_KEY = "first_name";

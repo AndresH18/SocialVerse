@@ -18,9 +18,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.andresd.socialverse.databinding.SignUpFragmentBinding;
 
 /**
- * TODO: decide if there will be a sign up on the app
+ * TODO: decide if there will be a sign up on the application
  *  if not -> delete all related items and modify UI, Navigation, etc
  */
+@SignUpElement
 public class SignUpFragment extends Fragment {
 
     private LoginViewModel mViewModel;
@@ -30,13 +31,11 @@ public class SignUpFragment extends Fragment {
         return new SignUpFragment();
     }
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = SignUpFragmentBinding.inflate(inflater, container, false);
         mViewModel = new ViewModelProvider(requireActivity(), new LoginViewModelFactory()).get(LoginViewModel.class);
-
 
         final Button signUpButton = binding.signUpButton;
         final EditText firstNameEditText = binding.firstNameEditText;

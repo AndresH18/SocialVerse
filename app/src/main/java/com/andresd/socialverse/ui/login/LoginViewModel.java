@@ -53,7 +53,7 @@ public class LoginViewModel extends ViewModel {
                     }
                 });
     }
-
+    @SignUpElement
     public void signUp(@NonNull String firstName, @NonNull String lastName, @NonNull String email, @NonNull String password) {
         // TODO:
         //  Talves remplazar firstName y lastName por Nombre?
@@ -70,7 +70,7 @@ public class LoginViewModel extends ViewModel {
             signInFormState.setValue(new SignInFormState(true));
         }
     }
-
+    @SignUpElement
     public void signUpDataChanged(@NonNull String firstName, @NonNull String lastName,
                                   @NonNull String email, @NonNull String password) {
 
@@ -104,12 +104,12 @@ public class LoginViewModel extends ViewModel {
             return !username.trim().isEmpty();
         }
     }
-
+    @SignUpElement
     private boolean isNameInvalid(@NonNull String name) {
         name = name.trim();
         return name.isEmpty() || name.length() < 2 || !name.matches("[a-zA-Z]+");
     }
-
+    @SignUpElement
     private boolean isEmailValid(@NonNull String email) {
         email = email.trim();
         // should use eia.edu.co ???
@@ -121,6 +121,7 @@ public class LoginViewModel extends ViewModel {
         return password.trim().length() <= 5;
     }
 
+    @SignUpElement
     public MutableLiveData<SignUpFormState> getSignUpFormState() {
         return signUpFormState;
     }
@@ -132,4 +133,11 @@ public class LoginViewModel extends ViewModel {
     public MutableLiveData<SignInFormState> getSignInFormState() {
         return signInFormState;
     }
+}
+
+/**
+ * Interface to mark elements that belong to the sign up context
+ */
+@interface SignUpElement {
+
 }
