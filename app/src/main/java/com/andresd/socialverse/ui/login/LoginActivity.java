@@ -44,14 +44,14 @@ public class LoginActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController);
 
-
+        /* Observe the result of the login */
         loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
             @Override
             public void onChanged(LoginResult loginResult) {
                 switch (loginResult) {
                     case SUCCESSFUL:
                         // sign in successful
-                        signIn();
+                        mainActivity();
                         break;
                     case WRONG_USERNAME:
                         // wrong username
@@ -79,8 +79,9 @@ public class LoginActivity extends AppCompatActivity {
        en lugar de que el usuario inicie sesion.
        Es mas una accion de la aplicacion con la aplicacion que el usuario con la
        aplicacion.
+      signIn()
       */
-    private void signIn() {
+    private void mainActivity() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         setResult(Activity.RESULT_OK);
         startActivity(intent);

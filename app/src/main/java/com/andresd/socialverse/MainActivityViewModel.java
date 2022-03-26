@@ -7,30 +7,45 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivityViewModel extends ViewModel {
 
-    // TODO: Create a livedata that holds the state of the user (sign in.....)
-    private MutableLiveData<UserState> userState = new MutableLiveData<>();
+    private MutableLiveData<UserAuthState> userState = new MutableLiveData<>();
+    private String lastUID;
 
     MainActivityViewModel() {
-        userState.setValue(FirebaseAuth.getInstance().getCurrentUser() != null ? UserState.VALID : UserState.INVALID);
-
+        // initialize values
+        userState.setValue(FirebaseAuth.getInstance().getCurrentUser() == null ? UserAuthState.NOT_LOGGED_IN : UserAuthState.VALID);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            lastUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
+        // TODO: Add auth state change listener
+//        FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//            }
+//        });
     }
 
     public void signOut() {
         FirebaseAuth.getInstance().signOut();
-        // TODO: sign user out, notify some livedata of user changed(user = null);
-        userState.setValue(UserState.INVALID); // or SIGNED_OUT
-
+        userState.setValue(UserAuthState.INVALID); // or SIGNED_OUT
     }
 
-    public MutableLiveData<UserState> getUserState() {
+    public MutableLiveData<UserAuthState> getUserState() {
         return userState;
     }
 }
 
-enum UserState {
+enum UserAuthState {
+    // TODO: use better states
     VALID,
     INVALID,
     SIGNED_IN,
+    /**
+     * <p>The user has signed out.</p>
+     */
     SIGNED_OUT,
+    /**
+     * <p>The user has not been logged.</p>
+     */
+    NOT_LOGGED_IN,
     ;
 }

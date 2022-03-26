@@ -2,9 +2,9 @@ package com.andresd.socialverse;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +17,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.andresd.socialverse.databinding.MainActivityBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
-import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * <b>Main Activity</b>
@@ -42,12 +41,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // check if the user is logged in
-        // TODO: Check if user is signed in using livedata from the ViewModel
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            Log.d(TAG, "onCreate: User is not logged, starting LoginActivity");
-            login();
-        }
 
         // setting the content view,
         binding = MainActivityBinding.inflate(getLayoutInflater());
@@ -73,14 +66,18 @@ public class MainActivity extends AppCompatActivity {
 
         mViewModel = new ViewModelProvider(this, new MainActivityViewModelFactory()).get(MainActivityViewModel.class);
 
-
-        mViewModel.getUserState().observe(this, new Observer<UserState>() {
+        /* Observe the state of the User Auth */
+        // Since it also receives the value when the observer is added, it also functions as
+        // the first check to see if the user is logged in
+        mViewModel.getUserState().observe(this, new Observer<UserAuthState>() {
             @Override
-            public void onChanged(UserState userState) {
+            public void onChanged(UserAuthState userState) {
                 switch (userState) {
                     // user is signed out
                     case INVALID:
                     case SIGNED_OUT:
+                    case NOT_LOGGED_IN:
+                        Toast.makeText(MainActivity.this, R.string.result_logout_successful, Toast.LENGTH_SHORT).show();
                         login();
                         break;
                     // default
@@ -89,19 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-/* TODO: Create sign out listener
-
-        mAuth.getUser().observe(this, new Observer<LoggedInUser>() {
-            @Override
-            public void onChanged(LoggedInUser loggedInUser) {
-                if (loggedInUser == null) {
-                    // TODO: sign out from activity
-                    Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_LONG).show();
-                }
-            }
-        });*/
-
-
     }
 
     /**
@@ -126,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void signOut() {
         mViewModel.signOut();
-        // Toast.makeText(this, R.string.result_logout_successful, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

@@ -58,6 +58,7 @@ public class LoginViewModel extends ViewModel {
         // TODO:
         //  Talves remplazar firstName y lastName por Nombre?
         //  | IMPLEMENT SIGN UP WITH FIREBASE
+        //  | or delete sign up
     }
 
     public void signInDataChanged(String username, String password) {
