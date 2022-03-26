@@ -137,17 +137,17 @@ public class SignInFragment extends Fragment {
             @Override
             public void onClick(View v) {
 //                Navigation.findNavController(v).navigate(R.id.signinToSignup);
+                final String email = usernameEditText.getText().toString().trim();
+                final String password = passwordEditText.getText().toString().trim();
                 // using safe args
-                SignInFragmentDirections.SigninToSignup action = SignInFragmentDirections.signinToSignup();
-                action.setEmail(usernameEditText.getText().toString());
-                action.setPassword(passwordEditText.getText().toString());
+                SignInFragmentDirections.SigninToSignup action = SignInFragmentDirections.signinToSignup(email, password);
+//                action.setEmail(usernameEditText.getText().toString());
+//                action.setPassword(passwordEditText.getText().toString());
                 Navigation.findNavController(v).navigate(action);
-                // TODO : TRY USING NO DEFAULT VALUE AND ALLOWING FOR NULL, EDITTEXT SHOULD USE EMPTY IF
-                //  A NULL IS PASSED IN setText()
             }
         });
 
-        // TESTING: Delete test user and password
+        // TODO: Delete test user and password
         binding.username.setText("testing@socialverse.test");
         binding.password.setText("socialTest");
 

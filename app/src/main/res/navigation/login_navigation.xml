@@ -21,11 +21,9 @@
         tools:layout="@layout/sign_up_fragment" >
         <argument
             android:name="email"
-            app:argType="string"
-            android:defaultValue=" " />
+            app:argType="string" />
         <argument
             android:name="password"
-            app:argType="string"
-            android:defaultValue=" " />
+            app:argType="string" />
     </fragment>
 </navigation>

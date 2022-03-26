@@ -18,7 +18,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.andresd.socialverse.databinding.SignUpFragmentBinding;
 
 /**
- * TODO: Create Forms
+ * TODO: decide if there will be a sign up on the app
+ *  if not -> delete all related items and modify UI, Navigation, etc
  */
 public class SignUpFragment extends Fragment {
 
@@ -35,7 +36,7 @@ public class SignUpFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = SignUpFragmentBinding.inflate(inflater, container, false);
         mViewModel = new ViewModelProvider(requireActivity(), new LoginViewModelFactory()).get(LoginViewModel.class);
-        // TODO: Use the ViewModel
+
 
         final Button signUpButton = binding.signUpButton;
         final EditText firstNameEditText = binding.firstNameEditText;
@@ -67,7 +68,6 @@ public class SignUpFragment extends Fragment {
         });
 
         /* Creating the Text Change Listener */
-        // TODO: Mirar si mejor agregar la funcionalidad al boton
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -113,7 +113,6 @@ public class SignUpFragment extends Fragment {
         SignUpFragmentArgs args = SignUpFragmentArgs.fromBundle(getArguments());
         String email = args.getEmail().trim();
         String password = args.getPassword().trim();
-        // FIXME: Use the viewmodel for the
         binding.passwordEditText.setText(password);
         binding.emailEditText.setText(email);
     }

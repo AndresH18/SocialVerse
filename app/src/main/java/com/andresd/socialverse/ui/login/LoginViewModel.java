@@ -19,11 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginViewModel extends ViewModel {
-    /* TODO
-        Esto se puede cambiar cuando se sepan de hilos, para asi poder usar el LoginRepository sin necesidad
-        de que contenga livedata.
-     */
-//    private MutableLiveData<LoggedInUser> loggedInUser = new MutableLiveData<>();
     private MutableLiveData<SignInFormState> signInFormState = new MutableLiveData<>();
     private MutableLiveData<SignUpFormState> signUpFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>(LoginResult.NO_ACTION);
@@ -60,8 +55,9 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void signUp(@NonNull String firstName, @NonNull String lastName, @NonNull String email, @NonNull String password) {
-        // TODO: Talves remplazar firstName y lastName por Nombre?
-        // TODO: IMPLEMENT SIGN UP WITH FIREBASE
+        // TODO:
+        //  Talves remplazar firstName y lastName por Nombre?
+        //  | IMPLEMENT SIGN UP WITH FIREBASE
     }
 
     public void signInDataChanged(String username, String password) {

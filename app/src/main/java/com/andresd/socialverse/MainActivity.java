@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -21,20 +22,18 @@ import com.google.firebase.auth.FirebaseAuth;
 /**
  * <b>Main Activity</b>
  * <p>This Class is the Controller for the main activity.<br>
- *     It manages the interaction between the {@link com.andresd.socialverse.ui.main.home.HomeFragment},
- *     {@link com.andresd.socialverse.ui.main.search.SearchFragment} and {@link com.andresd.socialverse.ui.main.groups.GroupsFragment};
- *     as well as the main {@link androidx.appcompat.widget.Toolbar} and
- *     {@link com.google.android.material.bottomnavigation.BottomNavigationView}.</p>
+ * It manages the interaction between the {@link com.andresd.socialverse.ui.main.home.HomeFragment},
+ * {@link com.andresd.socialverse.ui.main.search.SearchFragment} and {@link com.andresd.socialverse.ui.main.groups.GroupsFragment};
+ * as well as the main {@link androidx.appcompat.widget.Toolbar} and
+ * {@link com.google.android.material.bottomnavigation.BottomNavigationView}.</p>
  */
 public class MainActivity extends AppCompatActivity {
     /**
      * Logcat tag
      */
     private static final String TAG = MainActivity.class.getSimpleName();
-    /**
-     * FirebaseAuth Reference
-     */
-    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+    private MainActivityViewModel mViewModel;
     /**
      * Binding to main_activity.xlm
      */
@@ -43,17 +42,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // check if the user is logged in
+        // TODO: Check if user is signed in using livedata from the ViewModel
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Log.d(TAG, "onCreate: User is not logged, starting LoginActivity");
+            login();
+        }
+
         // setting the content view,
         binding = MainActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        // check if the user is logged in
-        if (mAuth.getCurrentUser() == null) {
-            Log.d(TAG, "onCreate: User is not logged, starting LoginActivity");
-            Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(loginIntent);
-            finish();
-        }
 
         setSupportActionBar(binding.toolbar);
 
@@ -72,6 +70,25 @@ public class MainActivity extends AppCompatActivity {
                     .commitNow();
         }*/
 
+
+        mViewModel = new ViewModelProvider(this, new MainActivityViewModelFactory()).get(MainActivityViewModel.class);
+
+
+        mViewModel.getUserState().observe(this, new Observer<UserState>() {
+            @Override
+            public void onChanged(UserState userState) {
+                switch (userState) {
+                    // user is signed out
+                    case INVALID:
+                    case SIGNED_OUT:
+                        login();
+                        break;
+                    // default
+                    default:
+                        break;
+                }
+            }
+        });
 /* TODO: Create sign out listener
 
         mAuth.getUser().observe(this, new Observer<LoggedInUser>() {
@@ -87,6 +104,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * <p>Initiates the {@link LoginActivity} and finishes the {@link MainActivity}.</p>
+     */
+    private void login() {
+        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(loginIntent);
+        finish();
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -96,9 +121,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * <p>Sign user out of the application.</p>
+     */
     private void signOut() {
-        mAuth.signOut();
-        Toast.makeText(this, R.string.result_logout_successful, Toast.LENGTH_SHORT).show();
+        mViewModel.signOut();
+        // Toast.makeText(this, R.string.result_logout_successful, Toast.LENGTH_SHORT).show();
     }
 
     @Override

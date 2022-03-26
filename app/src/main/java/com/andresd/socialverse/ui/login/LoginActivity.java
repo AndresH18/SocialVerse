@@ -20,8 +20,6 @@ import com.andresd.socialverse.R;
 import com.andresd.socialverse.databinding.LoginActivityBinding;
 
 /**
- * TODO: Ver como usar hilos para que se pueda hacer uso de LoginRepository sin necesidad de usar
- * LiveData ahi.
  */
 public class LoginActivity extends AppCompatActivity {
 
