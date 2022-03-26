@@ -135,9 +135,3 @@ public class LoginViewModel extends ViewModel {
     }
 }
 
-/**
- * Interface to mark elements that belong to the sign up context
- */
-@interface SignUpElement {
-
-}
