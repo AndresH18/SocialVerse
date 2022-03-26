@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
                     // user is signed out
                     case INVALID:
                     case SIGNED_OUT:
-                    case NOT_LOGGED_IN:
                         Toast.makeText(MainActivity.this, R.string.result_logout_successful, Toast.LENGTH_SHORT).show();
+                    case NOT_LOGGED_IN:
                         login();
                         break;
                     // default
