@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SocialVerse.NoActionBar">
         <activity
+            android:name=".ui.group.GroupActivity"
+            android:exported="false"
+            android:label="@string/title_activity_group"
+            android:theme="@style/Theme.SocialVerse.NoActionBar.NoActionBar" />
+        <activity
             android:name=".ui.login.LoginActivity"
             android:exported="false"
             android:label="@string/title_activity_login" />
@@ -21,7 +26,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 
