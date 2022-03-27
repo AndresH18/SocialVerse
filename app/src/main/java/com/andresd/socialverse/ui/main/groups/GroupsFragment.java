@@ -12,12 +12,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.andresd.socialverse.databinding.GroupsFragmentBinding;
-import com.google.firebase.auth.FirebaseAuth;
 
 
 public class GroupsFragment extends Fragment {
 
     private GroupsFragmentBinding binding;
+
     private GroupsViewModel groupsViewModel;
 
 
@@ -38,8 +38,6 @@ public class GroupsFragment extends Fragment {
                 binding.textGroups.setText(s);
             }
         });
-
-        binding.button.setOnClickListener(v -> FirebaseAuth.getInstance().signOut());
 
         return binding.getRoot();
     }

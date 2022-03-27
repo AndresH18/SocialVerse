@@ -17,6 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.andresd.socialverse.databinding.MainActivityBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
+import com.google.android.material.navigation.NavigationBarView;
 
 /**
  * <b>Main Activity</b>
@@ -26,7 +27,7 @@ import com.andresd.socialverse.ui.login.LoginActivity;
  * as well as the main {@link androidx.appcompat.widget.Toolbar} and
  * {@link com.google.android.material.bottomnavigation.BottomNavigationView}.</p>
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
     /**
      * Logcat tag
      */
@@ -86,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        binding.navView.setOnItemSelectedListener(this);
+
     }
 
     /**
@@ -97,20 +101,33 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.sign_out) {
-            signOut();
-        }
-        return true;
-    }
-
     /**
      * <p>Sign user out of the application.</p>
      */
     private void signOut() {
         mViewModel.signOut();
 
+    }
+
+    /**
+     * <p>Called when the bottom navigation items are selected</p>
+     */
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // sets the add icon's visibility when the item is search
+        // TODO: decidir si mejor poner un button cuando no haya resultado sobre el grupo.
+        //  Si se va a poner el button, entonces borrar el item de agregar grupo del menu
+        binding.toolbar.getMenu().getItem(0).setVisible(item.getItemId() == R.id.navigation_search);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.sign_out) {
+            signOut();
+        }
+        return true;
     }
 
     @Override
