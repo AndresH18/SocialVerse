@@ -32,6 +32,12 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
 
     }
 
+    public void add(String[] titles, String[] details) {
+        this.titles.addAll(Arrays.asList(titles));
+        this.details.addAll(Arrays.asList(details));
+        this.notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

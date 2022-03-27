@@ -21,7 +21,6 @@ public class SearchFragment extends Fragment {
     private SearchFragmentBinding binding;
     private SearchViewModel searchViewModel;
 
-    private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
 
@@ -50,8 +49,13 @@ public class SearchFragment extends Fragment {
         binding.recyclerView.setAdapter(adapter);
 
 
-        return binding.getRoot();
+        binding.button2.setOnClickListener(v -> {
+            ((GroupRecyclerAdapter) adapter).add(
+                    new String[]{"Peliculas", "Teatro", "Videojuegos"},
+                    new String[]{"cine", "como los papas de batman", "Yaya, juegos"});
+        });
 
+        return binding.getRoot();
     }
 
 

@@ -6,7 +6,7 @@
         android:id="@+id/create_group"
         android:icon="@drawable/icon_add"
         android:title="Create group"
-        android:visible="false"
+        android:visible="true"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/sign_out"
