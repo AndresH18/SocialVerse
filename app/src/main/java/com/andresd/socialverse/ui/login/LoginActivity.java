@@ -17,7 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.andresd.socialverse.MainActivity;
 import com.andresd.socialverse.R;
-import com.andresd.socialverse.databinding.LoginActivityBinding;
+import com.andresd.socialverse.databinding.ActivityLoginBinding;
 
 /**
  */
@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private NavController navController;
 
-    private LoginActivityBinding binding;
+    private ActivityLoginBinding binding;
 
     private LoginViewModel loginViewModel;
 
@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = LoginActivityBinding.inflate(getLayoutInflater());
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory()).get(LoginViewModel.class);

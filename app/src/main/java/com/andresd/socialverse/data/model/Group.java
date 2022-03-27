@@ -6,9 +6,10 @@ package com.andresd.socialverse.data.model;
 public class Group {
 
     // attributes
+    // TODO: Check if delete id field
     private String id;
     private String name;
-    private String description;
+    private String detail;
 
     // required Empty constructor
     public Group() {
@@ -30,12 +31,12 @@ public class Group {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDetail() {
+        return detail;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
 }

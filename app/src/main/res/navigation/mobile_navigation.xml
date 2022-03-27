@@ -9,17 +9,17 @@
         android:id="@+id/navigation_home"
         android:name="com.andresd.socialverse.ui.main.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/navigation_search"
         android:name="com.andresd.socialverse.ui.main.search.SearchFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/search_fragment" />
+        tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/navigation_groups"
-        android:name="com.andresd.socialverse.ui.main.groups.GroupsFragment"
+        android:name="com.andresd.socialverse.ui.main.groups.MyGroupsFragment"
         android:label="@string/title_groups"
-        tools:layout="@layout/groups_fragment" />
+        tools:layout="@layout/fragment_my_groups" />
 
 
 </navigation>

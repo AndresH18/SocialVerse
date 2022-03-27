@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.andresd.socialverse.databinding.SignUpFragmentBinding;
+import com.andresd.socialverse.databinding.FragmentSignUpBinding;
 
 /**
  * TODO: decide if there will be a sign up on the application
@@ -25,7 +25,7 @@ import com.andresd.socialverse.databinding.SignUpFragmentBinding;
 public class SignUpFragment extends Fragment {
 
     private LoginViewModel mViewModel;
-    private SignUpFragmentBinding binding;
+    private FragmentSignUpBinding binding;
 
     public static SignUpFragment newInstance() {
         return new SignUpFragment();
@@ -34,7 +34,7 @@ public class SignUpFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = SignUpFragmentBinding.inflate(inflater, container, false);
+        binding = FragmentSignUpBinding.inflate(inflater, container, false);
         mViewModel = new ViewModelProvider(requireActivity(), new LoginViewModelFactory()).get(LoginViewModel.class);
 
         final Button signUpButton = binding.signUpButton;

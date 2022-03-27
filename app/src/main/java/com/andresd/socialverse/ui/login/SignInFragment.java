@@ -20,14 +20,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.andresd.socialverse.databinding.SignInFragmentBinding;
+import com.andresd.socialverse.databinding.FragmentSignInBinding;
 
 public class SignInFragment extends Fragment {
 
     private static final String TAG = SignInFragment.class.getSimpleName();
 
     private LoginViewModel mViewModel;
-    private SignInFragmentBinding binding;
+    private FragmentSignInBinding binding;
 
     public static SignInFragment newInstance() {
         return new SignInFragment();
@@ -38,7 +38,7 @@ public class SignInFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(requireActivity(), new LoginViewModelFactory()).get(LoginViewModel.class);
-        binding = SignInFragmentBinding.inflate(inflater, container, false);
+        binding = FragmentSignInBinding.inflate(inflater, container, false);
 
 
         final EditText usernameEditText = binding.username;

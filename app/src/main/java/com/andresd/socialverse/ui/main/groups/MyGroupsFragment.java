@@ -11,26 +11,26 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.andresd.socialverse.databinding.GroupsFragmentBinding;
+import com.andresd.socialverse.databinding.FragmentMyGroupsBinding;
 
 
-public class GroupsFragment extends Fragment {
+public class MyGroupsFragment extends Fragment {
 
-    private GroupsFragmentBinding binding;
+    private FragmentMyGroupsBinding binding;
 
-    private GroupsViewModel groupsViewModel;
+    private MyGroupsViewModel groupsViewModel;
 
 
-    public static GroupsFragment newInstance() {
-        return new GroupsFragment();
+    public static MyGroupsFragment newInstance() {
+        return new MyGroupsFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        groupsViewModel = new ViewModelProvider(this).get(GroupsViewModel.class);
-        binding = GroupsFragmentBinding.inflate(inflater, container, false);
+        groupsViewModel = new ViewModelProvider(this).get(MyGroupsViewModel.class);
+        binding = FragmentMyGroupsBinding.inflate(inflater, container, false);
 
         groupsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override

@@ -9,7 +9,7 @@
         android:id="@+id/signInFragment"
         android:name="com.andresd.socialverse.ui.login.SignInFragment"
         android:label="@string/title_sign_in"
-        tools:layout="@layout/sign_in_fragment" >
+        tools:layout="@layout/fragment_sign_in" >
         <action
             android:id="@+id/signinToSignup"
             app:destination="@id/signUpFragment" />
@@ -18,7 +18,7 @@
         android:id="@+id/signUpFragment"
         android:name="com.andresd.socialverse.ui.login.SignUpFragment"
         android:label="@string/title_sign_up"
-        tools:layout="@layout/sign_up_fragment" >
+        tools:layout="@layout/fragment_sign_up" >
         <argument
             android:name="email"
             app:argType="string" />

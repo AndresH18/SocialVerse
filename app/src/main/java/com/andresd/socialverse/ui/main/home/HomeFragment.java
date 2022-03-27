@@ -12,19 +12,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.andresd.socialverse.databinding.HomeFragmentBinding;
+import com.andresd.socialverse.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private HomeFragmentBinding binding;
+    private FragmentHomeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
-        binding = HomeFragmentBinding.inflate(inflater, container, false);
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
 
 
         final TextView textView = binding.textHome;

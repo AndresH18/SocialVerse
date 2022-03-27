@@ -1,4 +1,4 @@
-package com.andresd.socialverse.ui.adapter;
+package com.andresd.socialverse.ui.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +42,7 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.group_cardlayout, parent, false);
+                .inflate(R.layout.cardlayout_group, parent, false);
 
         return new ViewHolder(v);
     }

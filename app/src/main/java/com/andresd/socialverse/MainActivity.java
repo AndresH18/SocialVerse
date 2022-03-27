@@ -15,15 +15,16 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.andresd.socialverse.databinding.MainActivityBinding;
+import com.andresd.socialverse.databinding.ActivityMainBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
+import com.andresd.socialverse.ui.main.groups.MyGroupsFragment;
 import com.google.android.material.navigation.NavigationBarView;
 
 /**
  * <b>Main Activity</b>
  * <p>This Class is the Controller for the main activity.<br>
  * It manages the interaction between the {@link com.andresd.socialverse.ui.main.home.HomeFragment},
- * {@link com.andresd.socialverse.ui.main.search.SearchFragment} and {@link com.andresd.socialverse.ui.main.groups.GroupsFragment};
+ * {@link com.andresd.socialverse.ui.main.search.SearchFragment} and {@link MyGroupsFragment};
  * as well as the main {@link androidx.appcompat.widget.Toolbar} and
  * {@link com.google.android.material.bottomnavigation.BottomNavigationView}.</p>
  */
@@ -37,14 +38,14 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     /**
      * Binding to main_activity.xlm
      */
-    private MainActivityBinding binding;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // setting the content view,
-        binding = MainActivityBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.options_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_option, menu);
         return true;
     }
 
