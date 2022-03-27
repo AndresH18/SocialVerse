@@ -41,6 +41,7 @@
     <string name="hint_last_name">Enter your Last Name</string>
     <string name="hint_email">Enter your Email</string>
     <string name="hint_password">Enter a Password</string>
+    <string name="hint_group_name">Group Name</string>
     <!--Results-->
     <string name="result_failed">Operation Failed</string>
     <string name="result_wrong_username">Invalid Username</string>

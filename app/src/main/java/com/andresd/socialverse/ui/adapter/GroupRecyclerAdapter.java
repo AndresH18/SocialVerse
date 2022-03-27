@@ -52,7 +52,8 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
         return titles.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView itemImage;
         TextView itemTitle;

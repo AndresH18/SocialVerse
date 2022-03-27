@@ -9,8 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.andresd.socialverse.databinding.SearchFragmentBinding;
+import com.andresd.socialverse.ui.adapter.GroupRecyclerAdapter;
 
 
 public class SearchFragment extends Fragment {
@@ -18,9 +21,9 @@ public class SearchFragment extends Fragment {
     private SearchFragmentBinding binding;
     private SearchViewModel searchViewModel;
 
-//    private RecyclerView recyclerView;
-//    private RecyclerView.LayoutManager layoutManager;
-//    private RecyclerView.Adapter adapter;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.Adapter adapter;
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -40,12 +43,12 @@ public class SearchFragment extends Fragment {
 //            }
 //        });
 
-//        layoutManager = new LinearLayoutManager(requireContext());
-//        binding.recyclerView.setLayoutManager(layoutManager);
-//
-//        adapter = new GroupRecyclerAdapter();
-//        binding.recyclerView.setAdapter(adapter);
-//
+        layoutManager = new LinearLayoutManager(requireContext());
+        binding.recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new GroupRecyclerAdapter();
+        binding.recyclerView.setAdapter(adapter);
+
 
         return binding.getRoot();
 

@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             }
         });
 
-        binding.navView.setOnItemSelectedListener(this);
+//        binding.navView.setOnItemSelectedListener(this);
 
     }
 
@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         // sets the add icon's visibility when the item is search
         // TODO: decidir si mejor poner un button cuando no haya resultado sobre el grupo.
         //  Si se va a poner el button, entonces borrar el item de agregar grupo del menu
+        // FIXME: Se va a tener que crear el button, porque usar este listener daña la funcionalidad del nav_host
         binding.toolbar.getMenu().getItem(0).setVisible(item.getItemId() == R.id.navigation_search);
 
         return true;
