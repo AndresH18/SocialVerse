@@ -20,9 +20,9 @@
             app:destination="@id/groupActivity" />
     </fragment>
     <fragment
-        android:id="@+id/navigation_groups"
+        android:id="@+id/navigation_my_groups"
         android:name="com.andresd.socialverse.ui.main.groups.MyGroupsFragment"
-        android:label="@string/title_groups"
+        android:label="@string/title_my_groups"
         tools:layout="@layout/fragment_my_groups" />
     <activity
         android:id="@+id/groupActivity"
