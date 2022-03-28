@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
      * Binding to main_activity.xlm
      */
     private ActivityMainBinding binding;
+    private AppBarConfiguration appBarConfiguration;
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         setSupportActionBar(binding.toolbar);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_groups,
                 R.id.navigation_search).build();
 //        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build(); esto también sirve
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // sets the add icon's visibility when the item is search
+        // Sets the add icon's visibility when the item is search
         // TODO: decidir si mejor poner un button cuando no haya resultado sobre el grupo.
         //  Si se va a poner el button, entonces borrar el item de agregar grupo del menu
         // FIXME: Se va a tener que crear el button, porque usar este listener daña la funcionalidad del nav_host
@@ -138,4 +140,9 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         return true;
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        return NavigationUI.navigateUp(navController, appBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
 }
