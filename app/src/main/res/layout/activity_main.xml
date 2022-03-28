@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:menu="@menu/menu_option" />
+                app:menu="@menu/menu_options" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

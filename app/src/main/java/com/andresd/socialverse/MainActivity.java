@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_option, menu);
+        getMenuInflater().inflate(R.menu.menu_options, menu);
         return true;
     }
 
