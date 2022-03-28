@@ -18,7 +18,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.andresd.socialverse.databinding.ActivityMainBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
 import com.andresd.socialverse.ui.main.groups.MyGroupsFragment;
-import com.google.android.material.navigation.NavigationBarView;
 
 /**
  * <b>Main Activity</b>
@@ -28,7 +27,7 @@ import com.google.android.material.navigation.NavigationBarView;
  * as well as the main {@link androidx.appcompat.widget.Toolbar} and
  * {@link com.google.android.material.bottomnavigation.BottomNavigationView}.</p>
  */
-public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
     /**
      * Logcat tag
      */
@@ -115,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     /**
      * <p>Called when the bottom navigation items are selected</p>
      */
-    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Sets the add icon's visibility when the item is search
         // TODO: decidir si mejor poner un button cuando no haya resultado sobre el grupo.
