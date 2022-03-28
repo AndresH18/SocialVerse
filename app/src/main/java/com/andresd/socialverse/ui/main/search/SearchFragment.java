@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.andresd.socialverse.data.model.Group;
@@ -61,13 +62,16 @@ public class SearchFragment extends Fragment {
             public void onChanged(Group group) {
                 binding.progressBar.setVisibility(View.GONE);
                 if (group != null) {
-                    binding.groupCard.groupCardView.setVisibility(View.VISIBLE);
-                    binding.groupCard.itemTitle.setText(group.getName());
-                    binding.groupCard.itemDetail.setText(group.getDetail());
+//                    binding.groupCard.groupCardView.setVisibility(View.VISIBLE);
+//                    binding.groupCard.itemTitle.setText(group.getName());
+//                    binding.groupCard.itemDetail.setText(group.getDetail());
+
+                    SearchFragmentDirections.NavigateToGroupActivity directions = SearchFragmentDirections.navigateToGroupActivity(group.getName());
+                    Navigation.findNavController(requireView()).navigate(directions);
                 } else {
-                    binding.groupCard.groupCardView.setVisibility(View.INVISIBLE);
-                    binding.groupCard.itemTitle.setText(null);
-                    binding.groupCard.itemDetail.setText(null);
+//                    binding.groupCard.groupCardView.setVisibility(View.INVISIBLE);
+//                    binding.groupCard.itemTitle.setText(null);
+//                    binding.groupCard.itemDetail.setText(null);
                 }
             }
         });

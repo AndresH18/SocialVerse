@@ -14,12 +14,26 @@
         android:id="@+id/navigation_search"
         android:name="com.andresd.socialverse.ui.main.search.SearchFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/navigate_to_GroupActivity"
+            app:destination="@id/groupActivity" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_groups"
         android:name="com.andresd.socialverse.ui.main.groups.MyGroupsFragment"
         android:label="@string/title_groups"
         tools:layout="@layout/fragment_my_groups" />
+    <activity
+        android:id="@+id/groupActivity"
+        android:name="com.andresd.socialverse.ui.group.GroupActivity"
+        tools:layout="@layout/activity_group">
+        <!-- Test arg -->
+        <argument
+            android:name="group_id"
+            app:argType="string" />
+
+    </activity>
 
 
 </navigation>

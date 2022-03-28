@@ -1,4 +1,4 @@
-package com.andresd.socialverse.ui.group;
+package com.andresd.socialverse.ui.group.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.andresd.socialverse.databinding.FragmentFirstBinding;
+import com.andresd.socialverse.databinding.FragmentGroupHomeBinding;
 
-public class FirstFragment extends Fragment {
+public class GroupHomeFragment extends Fragment {
 
-    private FragmentFirstBinding binding;
+    private FragmentGroupHomeBinding binding;
 
     @Override
     public View onCreateView(
@@ -20,7 +20,7 @@ public class FirstFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentFirstBinding.inflate(inflater, container, false);
+        binding = FragmentGroupHomeBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
