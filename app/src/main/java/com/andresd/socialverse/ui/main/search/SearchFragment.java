@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.andresd.socialverse.data.model.Group;
 import com.andresd.socialverse.databinding.FragmentSearchBinding;
@@ -25,8 +24,8 @@ public class SearchFragment extends Fragment {
     private FragmentSearchBinding binding;
     private SearchViewModel mViewModel;
 
-    private RecyclerView.LayoutManager layoutManager;
-    private RecyclerView.Adapter adapter;
+//    private RecyclerView.LayoutManager layoutManager;
+//    private RecyclerView.Adapter adapter;
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -68,10 +67,6 @@ public class SearchFragment extends Fragment {
 
                     SearchFragmentDirections.NavigateToGroupActivity directions = SearchFragmentDirections.navigateToGroupActivity(group.getName());
                     Navigation.findNavController(requireView()).navigate(directions);
-                } else {
-//                    binding.groupCard.groupCardView.setVisibility(View.INVISIBLE);
-//                    binding.groupCard.itemTitle.setText(null);
-//                    binding.groupCard.itemDetail.setText(null);
                 }
             }
         });
