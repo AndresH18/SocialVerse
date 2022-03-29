@@ -1,15 +1,17 @@
 package com.andresd.socialverse.data.model;
 
+import java.util.List;
+
 /**
  *
  */
 public class Group {
 
     // attributes
-    // TODO: Check if delete id field
     private String id;
     private String name;
     private String detail;
+    private List<Object> tags;
 
     // required Empty constructor
     public Group() {
@@ -39,4 +41,11 @@ public class Group {
         this.detail = detail;
     }
 
+    public List<Object> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Object> tags) {
+        this.tags = tags;
+    }
 }
