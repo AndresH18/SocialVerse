@@ -12,10 +12,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class UserRepository {
 
     public static final String USERS = "users";
+    private static UserRepository instance;
 
     private UserRepository() {
     }
-//
+
+    public static UserRepository getInstance() {
+        if (instance == null) {
+            instance = new UserRepository();
+        }
+        return instance;
+    }
+
+    //
 //    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 //    private MutableLiveData<User> user = new MutableLiveData<>();
 //    @Deprecated
@@ -36,9 +45,8 @@ public class UserRepository {
 //        return user;
 //    }
 
-    public static MutableLiveData<User> findUser(String uid) {
+    public void getUser(@NonNull String uid, @NonNull MutableLiveData<User> userMutableLiveData) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        MutableLiveData<User> user = new MutableLiveData<>();
         db.collection(USERS).document(uid)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -47,12 +55,13 @@ public class UserRepository {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         User u = document.toObject(User.class);
-                        user.postValue(u);
+                        u.setId(document.getId());
+                        userMutableLiveData.postValue(u);
                     }
                 }
             }
         });
-        return user;
+
     }
 
 }

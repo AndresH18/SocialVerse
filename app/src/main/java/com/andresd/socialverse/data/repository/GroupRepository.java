@@ -61,7 +61,7 @@ public class GroupRepository {
                     QuerySnapshot querySnapshot = task.getResult();
                     List<Group> groupList = new ArrayList<>();
                     Group group;
-                    for (DocumentSnapshot document : querySnapshot.getDocuments()){
+                    for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                         group = document.toObject(Group.class);
                         group.setId(document.getId());
                         groupList.add(group);
@@ -70,7 +70,6 @@ public class GroupRepository {
                 }
             }
         });
-
 //        FirebaseFirestore.getInstance().collection(GROUPS).document(groupName)
 //                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 //            @Override
@@ -87,5 +86,9 @@ public class GroupRepository {
 //        });
 
 //        return groupLiveData;
+    }
+
+    public void getGroups(@NonNull List<String> groups) {
+//        FirebaseFirestore.getInstance().collection(GROUPS).;
     }
 }

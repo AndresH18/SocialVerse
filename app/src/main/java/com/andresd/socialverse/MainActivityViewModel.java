@@ -11,20 +11,17 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivityViewModel extends ViewModel {
     // some sort of user object?
     //
-    private MutableLiveData<User> currentUserLiveData;
+    private MutableLiveData<User> currentUserLiveData = new MutableLiveData<>();
     private MutableLiveData<UserAuthState> userState = new MutableLiveData<>();
     private String lastUID;
 
     MainActivityViewModel() {
-        /*userState.setValue(FirebaseAuth.getInstance().getCurrentUser() == null ? UserAuthState.NOT_LOGGED_IN : UserAuthState.VALID);
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            lastUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        }*/
         // initialize values
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             userState.setValue(UserAuthState.VALID);
             lastUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            currentUserLiveData = UserRepository.findUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//            currentUserLiveData = UserRepository.getUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            UserRepository.getInstance().getUser(FirebaseAuth.getInstance().getCurrentUser().getUid(), currentUserLiveData);
         } else {
             userState.setValue(UserAuthState.NOT_LOGGED_IN);
         }

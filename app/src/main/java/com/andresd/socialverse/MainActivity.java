@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     case SIGNED_OUT:
                         Toast.makeText(MainActivity.this, R.string.result_logout_successful, Toast.LENGTH_SHORT).show();
                     case NOT_LOGGED_IN:
-                        login();
+                        goToLogin();
                         break;
                     // default
                     default:
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * <p>Initiates the {@link LoginActivity} and finishes the {@link MainActivity}.</p>
      */
-    private void login() {
+    private void goToLogin() {
         Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(loginIntent);
         finish();

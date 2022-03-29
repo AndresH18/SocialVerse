@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.andresd.socialverse.databinding.FragmentMyGroupsBinding;
@@ -32,12 +31,12 @@ public class MyGroupsFragment extends Fragment {
         groupsViewModel = new ViewModelProvider(this).get(MyGroupsViewModel.class);
         binding = FragmentMyGroupsBinding.inflate(inflater, container, false);
 
-        groupsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                binding.textGroups.setText(s);
-            }
-        });
+//        groupsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+//            @Override
+//            public void onChanged(String s) {
+//                binding.textGroups.setText(s);
+//            }
+//        });
 
         return binding.getRoot();
     }
