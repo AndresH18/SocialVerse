@@ -19,6 +19,7 @@
     <string name="action_register">Register</string>
     <string name="action_sign_up">Sign Up</string>
     <string name="action_sign_out">Sign Out</string>
+    <string name="action_search_tags">By Tags</string>
 
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
