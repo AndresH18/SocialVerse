@@ -1,4 +1,4 @@
-package com.andresd.socialverse;
+package com.andresd.socialverse.ui.main;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;

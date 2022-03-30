@@ -1,4 +1,4 @@
-package com.andresd.socialverse;
+package com.andresd.socialverse.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +15,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.andresd.socialverse.R;
 import com.andresd.socialverse.databinding.ActivityMainBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
-import com.andresd.socialverse.ui.main.groups.MyGroupsFragment;
+import com.andresd.socialverse.ui.main.mygroups.MyGroupsFragment;
 
 /**
  * <b>Main Activity</b>
@@ -73,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
         /* Observe the state of the User Auth */
         // Since it also receives the value when the observer is added, it also functions as
         // the first check to see if the user is logged in
-        mViewModel.getUserState().observe(this, new Observer<UserAuthState>() {
+        mViewModel.getUserState().observe(this, new Observer<MainActivityViewModel.UserAuthState>() {
             @Override
-            public void onChanged(UserAuthState userState) {
+            public void onChanged(MainActivityViewModel.UserAuthState userState) {
                 switch (userState) {
                     // user is signed out
                     case INVALID:
@@ -129,6 +130,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.sign_out) {
             signOut();
+        }
+        // TODO (TESTING)
+        if (item.getItemId() == R.id.refresh) {
+            Toast.makeText(this, "Restarting Activity", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
         return true;
     }

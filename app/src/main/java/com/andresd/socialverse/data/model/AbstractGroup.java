@@ -1,27 +1,25 @@
 package com.andresd.socialverse.data.model;
 
+import com.google.firebase.firestore.DocumentReference;
+
 import java.util.List;
 
-/**
- *
- */
-public class Group {
+public abstract class AbstractGroup {
 
     // attributes
-    private String id;
+    private DocumentReference id;
     private String name;
     private String detail;
-    private List<Object> tags;
+    private List<String> tags;
 
-    // required Empty constructor
-    public Group() {
+    public AbstractGroup() {
     }
 
-    public String getId() {
+    public DocumentReference getId() {
         return id;
     }
 
-    public void setId(String id) {
+    protected void setId(DocumentReference id) {
         this.id = id;
     }
 
@@ -29,7 +27,7 @@ public class Group {
         return name;
     }
 
-    public void setName(String name) {
+    protected void setName(String name) {
         this.name = name;
     }
 
@@ -37,15 +35,15 @@ public class Group {
         return detail;
     }
 
-    public void setDetail(String detail) {
+    protected void setDetail(String detail) {
         this.detail = detail;
     }
 
-    public List<Object> getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
-    public void setTags(List<Object> tags) {
+    protected void setTags(List<String> tags) {
         this.tags = tags;
     }
 }

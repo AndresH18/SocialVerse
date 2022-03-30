@@ -16,9 +16,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.andresd.socialverse.data.model.Group;
+import com.andresd.socialverse.ui.main.MainActivityViewModel;
+import com.andresd.socialverse.ui.main.MainActivityViewModelFactory;
+import com.andresd.socialverse.data.model.AbstractGroup;
 import com.andresd.socialverse.databinding.FragmentSearchBinding;
-import com.andresd.socialverse.ui.adapters.GroupRecyclerAdapter;
+import com.andresd.socialverse.ui.adapters.GroupCardRecyclerAdapter;
 
 import java.util.List;
 
@@ -26,10 +28,11 @@ import java.util.List;
 public class SearchFragment extends Fragment {
 
     private FragmentSearchBinding binding;
-    private SearchViewModel mViewModel;
+    private MainActivityViewModel mViewModel;
 
     private RecyclerView.LayoutManager layoutManager;
-    private RecyclerView.Adapter<GroupRecyclerAdapter.ViewHolder> adapter;
+    //    private RecyclerView.Adapter<GroupsRecyclerAdapter.ViewHolder> adapter;
+    private GroupCardRecyclerAdapter mAdapter;
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -39,7 +42,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        mViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity(), new MainActivityViewModelFactory()).get(MainActivityViewModel.class);
         binding = FragmentSearchBinding.inflate(inflater, container, false);
 
 //        searchViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -56,17 +59,18 @@ public class SearchFragment extends Fragment {
         // set RecyclerView's layout manager
         binding.groupsRecyclerView.setLayoutManager(layoutManager);
         // create RecyclerView Adapter
-        adapter = new GroupRecyclerAdapter();
+        mAdapter = new GroupCardRecyclerAdapter();
+//        adapter = new GroupsRecyclerAdapter();
         // set RecyclerView's adapter
-        binding.groupsRecyclerView.setAdapter(adapter);
+        binding.groupsRecyclerView.setAdapter(mAdapter);
+//        binding.groupsRecyclerView.setAdapter(adapter);
 
 
-        mViewModel.getGroups().observe(getViewLifecycleOwner(), new Observer<List<Group>>() {
+        mViewModel.getSearchGroups().observe(getViewLifecycleOwner(), new Observer<List<AbstractGroup>>() {
             @Override
-            public void onChanged(List<Group> groups) {
+            public void onChanged(List<AbstractGroup> groups) {
+                mAdapter.setGroupCards(groups);
                 binding.progressBar.setVisibility(View.GONE);
-                GroupRecyclerAdapter a = (GroupRecyclerAdapter) adapter;
-                a.setGroupList(groups);
             }
         });
 
@@ -88,14 +92,6 @@ public class SearchFragment extends Fragment {
 //            }
 //        });
 
-
-        /* Add Click listener to Button */
-        binding.searchButton.setOnClickListener(v -> {
-//            ((GroupRecyclerAdapter) adapter).add(
-//                    new String[]{"Peliculas", "Teatro", "Videojuegos"},
-//                    new String[]{"cine", "como los papas de batman", "Yaya, juegos"});
-            search();
-        });
         /* Add action listener to EditText */
         binding.searchGroupEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

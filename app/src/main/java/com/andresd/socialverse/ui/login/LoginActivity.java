@@ -15,7 +15,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.andresd.socialverse.MainActivity;
+import com.andresd.socialverse.ui.main.MainActivity;
 import com.andresd.socialverse.R;
 import com.andresd.socialverse.databinding.ActivityLoginBinding;
 
