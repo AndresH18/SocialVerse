@@ -15,22 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 
 
-enum UserAuthState {
-    // TODO: use better states
-    VALID,
-    INVALID,
-    SIGNED_IN,
-    /**
-     * <p>The user has signed out.</p>
-     */
-    SIGNED_OUT,
-    /**
-     * <p>The user has not been logged.</p>
-     */
-    NOT_LOGGED_IN,
-    ;
-}
-
 public class MainActivityViewModel extends ViewModel {
     // some sort of user object?
     //
@@ -86,5 +70,21 @@ public class MainActivityViewModel extends ViewModel {
 
     public LiveData<String> getText() {
         return mHomeText;
+    }
+
+    public enum UserAuthState {
+        // TODO: use better states
+        VALID,
+        INVALID,
+        SIGNED_IN,
+        /**
+         * <p>The user has signed out.</p>
+         */
+        SIGNED_OUT,
+        /**
+         * <p>The user has not been logged.</p>
+         */
+        NOT_LOGGED_IN,
+        ;
     }
 }

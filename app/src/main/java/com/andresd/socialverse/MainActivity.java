@@ -72,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
         /* Observe the state of the User Auth */
         // Since it also receives the value when the observer is added, it also functions as
         // the first check to see if the user is logged in
-        mViewModel.getUserState().observe(this, new Observer<UserAuthState>() {
+        mViewModel.getUserState().observe(this, new Observer<MainActivityViewModel.UserAuthState>() {
             @Override
-            public void onChanged(UserAuthState userState) {
+            public void onChanged(MainActivityViewModel.UserAuthState userState) {
                 switch (userState) {
                     // user is signed out
                     case INVALID:
