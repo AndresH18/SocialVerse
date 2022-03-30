@@ -49,7 +49,7 @@ public class GroupRepository {
                     for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                         group = document.toObject(GroupCard.class);
                         if (group != null) {
-                            group.setId(document.getId());
+                            group.setId(document.getReference());
                             groupList.add(group);
                         } else {
                             Log.e(TAG, "onComplete: document.toObject() is null");
@@ -73,7 +73,7 @@ public class GroupRepository {
                     for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                         group = document.toObject(GroupCard.class);
                         if (group != null) {
-                            group.setId(document.getId());
+                            group.setId(document.getReference());
                             groupList.add(group);
                         } else {
                             Log.e(TAG, "onComplete: document.toObject() is null");

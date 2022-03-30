@@ -1,5 +1,7 @@
 package com.andresd.socialverse.data.model;
 
+import com.google.firebase.firestore.DocumentReference;
+
 import java.util.List;
 
 public class GroupCard extends AbstractGroup {
@@ -9,7 +11,7 @@ public class GroupCard extends AbstractGroup {
     }
 
     @Override
-    public void setId(String id) {
+    public void setId(DocumentReference id) {
         super.setId(id);
     }
 

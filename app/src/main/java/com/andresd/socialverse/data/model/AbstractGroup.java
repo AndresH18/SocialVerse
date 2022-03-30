@@ -1,11 +1,13 @@
 package com.andresd.socialverse.data.model;
 
+import com.google.firebase.firestore.DocumentReference;
+
 import java.util.List;
 
 public abstract class AbstractGroup {
 
     // attributes
-    private String id;
+    private DocumentReference id;
     private String name;
     private String detail;
     private List<String> tags;
@@ -13,11 +15,11 @@ public abstract class AbstractGroup {
     public AbstractGroup() {
     }
 
-    public String getId() {
+    public DocumentReference getId() {
         return id;
     }
 
-    protected void setId(String id) {
+    protected void setId(DocumentReference id) {
         this.id = id;
     }
 

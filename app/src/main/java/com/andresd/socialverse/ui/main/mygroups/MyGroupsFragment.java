@@ -56,10 +56,12 @@ public class MyGroupsFragment extends Fragment {
                     for (Map<String, Object> group : abstractUser.getGroups()) {
                         GroupCard g = new GroupCard();
                         DocumentReference id = (DocumentReference) group.get("id");
-                        String
-                        g.setId(group.get("id"));
-                        g.setName(group.get("name"));
-                        g.setDetail(group.get("detail"));
+                        String name = String.valueOf(group.get("name"));
+                        String detail = String.valueOf(group.get("detail"));
+
+                        g.setId(id);
+                        g.setName(name);
+                        g.setDetail(detail);
                         list.add(g);
                     }
                     mAdapter.setGroupCards(list);
@@ -76,13 +78,6 @@ public class MyGroupsFragment extends Fragment {
 
         return binding.getRoot();
     }
-
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        mViewModel = new ViewModelProvider(this).get(GroupsViewModel.class);
-//        // Use the ViewModel
-//    }
 
     @Override
     public void onDestroy() {

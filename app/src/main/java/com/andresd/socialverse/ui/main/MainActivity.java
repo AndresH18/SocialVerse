@@ -130,6 +130,12 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.sign_out) {
             signOut();
         }
+        // TODO (TESTING)
+        if (item.getItemId() == R.id.refresh) {
+            Toast.makeText(this, "Restarting Activity", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
         return true;
     }
 

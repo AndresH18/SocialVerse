@@ -1,13 +1,11 @@
 package com.andresd.socialverse.data.model;
 
-import com.google.firebase.firestore.DocumentReference;
-
 import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractUser {
 
-    private DocumentReference id;
+    private String id;
     private String name;
     // TODO : define type for Map<String, Object>
     //  esta asi porque la lista de grupos tiene una referencia
@@ -16,11 +14,11 @@ public abstract class AbstractUser {
     public AbstractUser() {
     }
 
-    public DocumentReference getId() {
+    public String getId() {
         return id;
     }
 
-    protected void setId(DocumentReference id) {
+    protected void setId(String id) {
         this.id = id;
     }
 
