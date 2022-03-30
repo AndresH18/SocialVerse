@@ -7,7 +7,7 @@ public abstract class AbstractGroup {
     // attributes
     private String id;
     private String name;
-    private String description;
+    private String detail;
     private List<String> tags;
 
     public AbstractGroup() {
@@ -29,12 +29,12 @@ public abstract class AbstractGroup {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDetail() {
+        return detail;
     }
 
-    protected void setDescription(String description) {
-        this.description = description;
+    protected void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public List<String> getTags() {

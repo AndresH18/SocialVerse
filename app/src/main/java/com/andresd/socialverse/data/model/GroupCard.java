@@ -19,8 +19,8 @@ public class GroupCard extends AbstractGroup {
     }
 
     @Override
-    public void setDescription(String description) {
-        super.setDescription(description);
+    public void setDetail(String detail) {
+        super.setDetail(detail);
     }
 
     @Override

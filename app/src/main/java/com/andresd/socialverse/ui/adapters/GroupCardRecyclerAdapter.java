@@ -38,7 +38,7 @@ public class GroupCardRecyclerAdapter extends RecyclerView.Adapter<GroupCardRecy
 
         AbstractGroup g = groupCards.get(position);
         holder.itemTitle.setText(g.getName());
-        holder.itemDetail.setText(g.getDescription());
+        holder.itemDetail.setText(g.getDetail());
     }
 
     @Override

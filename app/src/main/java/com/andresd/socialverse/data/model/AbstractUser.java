@@ -1,13 +1,14 @@
 package com.andresd.socialverse.data.model;
 
 import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractUser {
 
     private String id;
     private String name;
     // TODO : define type for List<T>
-    private List groups;
+    private List<Map<String, Object>> groups;
 
     public AbstractUser() {
     }
@@ -34,7 +35,7 @@ public abstract class AbstractUser {
     }
 
     // TODO : define type for List<T>
-    protected void setGroups(List groups) {
+    protected void setGroups(List<Map<String, Object>> groups) {
         this.groups = groups;
     }
 }

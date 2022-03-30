@@ -1,6 +1,7 @@
 package com.andresd.socialverse.data.model;
 
 import java.util.List;
+import java.util.Map;
 
 public class User extends AbstractUser {
 
@@ -14,7 +15,7 @@ public class User extends AbstractUser {
     }
 
     @Override
-    public void setGroups(List groups) {
+    public void setGroups(List<Map<String, Object>> groups) {
         super.setGroups(groups);
     }
 }
