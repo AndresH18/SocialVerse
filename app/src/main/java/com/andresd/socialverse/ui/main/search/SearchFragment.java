@@ -16,9 +16,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.andresd.socialverse.data.model.Group;
+import com.andresd.socialverse.data.model.AbstractGroup;
 import com.andresd.socialverse.databinding.FragmentSearchBinding;
-import com.andresd.socialverse.ui.adapters.GroupRecyclerAdapter;
+import com.andresd.socialverse.ui.adapters.GroupCardRecyclerAdapter;
 
 import java.util.List;
 
@@ -29,7 +29,8 @@ public class SearchFragment extends Fragment {
     private SearchViewModel mViewModel;
 
     private RecyclerView.LayoutManager layoutManager;
-    private RecyclerView.Adapter<GroupRecyclerAdapter.ViewHolder> adapter;
+    //    private RecyclerView.Adapter<GroupsRecyclerAdapter.ViewHolder> adapter;
+    private GroupCardRecyclerAdapter mAdapter;
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -56,17 +57,18 @@ public class SearchFragment extends Fragment {
         // set RecyclerView's layout manager
         binding.groupsRecyclerView.setLayoutManager(layoutManager);
         // create RecyclerView Adapter
-        adapter = new GroupRecyclerAdapter();
+        mAdapter = new GroupCardRecyclerAdapter();
+//        adapter = new GroupsRecyclerAdapter();
         // set RecyclerView's adapter
-        binding.groupsRecyclerView.setAdapter(adapter);
+        binding.groupsRecyclerView.setAdapter(mAdapter);
+//        binding.groupsRecyclerView.setAdapter(adapter);
 
 
-        mViewModel.getGroups().observe(getViewLifecycleOwner(), new Observer<List<Group>>() {
+        mViewModel.getGroups().observe(getViewLifecycleOwner(), new Observer<List<AbstractGroup>>() {
             @Override
-            public void onChanged(List<Group> groups) {
+            public void onChanged(List<AbstractGroup> groups) {
                 binding.progressBar.setVisibility(View.GONE);
-                GroupRecyclerAdapter a = (GroupRecyclerAdapter) adapter;
-                a.setGroupList(groups);
+                mAdapter.setGroupCards(groups);
             }
         });
 

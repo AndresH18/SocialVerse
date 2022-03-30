@@ -1,4 +1,4 @@
-package com.andresd.socialverse.ui.main.groups;
+package com.andresd.socialverse.ui.main.mygroups;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +19,6 @@ public class MyGroupsFragment extends Fragment {
 
     private MyGroupsViewModel groupsViewModel;
 
-
     public static MyGroupsFragment newInstance() {
         return new MyGroupsFragment();
     }
@@ -30,6 +29,7 @@ public class MyGroupsFragment extends Fragment {
 
         groupsViewModel = new ViewModelProvider(this).get(MyGroupsViewModel.class);
         binding = FragmentMyGroupsBinding.inflate(inflater, container, false);
+        groupsViewModel.hello = "HAS VALUE";
 
 //        groupsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
 //            @Override
@@ -41,17 +41,17 @@ public class MyGroupsFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-//        mViewModel = new ViewModelProvider(this).get(GroupsViewModel.class);
-    }
-
 //    @Override
 //    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 //        super.onActivityCreated(savedInstanceState);
 //        mViewModel = new ViewModelProvider(this).get(GroupsViewModel.class);
 //        // Use the ViewModel
 //    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
 
 }

@@ -1,8 +1,10 @@
-package com.andresd.socialverse.ui.main.groups;
+package com.andresd.socialverse.ui.main.mygroups;
 
 import androidx.lifecycle.ViewModel;
 
 public class MyGroupsViewModel extends ViewModel {
+
+    public String hello = "NO value";
 
 //    private MutableLiveData<String> mText;
 //

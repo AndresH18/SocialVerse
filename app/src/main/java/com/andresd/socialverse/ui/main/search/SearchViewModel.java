@@ -1,10 +1,11 @@
 package com.andresd.socialverse.ui.main.search;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.andresd.socialverse.data.model.Group;
+import com.andresd.socialverse.data.model.AbstractGroup;
 import com.andresd.socialverse.data.repository.GroupRepository;
 
 import java.util.Arrays;
@@ -13,7 +14,7 @@ import java.util.List;
 public class SearchViewModel extends ViewModel {
 
     //    private MutableLiveData<String> mText;
-    private MutableLiveData<List<Group>> groups = new MutableLiveData<>();
+    private MutableLiveData<List<AbstractGroup>> groups = new MutableLiveData<>();
 
     public SearchViewModel() {
 //        this.mText = new MutableLiveData<>();
@@ -27,10 +28,12 @@ public class SearchViewModel extends ViewModel {
 
     public void searchGroupsByTags(@NonNull String tags) {
         List<String> tagList = Arrays.asList(tags.replaceAll(" ", "").split(","));
-        GroupRepository.getInstance().searchGroupsByTag(tagList, this.groups);
+        GroupRepository.getInstance().searchGroupsByTags(tagList, groups);
     }
 
-    public MutableLiveData<List<Group>> getGroups() {
+    public LiveData<List<AbstractGroup>> getGroups() {
         return groups;
     }
+
+
 }

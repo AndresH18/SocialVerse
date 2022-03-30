@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.andresd.socialverse.data.model.User;
+import com.andresd.socialverse.data.model.AbstractUser;
 import com.andresd.socialverse.data.repository.UserRepository;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivityViewModel extends ViewModel {
     // some sort of user object?
     //
-    private MutableLiveData<User> currentUserLiveData = new MutableLiveData<>();
+    private MutableLiveData<AbstractUser> currentUser = new MutableLiveData<>();
     private MutableLiveData<UserAuthState> userState = new MutableLiveData<>();
     private String lastUID;
 
@@ -21,7 +21,7 @@ public class MainActivityViewModel extends ViewModel {
             userState.setValue(UserAuthState.VALID);
             lastUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 //            currentUserLiveData = UserRepository.getUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            UserRepository.getInstance().getUser(FirebaseAuth.getInstance().getCurrentUser().getUid(), currentUserLiveData);
+            UserRepository.getInstance().getUser(FirebaseAuth.getInstance().getCurrentUser().getUid(), currentUser);
         } else {
             userState.setValue(UserAuthState.NOT_LOGGED_IN);
         }

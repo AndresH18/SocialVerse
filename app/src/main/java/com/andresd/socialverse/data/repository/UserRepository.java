@@ -1,8 +1,11 @@
 package com.andresd.socialverse.data.repository;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.andresd.socialverse.data.model.AbstractUser;
 import com.andresd.socialverse.data.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -11,7 +14,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UserRepository {
 
-    public static final String USERS = "users";
+    private static final String TAG = UserRepository.class.getSimpleName();
+
+    private static final String COLLECTION_USERS = "users";
     private static UserRepository instance;
 
     private UserRepository() {
@@ -45,18 +50,23 @@ public class UserRepository {
 //        return user;
 //    }
 
-    public void getUser(@NonNull String uid, @NonNull MutableLiveData<User> userMutableLiveData) {
+    public void getUser(@NonNull String uid, @NonNull MutableLiveData<AbstractUser> userMutableLiveData) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(USERS).document(uid)
+        db.collection(COLLECTION_USERS).document(uid)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
+                    User user;
                     if (document.exists()) {
-                        User u = document.toObject(User.class);
-                        u.setId(document.getId());
-                        userMutableLiveData.postValue(u);
+                        user = document.toObject(User.class);
+                        if (user != null) {
+                            user.setId(document.getId());
+                            userMutableLiveData.postValue(user);
+                        } else {
+                            Log.e(TAG, "onComplete: document.toObject() is null");
+                        }
                     }
                 }
             }

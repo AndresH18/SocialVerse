@@ -17,7 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.andresd.socialverse.databinding.ActivityMainBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
-import com.andresd.socialverse.ui.main.groups.MyGroupsFragment;
+import com.andresd.socialverse.ui.main.mygroups.MyGroupsFragment;
 
 /**
  * <b>Main Activity</b>
