@@ -16,8 +16,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.andresd.socialverse.MainActivityViewModel;
-import com.andresd.socialverse.MainActivityViewModelFactory;
+import com.andresd.socialverse.ui.main.MainActivityViewModel;
+import com.andresd.socialverse.ui.main.MainActivityViewModelFactory;
 import com.andresd.socialverse.data.model.AbstractGroup;
 import com.andresd.socialverse.databinding.FragmentSearchBinding;
 import com.andresd.socialverse.ui.adapters.GroupCardRecyclerAdapter;
@@ -28,7 +28,6 @@ import java.util.List;
 public class SearchFragment extends Fragment {
 
     private FragmentSearchBinding binding;
-//    private SearchViewModel mViewModel;
     private MainActivityViewModel mViewModel;
 
     private RecyclerView.LayoutManager layoutManager;
@@ -43,7 +42,6 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-//        mViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         mViewModel = new ViewModelProvider(requireActivity(), new MainActivityViewModelFactory()).get(MainActivityViewModel.class);
         binding = FragmentSearchBinding.inflate(inflater, container, false);
 

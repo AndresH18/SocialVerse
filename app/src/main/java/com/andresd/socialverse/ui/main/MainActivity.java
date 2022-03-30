@@ -1,4 +1,4 @@
-package com.andresd.socialverse;
+package com.andresd.socialverse.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.andresd.socialverse.R;
 import com.andresd.socialverse.databinding.ActivityMainBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
 import com.andresd.socialverse.ui.main.mygroups.MyGroupsFragment;

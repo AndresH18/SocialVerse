@@ -10,8 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.andresd.socialverse.MainActivityViewModel;
-import com.andresd.socialverse.MainActivityViewModelFactory;
+import com.andresd.socialverse.ui.main.MainActivityViewModel;
+import com.andresd.socialverse.ui.main.MainActivityViewModelFactory;
 import com.andresd.socialverse.databinding.FragmentMyGroupsBinding;
 
 
@@ -19,7 +19,6 @@ public class MyGroupsFragment extends Fragment {
 
     private FragmentMyGroupsBinding binding;
 
-    //    private MyGroupsViewModel groupsViewModel;
     private MainActivityViewModel mViewModel;
 
     public static MyGroupsFragment newInstance() {
@@ -30,7 +29,6 @@ public class MyGroupsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-//        groupsViewModel = new ViewModelProvider(requireActivity()).get(MyGroupsViewModel.class);
         mViewModel = new ViewModelProvider(requireActivity(), new MainActivityViewModelFactory()).get(MainActivityViewModel.class);
         binding = FragmentMyGroupsBinding.inflate(inflater, container, false);
 
