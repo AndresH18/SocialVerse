@@ -11,10 +11,11 @@ import com.andresd.socialverse.data.repository.GroupRepository;
 import java.util.Arrays;
 import java.util.List;
 
+@Deprecated
 public class SearchViewModel extends ViewModel {
 
     //    private MutableLiveData<String> mText;
-    private MutableLiveData<List<AbstractGroup>> groups = new MutableLiveData<>();
+    private MutableLiveData<List<AbstractGroup>> searchGroups = new MutableLiveData<>();
 
     public SearchViewModel() {
 //        this.mText = new MutableLiveData<>();
@@ -23,16 +24,16 @@ public class SearchViewModel extends ViewModel {
 
     public void searchGroupByName(@NonNull String groupName) {
 //        GroupRepository.getInstance().searchGroup(groupName, this.groupLiveData);
-        GroupRepository.getInstance().searchGroupByName(groupName, groups);
+        GroupRepository.getInstance().searchGroupByName(groupName, searchGroups);
     }
 
     public void searchGroupsByTags(@NonNull String tags) {
         List<String> tagList = Arrays.asList(tags.replaceAll(" ", "").split(","));
-        GroupRepository.getInstance().searchGroupsByTags(tagList, groups);
+        GroupRepository.getInstance().searchGroupsByTags(tagList, searchGroups);
     }
 
-    public LiveData<List<AbstractGroup>> getGroups() {
-        return groups;
+    public LiveData<List<AbstractGroup>> getSearchGroups() {
+        return searchGroups;
     }
 
 

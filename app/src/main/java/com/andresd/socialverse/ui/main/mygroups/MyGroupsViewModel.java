@@ -2,6 +2,7 @@ package com.andresd.socialverse.ui.main.mygroups;
 
 import androidx.lifecycle.ViewModel;
 
+@Deprecated
 public class MyGroupsViewModel extends ViewModel {
 
     public String hello = "NO value";

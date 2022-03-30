@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.andresd.socialverse.MainActivityViewModel;
+import com.andresd.socialverse.MainActivityViewModelFactory;
 import com.andresd.socialverse.data.model.AbstractGroup;
 import com.andresd.socialverse.databinding.FragmentSearchBinding;
 import com.andresd.socialverse.ui.adapters.GroupCardRecyclerAdapter;
@@ -26,7 +28,8 @@ import java.util.List;
 public class SearchFragment extends Fragment {
 
     private FragmentSearchBinding binding;
-    private SearchViewModel mViewModel;
+//    private SearchViewModel mViewModel;
+    private MainActivityViewModel mViewModel;
 
     private RecyclerView.LayoutManager layoutManager;
     //    private RecyclerView.Adapter<GroupsRecyclerAdapter.ViewHolder> adapter;
@@ -40,7 +43,8 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        mViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+//        mViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity(), new MainActivityViewModelFactory()).get(MainActivityViewModel.class);
         binding = FragmentSearchBinding.inflate(inflater, container, false);
 
 //        searchViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -64,7 +68,7 @@ public class SearchFragment extends Fragment {
 //        binding.groupsRecyclerView.setAdapter(adapter);
 
 
-        mViewModel.getGroups().observe(getViewLifecycleOwner(), new Observer<List<AbstractGroup>>() {
+        mViewModel.getSearchGroups().observe(getViewLifecycleOwner(), new Observer<List<AbstractGroup>>() {
             @Override
             public void onChanged(List<AbstractGroup> groups) {
                 binding.progressBar.setVisibility(View.GONE);
