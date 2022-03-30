@@ -1,23 +1,26 @@
 package com.andresd.socialverse.data.model;
 
+import com.google.firebase.firestore.DocumentReference;
+
 import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractUser {
 
-    private String id;
+    private DocumentReference id;
     private String name;
-    // TODO : define type for List<T>
+    // TODO : define type for Map<String, Object>
+    //  esta asi porque la lista de grupos tiene una referencia
     private List<Map<String, Object>> groups;
 
     public AbstractUser() {
     }
 
-    public String getId() {
+    public DocumentReference getId() {
         return id;
     }
 
-    protected void setId(String id) {
+    protected void setId(DocumentReference id) {
         this.id = id;
     }
 
@@ -29,8 +32,8 @@ public abstract class AbstractUser {
         this.name = name;
     }
 
-    // TODO : define type for List<T>
-    public List getGroups() {
+    // TODO : define type for Map<String, Object>
+    public List<Map<String, Object>> getGroups() {
         return groups;
     }
 

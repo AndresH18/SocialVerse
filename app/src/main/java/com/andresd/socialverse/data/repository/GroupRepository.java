@@ -101,9 +101,4 @@ public class GroupRepository {
 //        return groupLiveData;
     }
 
-//    public void getUserGroups(@NonNull )
-
-    public void getGroups(@NonNull List<String> groupsIds) {
-//        FirebaseFirestore.getInstance().collection(GROUPS).;
-    }
 }

@@ -69,8 +69,8 @@ public class SearchFragment extends Fragment {
         mViewModel.getSearchGroups().observe(getViewLifecycleOwner(), new Observer<List<AbstractGroup>>() {
             @Override
             public void onChanged(List<AbstractGroup> groups) {
-                binding.progressBar.setVisibility(View.GONE);
                 mAdapter.setGroupCards(groups);
+                binding.progressBar.setVisibility(View.GONE);
             }
         });
 
@@ -92,14 +92,6 @@ public class SearchFragment extends Fragment {
 //            }
 //        });
 
-
-        /* Add Click listener to Button */
-        binding.searchButton.setOnClickListener(v -> {
-//            ((GroupRecyclerAdapter) adapter).add(
-//                    new String[]{"Peliculas", "Teatro", "Videojuegos"},
-//                    new String[]{"cine", "como los papas de batman", "Yaya, juegos"});
-            search();
-        });
         /* Add action listener to EditText */
         binding.searchGroupEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

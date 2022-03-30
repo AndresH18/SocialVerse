@@ -21,8 +21,9 @@ public class GroupCardRecyclerAdapter extends RecyclerView.Adapter<GroupCardRecy
     public GroupCardRecyclerAdapter() {
     }
 
-    public void setGroupCards(List<AbstractGroup> mGroupCards) {
-        this.groupCards = mGroupCards;
+    public void setGroupCards(List<AbstractGroup> groupList) {
+        this.groupCards = groupList;
+        notifyDataSetChanged();
     }
 
     @NonNull

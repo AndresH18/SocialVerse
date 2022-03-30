@@ -68,9 +68,14 @@ public class MainActivityViewModel extends ViewModel {
         return userState;
     }
 
+    public LiveData<AbstractUser> getCurrentUser() {
+        return currentUser;
+    }
+
     public LiveData<String> getText() {
         return mHomeText;
     }
+
 
     public enum UserAuthState {
         // TODO: use better states
