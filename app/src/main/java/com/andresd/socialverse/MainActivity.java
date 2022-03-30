@@ -27,6 +27,7 @@ import com.andresd.socialverse.ui.main.groups.MyGroupsFragment;
  * as well as the main {@link androidx.appcompat.widget.Toolbar} and
  * {@link com.google.android.material.bottomnavigation.BottomNavigationView}.</p>
  */
+
 public class MainActivity extends AppCompatActivity {
     /**
      * Logcat tag
