@@ -133,6 +133,14 @@ public class MainActivity extends AppCompatActivity {
         }
         // TODO (TESTING)
         if (item.getItemId() == R.id.refresh) {
+//            Snackbar.make(binding.coordinator, "Restarting Activity", Snackbar.LENGTH_LONG)
+//                    .setAction("Restart?", new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            startActivity(new Intent(MainActivity.this, MainActivity.class));
+//                            finish();
+//                        }
+//                    }).show();
             Toast.makeText(this, "Restarting Activity", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, MainActivity.class));
             finish();
