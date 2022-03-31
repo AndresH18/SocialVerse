@@ -19,7 +19,7 @@ import com.andresd.socialverse.databinding.FragmentSignUpBinding;
 
 /**
  * TODO: decide if there will be a sign up on the application
- *  if not -> delete all related items and modify UI, Navigation, etc
+ * if not -> delete all related items and modify UI, Navigation, etc
  */
 @SignUpElement
 public class SignUpFragment extends Fragment {
@@ -35,6 +35,13 @@ public class SignUpFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentSignUpBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // create viewModel
         mViewModel = new ViewModelProvider(requireActivity(), new LoginViewModelFactory()).get(LoginViewModel.class);
 
         final Button signUpButton = binding.signUpButton;
@@ -103,7 +110,7 @@ public class SignUpFragment extends Fragment {
                         passwordEditText.getText().toString());
             }
         });
-        return binding.getRoot();
+
     }
 
     @Override
