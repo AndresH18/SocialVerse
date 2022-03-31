@@ -15,9 +15,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.andresd.socialverse.ui.main.MainActivity;
 import com.andresd.socialverse.R;
 import com.andresd.socialverse.databinding.ActivityLoginBinding;
+import com.andresd.socialverse.ui.main.MainActivity;
 
 /**
  */
@@ -74,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
     /*
       FIXME: change name, describir mas la accion de ir a la siguiente actividad
        en lugar de que el usuario inicie sesion.

@@ -39,9 +39,15 @@ public class MyGroupsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
-        mViewModel = new ViewModelProvider(requireActivity(), new MainActivityViewModelFactory()).get(MainActivityViewModel.class);
         binding = FragmentMyGroupsBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // create viewModel
+        mViewModel = new ViewModelProvider(requireActivity(), new MainActivityViewModelFactory()).get(MainActivityViewModel.class);
 
         // create recycler view adapter
         mAdapter = new GroupCardRecyclerAdapter();
@@ -75,8 +81,6 @@ public class MyGroupsFragment extends Fragment {
 //                binding.textGroups.setText(s);
 //            }
 //        });
-
-        return binding.getRoot();
     }
 
     @Override

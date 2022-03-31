@@ -16,11 +16,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.andresd.socialverse.ui.main.MainActivityViewModel;
-import com.andresd.socialverse.ui.main.MainActivityViewModelFactory;
 import com.andresd.socialverse.data.model.AbstractGroup;
 import com.andresd.socialverse.databinding.FragmentSearchBinding;
 import com.andresd.socialverse.ui.adapters.GroupCardRecyclerAdapter;
+import com.andresd.socialverse.ui.main.MainActivityViewModel;
+import com.andresd.socialverse.ui.main.MainActivityViewModelFactory;
 
 import java.util.List;
 
@@ -41,10 +41,15 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
-        mViewModel = new ViewModelProvider(requireActivity(), new MainActivityViewModelFactory()).get(MainActivityViewModel.class);
         binding = FragmentSearchBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // create viewModel
+        mViewModel = new ViewModelProvider(requireActivity(), new MainActivityViewModelFactory()).get(MainActivityViewModel.class);
 //        searchViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
 //            @Override
 //            public void onChanged(String s) {
@@ -102,8 +107,6 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
-
-        return binding.getRoot();
     }
 
     private void search() {

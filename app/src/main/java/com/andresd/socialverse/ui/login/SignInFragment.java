@@ -37,9 +37,15 @@ public class SignInFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(requireActivity(), new LoginViewModelFactory()).get(LoginViewModel.class);
         binding = FragmentSignInBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState); // not required because super doesn't contain anything
+        // create the viewModel
+        mViewModel = new ViewModelProvider(requireActivity(), new LoginViewModelFactory()).get(LoginViewModel.class);
 
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
@@ -150,8 +156,6 @@ public class SignInFragment extends Fragment {
         // TODO: Delete test user and password
         binding.username.setText("testing@socialverse.test");
         binding.password.setText("socialTest");
-
-        return binding.getRoot();
     }
 
     @Override

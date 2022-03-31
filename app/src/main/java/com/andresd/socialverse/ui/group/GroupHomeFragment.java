@@ -25,14 +25,15 @@ public class GroupHomeFragment extends Fragment {
     ) {
 
         binding = FragmentGroupHomeBinding.inflate(inflater, container, false);
-        mViewModel = new ViewModelProvider(requireActivity(), new GroupViewModelFactory()).get(GroupViewModel.class);
 
         return binding.getRoot();
 
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+//        super.onViewCreated(view, savedInstanceState); // not required because super doesn't contain anything
+        // create the viewModel
+        mViewModel = new ViewModelProvider(requireActivity(), new GroupViewModelFactory()).get(GroupViewModel.class);
 
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override
