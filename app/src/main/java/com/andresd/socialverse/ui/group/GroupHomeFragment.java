@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.andresd.socialverse.data.model.AbstractGroup;
 import com.andresd.socialverse.databinding.FragmentGroupHomeBinding;
 
 public class GroupHomeFragment extends Fragment {
@@ -35,6 +37,14 @@ public class GroupHomeFragment extends Fragment {
         // create the viewModel
         mViewModel = new ViewModelProvider(requireActivity(), new GroupViewModelFactory()).get(GroupViewModel.class);
 
+        mViewModel.getGroup().observe(getViewLifecycleOwner(), new Observer<AbstractGroup>() {
+            @Override
+            public void onChanged(AbstractGroup abstractGroup) {
+                // TODO:
+                //  layout: create layout file, maybe use book guide for a collapsable toolbar, etc.
+                //  implement: show group information on layout.
+            }
+        });
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
