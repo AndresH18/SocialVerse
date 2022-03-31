@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     .commitNow();
         }*/
 
-
+        // create/get viewModel
         mViewModel = new ViewModelProvider(this, new MainActivityViewModelFactory()).get(MainActivityViewModel.class);
 
         /* Observe the state of the User Auth */

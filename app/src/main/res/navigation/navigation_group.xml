@@ -8,7 +8,7 @@
     <!-- TODO: Use argument as label -->
     <fragment
         android:id="@+id/GroupHome"
-        android:name="com.andresd.socialverse.ui.group.home.GroupHomeFragment"
+        android:name="com.andresd.socialverse.ui.group.GroupHomeFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_group_home">
         <!-- Test arg -->

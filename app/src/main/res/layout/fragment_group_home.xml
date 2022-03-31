@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.group.home.GroupHomeFragment">
+    tools:context=".ui.group.GroupHomeFragment">
 
     <TextView
         android:id="@+id/textview_first"

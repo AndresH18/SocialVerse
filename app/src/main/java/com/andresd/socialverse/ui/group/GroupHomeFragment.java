@@ -1,4 +1,4 @@
-package com.andresd.socialverse.ui.group.home;
+package com.andresd.socialverse.ui.group;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,12 +7,16 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.andresd.socialverse.databinding.FragmentGroupHomeBinding;
 
 public class GroupHomeFragment extends Fragment {
 
+    private static final String TAG = GroupHomeFragment.class.getSimpleName();
+
     private FragmentGroupHomeBinding binding;
+    private GroupViewModel mViewModel;
 
     @Override
     public View onCreateView(
@@ -21,6 +25,8 @@ public class GroupHomeFragment extends Fragment {
     ) {
 
         binding = FragmentGroupHomeBinding.inflate(inflater, container, false);
+        mViewModel = new ViewModelProvider(requireActivity(), new GroupViewModelFactory()).get(GroupViewModel.class);
+
         return binding.getRoot();
 
     }

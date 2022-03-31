@@ -23,7 +23,11 @@
         android:id="@+id/navigation_my_groups"
         android:name="com.andresd.socialverse.ui.main.mygroups.MyGroupsFragment"
         android:label="@string/title_my_groups"
-        tools:layout="@layout/fragment_my_groups" />
+        tools:layout="@layout/fragment_my_groups">
+        <action
+            android:id="@+id/navigate_to_GroupActivity"
+            app:destination="@id/groupActivity" />
+    </fragment>
     <activity
         android:id="@+id/groupActivity"
         android:name="com.andresd.socialverse.ui.group.GroupActivity"
