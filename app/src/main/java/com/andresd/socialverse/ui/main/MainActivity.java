@@ -19,6 +19,7 @@ import com.andresd.socialverse.R;
 import com.andresd.socialverse.databinding.ActivityMainBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
 import com.andresd.socialverse.ui.main.mygroups.MyGroupsFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * <b>Main Activity</b>
@@ -129,7 +130,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.sign_out) {
-            signOut();
+            Snackbar.make(binding.coordinator, R.string.question_sign_out, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.action_sign_out, view -> signOut()).show();
         }
         // TODO (TESTING)
         if (item.getItemId() == R.id.refresh) {
