@@ -58,7 +58,6 @@ public class GroupActivity extends AppCompatActivity {
         } catch (Exception exception) {
             Log.e(TAG, "onStart: Navigation Argument error", exception);
         }
-
     }
 
     @Override

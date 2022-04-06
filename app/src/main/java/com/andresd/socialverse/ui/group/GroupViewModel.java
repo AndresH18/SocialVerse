@@ -20,4 +20,5 @@ public class GroupViewModel extends ViewModel {
     public LiveData<AbstractGroup> getGroup() {
         return group;
     }
+
 }

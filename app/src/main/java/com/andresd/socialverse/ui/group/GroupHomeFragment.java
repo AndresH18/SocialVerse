@@ -42,7 +42,7 @@ public class GroupHomeFragment extends Fragment {
             public void onChanged(AbstractGroup abstractGroup) {
                 // TODO:
                 //  layout: create layout file, maybe use book guide for a collapsable toolbar, etc.
-                //  implement: show group information on layout.
+                //  implement: show group information on the layout.
             }
         });
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
