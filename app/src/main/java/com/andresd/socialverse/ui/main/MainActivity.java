@@ -129,12 +129,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.sign_out) {
+        if (item.getItemId() == R.id.menu_item_sign_out) {
             Snackbar.make(binding.coordinator, R.string.question_sign_out, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_sign_out, view -> signOut()).show();
         }
         // TODO (TESTING)
-        if (item.getItemId() == R.id.refresh) {
+        if (item.getItemId() == R.id.menu_item_refresh) {
 //            Snackbar.make(binding.coordinator, "Restarting Activity", Snackbar.LENGTH_LONG)
 //                    .setAction("Restart?", new View.OnClickListener() {
 //                        @Override
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_options, menu);
+        getMenuInflater().inflate(R.menu.menu_main_options, menu);
         return true;
     }
 

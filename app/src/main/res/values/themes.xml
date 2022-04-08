@@ -39,9 +39,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.SocialVerse.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.SocialVerse.NoActionBar.Dark.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.SocialVerse.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.SocialVerse.NoActionBar.Light.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <!--    <style name="Theme.SocialVerse.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
     <!--    <style name="Theme.SocialVerse.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
 </resources>

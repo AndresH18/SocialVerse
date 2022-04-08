@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.andresd.socialverse.databinding.FragmentSignUpBinding;
 
 /**
- * TODO: decide if there will be a sign up on the application
+ * TODO: decide if there will be a sign up on the application. Answer: There will be not
  * if not -> delete all related items and modify UI, Navigation, etc
  */
 @SignUpElement

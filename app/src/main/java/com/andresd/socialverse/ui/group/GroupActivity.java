@@ -2,8 +2,12 @@ package com.andresd.socialverse.ui.group;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -20,6 +24,7 @@ public class GroupActivity extends AppCompatActivity {
     private static final String TAG = GroupActivity.class.getSimpleName();
 
     private AppBarConfiguration appBarConfiguration;
+    private NavController navController;
     private ActivityGroupBinding binding;
     private GroupViewModel mViewModel;
 
@@ -32,9 +37,10 @@ public class GroupActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_group);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_group);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
         // create/get viewModel
         mViewModel = new ViewModelProvider(this, new GroupViewModelFactory()).get(GroupViewModel.class);
 
@@ -61,8 +67,28 @@ public class GroupActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_group_options, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        String message = "Options Item Message Holder";
+        if (item.getItemId() == R.id.menu_item_refresh) {
+            message = "Refresh";
+        } else if (item.getItemId() == R.id.menu_item_sign_out) {
+            message = "Sign Out";
+        } else if (item.getItemId() == R.id.menu_item_settings) {
+            message = "Settings";
+        }
+        Toast.makeText(GroupActivity.this, message, Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_group);
+//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_group);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }

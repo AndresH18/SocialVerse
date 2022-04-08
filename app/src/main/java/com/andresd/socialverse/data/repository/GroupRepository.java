@@ -51,7 +51,6 @@ public class GroupRepository {
      * @param mutableLiveData where to post the group
      */
     public void getGroup(@NonNull String id, @NonNull MutableLiveData<AbstractGroup> mutableLiveData) {
-        // TODO: search for group and post it on livedata
         FirebaseFirestore.getInstance().collection(COLLECTION_GROUPS).document(id)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
