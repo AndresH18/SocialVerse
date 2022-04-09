@@ -20,7 +20,7 @@ public class GroupCardRecyclerAdapter extends RecyclerView.Adapter<GroupCardRecy
     private static final String TAG = GroupCardRecyclerAdapter.class.getSimpleName();
 
     private List<AbstractGroup> groupCards = new ArrayList<>();
-    private OnCardItemSelectedListener onCardItemSelectedListener;
+    private final OnCardItemSelectedListener onCardItemSelectedListener;
 
     public GroupCardRecyclerAdapter(OnCardItemSelectedListener onCardItemSelectedListener) {
         this.onCardItemSelectedListener = onCardItemSelectedListener;
@@ -52,7 +52,7 @@ public class GroupCardRecyclerAdapter extends RecyclerView.Adapter<GroupCardRecy
         return groupCards.size();
     }
 
-    class AdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    protected class AdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // private ImageView itemImage;
         private TextView itemTitle;
         private TextView itemDetail;
