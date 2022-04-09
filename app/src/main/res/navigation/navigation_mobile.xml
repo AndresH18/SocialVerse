@@ -36,6 +36,11 @@
         <argument
             android:name="group_id"
             app:argType="string" />
+        <argument
+            android:name="user_id"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null" />
 
     </activity>
 

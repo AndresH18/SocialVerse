@@ -1,6 +1,7 @@
 package com.andresd.socialverse.ui.main.search;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,19 +14,23 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.andresd.socialverse.data.model.AbstractGroup;
+import com.andresd.socialverse.data.model.AbstractUser;
 import com.andresd.socialverse.databinding.FragmentSearchBinding;
 import com.andresd.socialverse.ui.adapters.GroupCardRecyclerAdapter;
 import com.andresd.socialverse.ui.main.MainActivityViewModel;
 import com.andresd.socialverse.ui.main.MainActivityViewModelFactory;
+import com.andresd.socialverse.ui.main.mygroups.MyGroupsFragmentDirections;
 
 import java.util.List;
 
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements GroupCardRecyclerAdapter.OnCardItemSelectedListener {
+    private static final String TAG = SearchFragment.class.getSimpleName();
 
     private FragmentSearchBinding binding;
     private MainActivityViewModel mViewModel;
@@ -64,7 +69,7 @@ public class SearchFragment extends Fragment {
         // set RecyclerView's layout manager
         binding.groupsRecyclerView.setLayoutManager(layoutManager);
         // create RecyclerView Adapter
-        mAdapter = new GroupCardRecyclerAdapter();
+        mAdapter = new GroupCardRecyclerAdapter(this);
 //        adapter = new GroupsRecyclerAdapter();
         // set RecyclerView's adapter
         binding.groupsRecyclerView.setAdapter(mAdapter);
@@ -124,5 +129,25 @@ public class SearchFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onCardItemClicked(String groupId) {
+        MyGroupsFragmentDirections.NavigateToGroupActivity directions = MyGroupsFragmentDirections.navigateToGroupActivity(groupId);
+        AbstractUser user = mViewModel.getCurrentUser().getValue();
 
+        if (user != null) {
+            directions.setUserId(mViewModel.getCurrentUser().getValue().getId());
+        }
+
+        try {
+            Navigation.findNavController(requireView()).navigate(directions);
+        } catch (Exception exception) {
+            Log.e(TAG, "onClick: Failed Navigation", exception);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
 }

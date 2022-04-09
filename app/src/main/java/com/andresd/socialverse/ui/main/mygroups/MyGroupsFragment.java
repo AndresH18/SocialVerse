@@ -1,6 +1,7 @@
 package com.andresd.socialverse.ui.main.mygroups;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.andresd.socialverse.data.model.AbstractGroup;
 import com.andresd.socialverse.data.model.AbstractUser;
@@ -25,7 +27,9 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MyGroupsFragment extends Fragment {
+public class MyGroupsFragment extends Fragment implements GroupCardRecyclerAdapter.OnCardItemSelectedListener {
+
+    private static final String TAG = MyGroupsFragment.class.getSimpleName();
 
     private FragmentMyGroupsBinding binding;
     private MainActivityViewModel mViewModel;
@@ -50,7 +54,7 @@ public class MyGroupsFragment extends Fragment {
         mViewModel = new ViewModelProvider(requireActivity(), new MainActivityViewModelFactory()).get(MainActivityViewModel.class);
 
         // create recycler view adapter
-        mAdapter = new GroupCardRecyclerAdapter();
+        mAdapter = new GroupCardRecyclerAdapter(this);
         // set recycler view Adapter
         binding.groupsRecyclerView.setAdapter(mAdapter);
 
@@ -81,6 +85,22 @@ public class MyGroupsFragment extends Fragment {
 //                binding.textGroups.setText(s);
 //            }
 //        });
+    }
+
+    @Override
+    public void onCardItemClicked(String groupId) {
+        MyGroupsFragmentDirections.NavigateToGroupActivity directions = MyGroupsFragmentDirections.navigateToGroupActivity(groupId);
+        AbstractUser user = mViewModel.getCurrentUser().getValue();
+
+        if (user != null) {
+            directions.setUserId(mViewModel.getCurrentUser().getValue().getId());
+        }
+
+        try {
+            Navigation.findNavController(requireView()).navigate(directions);
+        } catch (Exception exception) {
+            Log.e(TAG, "onClick: Failed Navigation", exception);
+        }
     }
 
     @Override

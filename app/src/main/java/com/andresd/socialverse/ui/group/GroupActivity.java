@@ -1,7 +1,6 @@
 package com.andresd.socialverse.ui.group;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,12 +57,12 @@ public class GroupActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        try {
-            String groupId = GroupActivityArgs.fromBundle(getIntent().getExtras()).getGroupId();
-            mViewModel.setGroupId(groupId);
-        } catch (Exception exception) {
-            Log.e(TAG, "onStart: Navigation Argument error", exception);
-        }
+//        try {
+        String groupId = GroupActivityArgs.fromBundle(getIntent().getExtras()).getGroupId();
+        mViewModel.setGroupId(groupId);
+//        } catch (Exception exception) {
+//            Log.e(TAG, "onStart: Navigation Argument error", exception);
+//        }
     }
 
     @Override
