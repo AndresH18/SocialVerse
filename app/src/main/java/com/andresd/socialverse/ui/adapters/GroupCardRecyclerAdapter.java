@@ -89,7 +89,4 @@ public class GroupCardRecyclerAdapter extends RecyclerView.Adapter<GroupCardRecy
         }
     }
 
-    public interface OnCardItemSelectedListener {
-        void onCardItemClicked(String groupId);
-    }
 }

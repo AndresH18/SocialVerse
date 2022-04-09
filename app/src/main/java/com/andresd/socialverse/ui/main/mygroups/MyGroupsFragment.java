@@ -18,6 +18,7 @@ import com.andresd.socialverse.data.model.AbstractUser;
 import com.andresd.socialverse.data.model.GroupCard;
 import com.andresd.socialverse.databinding.FragmentMyGroupsBinding;
 import com.andresd.socialverse.ui.adapters.GroupCardRecyclerAdapter;
+import com.andresd.socialverse.ui.adapters.OnCardItemSelectedListener;
 import com.andresd.socialverse.ui.main.MainActivityViewModel;
 import com.andresd.socialverse.ui.main.MainActivityViewModelFactory;
 import com.google.firebase.firestore.DocumentReference;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MyGroupsFragment extends Fragment implements GroupCardRecyclerAdapter.OnCardItemSelectedListener {
+public class MyGroupsFragment extends Fragment implements OnCardItemSelectedListener {
 
     private static final String TAG = MyGroupsFragment.class.getSimpleName();
 

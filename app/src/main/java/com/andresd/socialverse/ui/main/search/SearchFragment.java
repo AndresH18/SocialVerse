@@ -22,6 +22,7 @@ import com.andresd.socialverse.data.model.AbstractGroup;
 import com.andresd.socialverse.data.model.AbstractUser;
 import com.andresd.socialverse.databinding.FragmentSearchBinding;
 import com.andresd.socialverse.ui.adapters.GroupCardRecyclerAdapter;
+import com.andresd.socialverse.ui.adapters.OnCardItemSelectedListener;
 import com.andresd.socialverse.ui.main.MainActivityViewModel;
 import com.andresd.socialverse.ui.main.MainActivityViewModelFactory;
 import com.andresd.socialverse.ui.main.mygroups.MyGroupsFragmentDirections;
@@ -29,7 +30,7 @@ import com.andresd.socialverse.ui.main.mygroups.MyGroupsFragmentDirections;
 import java.util.List;
 
 
-public class SearchFragment extends Fragment implements GroupCardRecyclerAdapter.OnCardItemSelectedListener {
+public class SearchFragment extends Fragment implements OnCardItemSelectedListener {
     private static final String TAG = SearchFragment.class.getSimpleName();
 
     private FragmentSearchBinding binding;
