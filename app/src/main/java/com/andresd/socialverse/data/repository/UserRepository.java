@@ -53,7 +53,7 @@ public class UserRepository {
 //    }
 
     public void getUser(@NonNull String uid, @NonNull MutableLiveData<AbstractUser> userMutableLiveData) {
-        if (uid.equals(user.getId())) {
+        if (user != null && user.getId().equals(uid)) {
             userMutableLiveData.setValue(user);
         } else {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
