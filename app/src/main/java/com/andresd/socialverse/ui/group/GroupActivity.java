@@ -59,6 +59,7 @@ public class GroupActivity extends AppCompatActivity {
 
 //        try {
         String groupId = GroupActivityArgs.fromBundle(getIntent().getExtras()).getGroupId();
+        String userid = GroupActivityArgs.fromBundle(getIntent().getExtras()).getUserId();
         mViewModel.setGroupId(groupId);
 //        } catch (Exception exception) {
 //            Log.e(TAG, "onStart: Navigation Argument error", exception);

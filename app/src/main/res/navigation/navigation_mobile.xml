@@ -39,8 +39,7 @@
         <argument
             android:name="user_id"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="null" />
+            app:nullable="true" />
 
     </activity>
 

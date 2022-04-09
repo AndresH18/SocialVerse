@@ -90,12 +90,11 @@ public class MyGroupsFragment extends Fragment implements OnCardItemSelectedList
 
     @Override
     public void onCardItemClicked(String groupId) {
-        MyGroupsFragmentDirections.NavigateToGroupActivity directions = MyGroupsFragmentDirections.navigateToGroupActivity(groupId);
         AbstractUser user = mViewModel.getCurrentUser().getValue();
+        String userId = user != null ? user.getId() : null;
 
-        if (user != null) {
-            directions.setUserId(mViewModel.getCurrentUser().getValue().getId());
-        }
+        MyGroupsFragmentDirections.NavigateToGroupActivity directions =
+                MyGroupsFragmentDirections.navigateToGroupActivity(groupId, userId);
 
         try {
             Navigation.findNavController(requireView()).navigate(directions);
