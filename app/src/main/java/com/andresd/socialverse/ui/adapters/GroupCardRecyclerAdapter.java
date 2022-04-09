@@ -22,10 +22,6 @@ public class GroupCardRecyclerAdapter extends RecyclerView.Adapter<GroupCardRecy
     private List<AbstractGroup> groupCards = new ArrayList<>();
     private OnCardItemSelectedListener onCardItemSelectedListener;
 
-    public GroupCardRecyclerAdapter(String s) {
-
-    }
-
     public GroupCardRecyclerAdapter(OnCardItemSelectedListener onCardItemSelectedListener) {
         this.onCardItemSelectedListener = onCardItemSelectedListener;
     }
