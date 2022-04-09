@@ -3,6 +3,7 @@ package com.andresd.socialverse.ui.login;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,13 +38,17 @@ public class SignInFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView: started");
         binding = FragmentSignInBinding.inflate(inflater, container, false);
+        Log.i(TAG, "onCreateView: finished");
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState); // not required because super doesn't contain anything
+        Log.i(TAG, "onViewCreated: started");
+
         // create the viewModel
         mViewModel = new ViewModelProvider(requireActivity(), new LoginViewModelFactory()).get(LoginViewModel.class);
 
@@ -156,11 +161,56 @@ public class SignInFragment extends Fragment {
         // TODO: Delete test user and password
         binding.username.setText("testing@socialverse.test");
         binding.password.setText("socialTest");
+
+        Log.i(TAG, "onViewCreated: finished");
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate: started");
+
+        Log.i(TAG, "onCreate: finished");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart: started");
+
+        Log.i(TAG, "onStart: finished");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume: started");
+
+        Log.i(TAG, "onResume: finished");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause: started");
+
+        Log.i(TAG, "onPause: finsihed");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.i(TAG, "onDestroyView: started");
+
+        Log.i(TAG, "onDestroyView: finished");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.i(TAG, "onDestroy: started");
         binding = null;
+        Log.i(TAG, "onDestroy: finished");
     }
 }

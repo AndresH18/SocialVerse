@@ -47,13 +47,16 @@ public class SearchFragment extends Fragment implements OnCardItemSelectedListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView: started");
         binding = FragmentSearchBinding.inflate(inflater, container, false);
+        Log.i(TAG, "onCreateView: finished");
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.i(TAG, "onViewCreated: started");
         // create viewModel
         mViewModel = new ViewModelProvider(requireActivity(), new MainActivityViewModelFactory()).get(MainActivityViewModel.class);
 //        searchViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -113,6 +116,47 @@ public class SearchFragment extends Fragment implements OnCardItemSelectedListen
                 return false;
             }
         });
+
+        Log.i(TAG, "onViewCreated: finished");
+    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate: started");
+
+        Log.i(TAG, "onCreate: finished");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart: started");
+
+        Log.i(TAG, "onStart: finished");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume: started");
+
+        Log.i(TAG, "onResume: finished");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause: started");
+
+        Log.i(TAG, "onPause: finsihed");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.i(TAG, "onDestroyView: started");
+
+        Log.i(TAG, "onDestroyView: finished");
     }
 
     private void search() {
@@ -148,6 +192,8 @@ public class SearchFragment extends Fragment implements OnCardItemSelectedListen
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.i(TAG, "onDestroy: started");
         binding = null;
+        Log.i(TAG, "onDestroy: finished");
     }
 }

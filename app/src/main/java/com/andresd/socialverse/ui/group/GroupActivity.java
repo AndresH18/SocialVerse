@@ -1,6 +1,7 @@
 package com.andresd.socialverse.ui.group;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +31,7 @@ public class GroupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate: started");
 
         binding = ActivityGroupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -51,24 +53,72 @@ public class GroupActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        Log.i(TAG, "onCreate: finished");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        Log.i(TAG, "onStart: Started");
 
 //        try {
         String groupId = GroupActivityArgs.fromBundle(getIntent().getExtras()).getGroupId();
         String userid = GroupActivityArgs.fromBundle(getIntent().getExtras()).getUserId();
         mViewModel.setGroupId(groupId);
+        mViewModel.setUser(userid);
 //        } catch (Exception exception) {
 //            Log.e(TAG, "onStart: Navigation Argument error", exception);
 //        }
+
+        Log.i(TAG, "onStart: finished");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i(TAG, "onRestart: started");
+
+        Log.i(TAG, "onRestart: finished");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume: started");
+
+        Log.i(TAG, "onResume: finished");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause: started");
+
+        Log.i(TAG, "onPause: finished");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop: started");
+
+        Log.i(TAG, "onStop: finished");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy: started");
+
+        Log.i(TAG, "onDestroy: finished");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.i(TAG, "onCreateOptionsMenu: started");
         getMenuInflater().inflate(R.menu.menu_group_options, menu);
+        Log.i(TAG, "onCreateOptionsMenu: finished");
         return true;
     }
 

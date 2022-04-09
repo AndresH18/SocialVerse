@@ -19,6 +19,8 @@ public class UserRepository {
     private static final String COLLECTION_USERS = "users";
     private static UserRepository instance;
 
+    private User user;
+
     private UserRepository() {
     }
 
@@ -51,26 +53,29 @@ public class UserRepository {
 //    }
 
     public void getUser(@NonNull String uid, @NonNull MutableLiveData<AbstractUser> userMutableLiveData) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(COLLECTION_USERS).document(uid)
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    User user;
-                    if (document.exists()) {
-                        user = document.toObject(User.class);
-                        if (user != null) {
-                            user.setId(document.getId());
-                            userMutableLiveData.postValue(user);
-                        } else {
-                            Log.e(TAG, "onComplete: document.toObject() is null");
+        if (uid.equals(user.getId())) {
+            userMutableLiveData.setValue(user);
+        } else {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection(COLLECTION_USERS).document(uid)
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            user = document.toObject(User.class);
+                            if (user != null) {
+                                user.setId(document.getId());
+                                userMutableLiveData.postValue(user);
+                            } else {
+                                Log.e(TAG, "onComplete: document.toObject() is null");
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
 }

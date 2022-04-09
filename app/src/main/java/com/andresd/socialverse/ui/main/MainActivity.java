@@ -2,6 +2,7 @@ package com.andresd.socialverse.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate: started");
 
         // setting the content view,
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 //        binding.navView.setOnItemSelectedListener(this);
-
+        Log.i(TAG, "onCreate: finished");
     }
 
     /**
@@ -151,8 +153,58 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart: started");
+
+        Log.i(TAG, "onStart: finished");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i(TAG, "onRestart: started");
+
+        Log.i(TAG, "onRestart: finished");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume: started");
+
+        Log.i(TAG, "onResume: finished");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause: started");
+
+        Log.i(TAG, "onPause: finished");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop: started");
+
+        Log.i(TAG, "onStop: finished");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy: started");
+
+        Log.i(TAG, "onDestroy: finished");
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.i(TAG, "onCreateOptionsMenu: started");
         getMenuInflater().inflate(R.menu.menu_main_options, menu);
+        Log.i(TAG, "onCreateOptionsMenu: finished");
         return true;
     }
 

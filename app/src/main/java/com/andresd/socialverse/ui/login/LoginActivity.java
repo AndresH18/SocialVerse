@@ -3,6 +3,7 @@ package com.andresd.socialverse.ui.login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -23,6 +24,8 @@ import com.andresd.socialverse.ui.main.MainActivity;
  */
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = LoginActivity.class.getSimpleName();
+
     private AppBarConfiguration appBarConfiguration;
     private NavController navController;
 
@@ -33,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate: started");
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -72,7 +76,55 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+        Log.i(TAG, "onCreate: finished");
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart: started");
+
+        Log.i(TAG, "onStart: finished");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i(TAG, "onRestart: started");
+
+        Log.i(TAG, "onRestart: finished");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume: started");
+
+        Log.i(TAG, "onResume: finished");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause: started");
+
+        Log.i(TAG, "onPause: finished");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop: started");
+
+        Log.i(TAG, "onStop: finished");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy: started");
+
+        Log.i(TAG, "onDestroy: finished");
     }
 
     /*
