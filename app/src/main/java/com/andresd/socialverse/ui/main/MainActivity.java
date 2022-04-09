@@ -175,6 +175,14 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i(TAG, "onResume: finished");
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // called after onResume
+        Log.i(TAG, "onCreateOptionsMenu: started");
+        getMenuInflater().inflate(R.menu.menu_main_options, menu);
+        Log.i(TAG, "onCreateOptionsMenu: finished");
+        return true;
+    }
 
     @Override
     protected void onPause() {
@@ -200,13 +208,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "onDestroy: finished");
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        Log.i(TAG, "onCreateOptionsMenu: started");
-        getMenuInflater().inflate(R.menu.menu_main_options, menu);
-        Log.i(TAG, "onCreateOptionsMenu: finished");
-        return true;
-    }
+
 
     @Override
     public boolean onSupportNavigateUp() {

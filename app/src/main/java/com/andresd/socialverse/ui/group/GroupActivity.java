@@ -91,6 +91,15 @@ public class GroupActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // called after onResume
+        Log.i(TAG, "onCreateOptionsMenu: started");
+        getMenuInflater().inflate(R.menu.menu_group_options, menu);
+        Log.i(TAG, "onCreateOptionsMenu: finished");
+        return true;
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         Log.i(TAG, "onPause: started");
@@ -114,13 +123,7 @@ public class GroupActivity extends AppCompatActivity {
         Log.i(TAG, "onDestroy: finished");
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        Log.i(TAG, "onCreateOptionsMenu: started");
-        getMenuInflater().inflate(R.menu.menu_group_options, menu);
-        Log.i(TAG, "onCreateOptionsMenu: finished");
-        return true;
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
