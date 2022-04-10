@@ -84,6 +84,8 @@ public class GroupActivity extends AppCompatActivity {
             Log.i(TAG, "onChanged: menus are equal");
             menu.findItem(R.id.menu_item_schedule).setVisible(true);
             binding.fab.setVisibility(View.VISIBLE);
+            // TODO: continuar implementando la personalización si el usuario esta suscrito al grupo,
+            // TODO: crear fragmento para ver los horarios del grupo y modificar/crear
 //
         } else {
 
