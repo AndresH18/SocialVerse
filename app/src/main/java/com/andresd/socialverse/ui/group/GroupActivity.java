@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -16,6 +17,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.andresd.socialverse.R;
+import com.andresd.socialverse.data.model.AbstractGroup;
+import com.andresd.socialverse.data.model.AbstractUser;
 import com.andresd.socialverse.databinding.ActivityGroupBinding;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -23,10 +26,14 @@ public class GroupActivity extends AppCompatActivity {
 
     private static final String TAG = GroupActivity.class.getSimpleName();
 
+    private GroupViewModel mViewModel;
+
+    private ActivityGroupBinding binding;
+    private Menu menu;
+
     private AppBarConfiguration appBarConfiguration;
     private NavController navController;
-    private ActivityGroupBinding binding;
-    private GroupViewModel mViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +60,38 @@ public class GroupActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        mViewModel.getGroup().observe(this, new Observer<AbstractGroup>() {
+            @Override
+            public void onChanged(AbstractGroup abstractGroup) {
+                customizeLayout();
+            }
+        });
+        mViewModel.getUser().observe(this, new Observer<AbstractUser>() {
+            @Override
+            public void onChanged(AbstractUser abstractUser) {
+                customizeLayout();
+            }
+        });
+
 
         Log.i(TAG, "onCreate: finished");
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i(TAG, "onStart: Started");
+    private void customizeLayout() {
+        if (mViewModel.isUserSubscribed()) {
+            // customize the layout for user belonging to group
+//          menu == binding.toolbar.getMenu()
+            Log.i(TAG, "onChanged: menus are equal");
+            menu.findItem(R.id.menu_item_schedule).setVisible(true);
+            binding.fab.setVisibility(View.VISIBLE);
+//
+        } else {
 
+        }
+    }
+
+    private void getBundleArguments() {
+        Log.i(TAG, "getBundleArguments: getting arguments from bundle");
 //        try {
         String groupId = GroupActivityArgs.fromBundle(getIntent().getExtras()).getGroupId();
         String userid = GroupActivityArgs.fromBundle(getIntent().getExtras()).getUserId();
@@ -70,7 +100,14 @@ public class GroupActivity extends AppCompatActivity {
 //        } catch (Exception exception) {
 //            Log.e(TAG, "onStart: Navigation Argument error", exception);
 //        }
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart: Started");
+        // getting the arguments from the bundle and posting them on the viewModel
+        getBundleArguments();
         Log.i(TAG, "onStart: finished");
     }
 
@@ -95,6 +132,8 @@ public class GroupActivity extends AppCompatActivity {
         // called after onResume
         Log.i(TAG, "onCreateOptionsMenu: started");
         getMenuInflater().inflate(R.menu.menu_group_options, menu);
+
+        this.menu = menu;
         Log.i(TAG, "onCreateOptionsMenu: finished");
         return true;
     }
@@ -122,7 +161,6 @@ public class GroupActivity extends AppCompatActivity {
 
         Log.i(TAG, "onDestroy: finished");
     }
-
 
 
     @Override

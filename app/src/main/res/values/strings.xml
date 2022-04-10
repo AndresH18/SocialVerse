@@ -20,6 +20,8 @@
     <string name="action_sign_up">Sign Up</string>
     <string name="action_sign_out">Sign Out</string>
     <string name="action_search_tags">By Tags</string>
+    <string name="action_view_schedule">Schedule</string>
+    <string name="action_add_time">Add Time</string>
     <!--Requests-->
     <string name="question_sign_out">Sign Out?</string>
 

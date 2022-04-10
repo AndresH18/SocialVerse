@@ -11,14 +11,16 @@ import com.andresd.socialverse.data.model.AbstractUser;
 import com.andresd.socialverse.data.repository.GroupRepository;
 import com.andresd.socialverse.data.repository.UserRepository;
 
+import java.util.Map;
+
 public class GroupViewModel extends ViewModel {
 
     private MutableLiveData<AbstractGroup> group = new MutableLiveData<>();
-    private MutableLiveData<AbstractUser> userLiveData;
+    private MutableLiveData<AbstractUser> user;
 
     public GroupViewModel() {
         // TODO : get user if exists and put it on livedata
-        userLiveData = new MutableLiveData<>();
+        user = new MutableLiveData<>();
     }
 
     public void setGroupId(@NonNull String groupId) {
@@ -27,9 +29,9 @@ public class GroupViewModel extends ViewModel {
 
     public void setUser(@Nullable String userId) {
         if (userId != null) {
-            UserRepository.getInstance().getUser(userId, userLiveData);
+            UserRepository.getInstance().getUser(userId, user);
         } else {
-            userLiveData.setValue(null);
+            user.setValue(null);
         }
     }
 
@@ -40,11 +42,24 @@ public class GroupViewModel extends ViewModel {
      */
     public boolean isUserSubscribed() {
         // TODO : Implement.
+        if (user.getValue() != null && group.getValue() != null) {
+            for (Map<String, Object> groups : user.getValue().getGroups()) {
+                Object g = groups.get("id");
+                if (g != null && group.getValue().getId().equals(g)) {
+                    return true;
+                }
+            }
+        }
         return false;
+
+
     }
 
     public LiveData<AbstractGroup> getGroup() {
         return group;
     }
 
+    public LiveData<AbstractUser> getUser() {
+        return user;
+    }
 }

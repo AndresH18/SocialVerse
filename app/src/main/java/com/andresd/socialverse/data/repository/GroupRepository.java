@@ -10,6 +10,7 @@ import com.andresd.socialverse.data.model.GroupCard;
 import com.andresd.socialverse.data.model.MutableGroup;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -58,8 +59,28 @@ public class GroupRepository {
                 if (task.isSuccessful()) {
                     DocumentSnapshot documentSnapshot = task.getResult();
                     if (documentSnapshot.exists()) {
-                        AbstractGroup group = documentSnapshot.toObject(MutableGroup.class);
+                        MutableGroup group = documentSnapshot.toObject(MutableGroup.class);
                         if (group != null) {
+                            group.setId(documentSnapshot.getReference());
+                            mutableLiveData.postValue(group);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    public void getGroup(@NonNull DocumentReference reference, @NonNull MutableLiveData<AbstractGroup> mutableLiveData) {
+        FirebaseFirestore.getInstance().document(reference.getPath())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if (documentSnapshot.exists()) {
+                        MutableGroup group = documentSnapshot.toObject(MutableGroup.class);
+                        if (group != null) {
+                            group.setId(documentSnapshot.getReference());
                             mutableLiveData.postValue(group);
                         }
                     }
