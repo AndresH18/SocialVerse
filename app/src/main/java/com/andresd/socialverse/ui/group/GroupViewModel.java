@@ -16,11 +16,13 @@ import java.util.Map;
 
 public class GroupViewModel extends ViewModel {
 
-    private MediatorLiveData<Boolean> userSubscriptionMediatorLiveData = new MediatorLiveData<>();
-    private MutableLiveData<AbstractGroup> group = new MutableLiveData<>();
-    private MutableLiveData<AbstractUser> user = new MutableLiveData<>();
+    private final MediatorLiveData<Boolean> userSubscriptionMediatorLiveData = new MediatorLiveData<>();
+    private final MutableLiveData<AbstractGroup> group = new MutableLiveData<>();
+    private final MutableLiveData<AbstractUser> user = new MutableLiveData<>();
 
     public GroupViewModel() {
+        // listen livedata and notifies changes to the mediatorLiveData to via the observer,
+        // this allows to observe the livedata inside the ViewModel and respond to its changes
         userSubscriptionMediatorLiveData.addSource(user,
                 u -> userSubscriptionMediatorLiveData.setValue(checkUserSubscribed()));
     }
