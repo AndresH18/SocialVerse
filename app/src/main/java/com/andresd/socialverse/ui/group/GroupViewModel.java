@@ -16,11 +16,11 @@ import java.util.Map;
 public class GroupViewModel extends ViewModel {
 
     private MutableLiveData<AbstractGroup> group = new MutableLiveData<>();
-    private MutableLiveData<AbstractUser> user;
+    private MutableLiveData<AbstractUser> user = new MutableLiveData<>();
+
+    private boolean userSubscribed = false;
 
     public GroupViewModel() {
-        // TODO : get user if exists and put it on livedata
-        user = new MutableLiveData<>();
     }
 
     public void setGroupId(@NonNull String groupId) {
@@ -40,20 +40,18 @@ public class GroupViewModel extends ViewModel {
      *
      * @return true if subscribed, false otherwise.
      */
-    public boolean isUserSubscribed() {
-        // TODO : Implement.
+    public boolean checkUserSubscribed() {
         if (user.getValue() != null && group.getValue() != null) {
-            for (Map<String, Object> groups : user.getValue().getGroups()) {
-                Object g = groups.get("id");
+            for (Map<String, Object> groupMap : user.getValue().getGroups()) {
+                Object g = groupMap.get("id");
                 if (g != null && group.getValue().getId().equals(g)) {
                     return true;
                 }
             }
         }
         return false;
-
-
     }
+
 
     public LiveData<AbstractGroup> getGroup() {
         return group;

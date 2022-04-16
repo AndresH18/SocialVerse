@@ -78,7 +78,7 @@ public class GroupActivity extends AppCompatActivity {
     }
 
     private void customizeLayout() {
-        if (mViewModel.isUserSubscribed()) {
+        if (mViewModel.checkUserSubscribed()) {
             // customize the layout for user belonging to group
 //          menu == binding.toolbar.getMenu()
             Log.i(TAG, "onChanged: menus are equal");
