@@ -3,6 +3,7 @@ package com.andresd.socialverse.ui.group;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -15,12 +16,13 @@ import java.util.Map;
 
 public class GroupViewModel extends ViewModel {
 
+    private MediatorLiveData<Boolean> userSubscriptionMediatorLiveData = new MediatorLiveData<>();
     private MutableLiveData<AbstractGroup> group = new MutableLiveData<>();
     private MutableLiveData<AbstractUser> user = new MutableLiveData<>();
 
-    private boolean userSubscribed = false;
-
     public GroupViewModel() {
+        userSubscriptionMediatorLiveData.addSource(user,
+                u -> userSubscriptionMediatorLiveData.setValue(checkUserSubscribed()));
     }
 
     public void setGroupId(@NonNull String groupId) {
@@ -40,7 +42,7 @@ public class GroupViewModel extends ViewModel {
      *
      * @return true if subscribed, false otherwise.
      */
-    public boolean checkUserSubscribed() {
+    private boolean checkUserSubscribed() {
         if (user.getValue() != null && group.getValue() != null) {
             for (Map<String, Object> groupMap : user.getValue().getGroups()) {
                 Object g = groupMap.get("id");
@@ -48,6 +50,14 @@ public class GroupViewModel extends ViewModel {
                     return true;
                 }
             }
+        }
+        return false;
+    }
+
+    public boolean isUserSubscribed() {
+        Boolean b = userSubscriptionMediatorLiveData.getValue();
+        if (b != null) {
+            return b;
         }
         return false;
     }
@@ -60,4 +70,6 @@ public class GroupViewModel extends ViewModel {
     public LiveData<AbstractUser> getUser() {
         return user;
     }
+
+
 }
