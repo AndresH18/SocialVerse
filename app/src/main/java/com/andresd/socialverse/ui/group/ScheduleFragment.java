@@ -9,12 +9,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.andresd.socialverse.data.model.AbstractScheduleItem;
 import com.andresd.socialverse.databinding.FragmentScheduleItemListBinding;
-import com.andresd.socialverse.ui.group.placeholder.PlaceholderContent;
+
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -27,6 +30,8 @@ public class ScheduleFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+
+    private MyScheduleRecyclerViewAdapter adapter;
 
     private FragmentScheduleItemListBinding binding;
     private GroupViewModel mViewModel;
@@ -69,8 +74,9 @@ public class ScheduleFragment extends Fragment {
             binding.list.setLayoutManager(new GridLayoutManager(requireContext(), mColumnCount));
         }
         // Set the adapter
-        binding.list.setAdapter(new MyScheduleRecyclerViewAdapter(PlaceholderContent.ITEMS));
-
+//        binding.list.setAdapter(new MyScheduleRecyclerViewAdapter(PlaceholderContent.ITEMS));
+        adapter = new MyScheduleRecyclerViewAdapter();
+        binding.list.setAdapter(adapter);
         return binding.getRoot();
     }
 
@@ -81,6 +87,12 @@ public class ScheduleFragment extends Fragment {
 
         mViewModel = new ViewModelProvider(requireActivity(), new GroupViewModelFactory()).get(GroupViewModel.class);
         mViewModel.setIsViewOnSchedule(true);
+        mViewModel.getScheduleItemsList().observe(getViewLifecycleOwner(), new Observer<List<AbstractScheduleItem>>() {
+            @Override
+            public void onChanged(List<AbstractScheduleItem> abstractScheduleItems) {
+                adapter.setValues(abstractScheduleItems);
+            }
+        });
 
     }
 

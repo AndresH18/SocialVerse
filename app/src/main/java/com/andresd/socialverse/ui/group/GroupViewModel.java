@@ -8,10 +8,13 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.andresd.socialverse.data.model.AbstractGroup;
+import com.andresd.socialverse.data.model.AbstractScheduleItem;
 import com.andresd.socialverse.data.model.AbstractUser;
 import com.andresd.socialverse.data.repository.GroupRepository;
 import com.andresd.socialverse.data.repository.UserRepository;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class GroupViewModel extends ViewModel {
@@ -19,6 +22,7 @@ public class GroupViewModel extends ViewModel {
     private final MediatorLiveData<Boolean> userSubscriptionMediatorLiveData = new MediatorLiveData<>();
     private final MutableLiveData<AbstractGroup> group = new MutableLiveData<>();
     private final MutableLiveData<AbstractUser> user = new MutableLiveData<>();
+    private final MutableLiveData<List<AbstractScheduleItem>> scheduleItemsList = new MutableLiveData<>(new LinkedList<>());
 
     private final MutableLiveData<Boolean> isViewOnSchedule = new MutableLiveData<>(false);
 
@@ -85,7 +89,11 @@ public class GroupViewModel extends ViewModel {
         return user;
     }
 
-    public LiveData<Boolean> getViewOnSchedule() {
+    public LiveData<Boolean> getIsViewOnSchedule() {
         return isViewOnSchedule;
+    }
+
+    public LiveData<List<AbstractScheduleItem>> getScheduleItemsList() {
+        return scheduleItemsList;
     }
 }

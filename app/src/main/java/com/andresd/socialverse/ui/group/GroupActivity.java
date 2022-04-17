@@ -151,7 +151,7 @@ public class GroupActivity extends AppCompatActivity {
 
         // setting the subscription observer
         mViewModel.getUserSubscriptionMediatorLiveData().observe(this, subscriptionObserver);
-        mViewModel.getViewOnSchedule().observe(this, scheduleViewVisibilityObserver);
+        mViewModel.getIsViewOnSchedule().observe(this, scheduleViewVisibilityObserver);
 
 
         Log.i(TAG, "onCreateOptionsMenu: finished");
@@ -164,7 +164,7 @@ public class GroupActivity extends AppCompatActivity {
         Log.i(TAG, "onPause: started");
 
         mViewModel.getUserSubscriptionMediatorLiveData().removeObserver(subscriptionObserver);
-        mViewModel.getViewOnSchedule().removeObserver(scheduleViewVisibilityObserver);
+        mViewModel.getIsViewOnSchedule().removeObserver(scheduleViewVisibilityObserver);
 
 
         Log.i(TAG, "onPause: finished");
@@ -198,7 +198,7 @@ public class GroupActivity extends AppCompatActivity {
             message = "Settings";
         } else if (item.getItemId() == R.id.schedules) {
             message = "Schedules";
-            Boolean b = mViewModel.getViewOnSchedule().getValue();
+            Boolean b = mViewModel.getIsViewOnSchedule().getValue();
             if (b != null && !b) {
 //            if (mViewModel.getViewOnSchedule() != null && !mViewModel.getViewOnSchedule().getValue()) {
                 // FIXME : mViewModel.setIsViewOnSchedule(true);
@@ -211,7 +211,7 @@ public class GroupActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        Boolean b = mViewModel.getViewOnSchedule().getValue();
+        Boolean b = mViewModel.getIsViewOnSchedule().getValue();
 //        if (isViewOnSchedule)
         if (b != null && b)
             mViewModel.setIsViewOnSchedule(false);
