@@ -9,7 +9,7 @@
         android:visible="true"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/menu_item_schedule"
+        android:id="@+id/schedules"
         android:icon="@drawable/icon_clock"
         android:title="@string/action_view_schedule"
         android:visible="false"

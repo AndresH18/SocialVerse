@@ -11,6 +11,7 @@
     <string name="title_my_groups">My Groups</string>
     <string name="title_sign_in">Sign In</string>
     <string name="title_sign_up">Sign Up</string>
+    <string name="title_schedule">Schedule</string>
     <!--Prompts-->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -24,7 +25,7 @@
     <string name="action_add_time">Add Time</string>
     <!--Requests-->
     <string name="question_sign_out">Sign Out?</string>
-
+<!---->
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>

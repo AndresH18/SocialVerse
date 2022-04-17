@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,10 +16,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.andresd.socialverse.R;
-import com.andresd.socialverse.data.model.AbstractGroup;
-import com.andresd.socialverse.data.model.AbstractUser;
 import com.andresd.socialverse.databinding.ActivityGroupBinding;
-import com.google.android.material.snackbar.Snackbar;
 
 public class GroupActivity extends AppCompatActivity {
 
@@ -28,11 +24,59 @@ public class GroupActivity extends AppCompatActivity {
 
     private GroupViewModel mViewModel;
 
-    private ActivityGroupBinding binding;
+    public ActivityGroupBinding binding;
     private Menu menu;
 
     private AppBarConfiguration appBarConfiguration;
     private NavController navController;
+
+
+    private Observer<Boolean> subscriptionObserver = new Observer<Boolean>() {
+        @Override
+        public void onChanged(Boolean v) {
+            if (v != null) {
+                menu.findItem(R.id.schedules).setVisible(v);
+//                binding.postFab.setVisibility(v ? View.VISIBLE : View.GONE);
+            }
+        }
+
+    };
+
+    private Observer<Boolean> scheduleViewVisibilityObserver = new Observer<Boolean>() {
+        @Override
+        public void onChanged(Boolean aBoolean) {
+            /*if (aBoolean != null) {
+                if (mViewModel.isUserSubscribed()) {
+                    if (aBoolean) {
+                        //  mViewModel.setIsViewOnSchedule(true);
+                        //
+                        menu.findItem(R.id.schedules).setVisible(false);
+//                        binding.postFab.setVisibility(View.GONE);
+                        //
+
+                    } else {
+                        // mViewModel.setIsViewOnSchedule(false);
+                        //
+                        menu.findItem(R.id.schedules).setVisible(true);
+//                        binding.postFab.setVisibility(View.VISIBLE);
+                        //
+
+                    }
+                } else {
+                    menu.findItem(R.id.schedules).setVisible(true);
+//                    binding.postFab.setVisibility(View.VISIBLE);
+                }
+            }*/
+            if (aBoolean != null) {
+                if (mViewModel.isUserSubscribed()) {
+                    menu.findItem(R.id.schedules).setVisible(!aBoolean);
+                } else {
+                    menu.findItem(R.id.schedules).setVisible(true);
+//                    binding.postFab.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+    };
 
 
     @Override
@@ -52,44 +96,12 @@ public class GroupActivity extends AppCompatActivity {
         // create/get viewModel
         mViewModel = new ViewModelProvider(this, new GroupViewModelFactory()).get(GroupViewModel.class);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO:
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        mViewModel.getGroup().observe(this, new Observer<AbstractGroup>() {
-            @Override
-            public void onChanged(AbstractGroup abstractGroup) {
-                customizeLayout();
-            }
-        });
-        mViewModel.getUser().observe(this, new Observer<AbstractUser>() {
-            @Override
-            public void onChanged(AbstractUser abstractUser) {
-                customizeLayout();
-            }
-        });
+
+//        mViewModel.getGroup().observe
+//        mViewModel.getUser().observe
 
 
         Log.i(TAG, "onCreate: finished");
-    }
-
-    private void customizeLayout() {
-        if (mViewModel.isUserSubscribed()) {
-            // customize the layout for user belonging to group
-//          menu == binding.toolbar.getMenu()
-            Log.i(TAG, "onChanged: menus are equal");
-            menu.findItem(R.id.menu_item_schedule).setVisible(true);
-            binding.fab.setVisibility(View.VISIBLE);
-            // TODO: continuar implementando la personalización si el usuario esta suscrito al grupo,
-            // TODO: crear fragmento para ver los horarios del grupo y modificar/crear
-//
-        } else {
-
-        }
     }
 
     private void getBundleArguments() {
@@ -136,6 +148,12 @@ public class GroupActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_group_options, menu);
 
         this.menu = menu;
+
+        // setting the subscription observer
+        mViewModel.getUserSubscriptionMediatorLiveData().observe(this, subscriptionObserver);
+        mViewModel.getViewOnSchedule().observe(this, scheduleViewVisibilityObserver);
+
+
         Log.i(TAG, "onCreateOptionsMenu: finished");
         return true;
     }
@@ -144,6 +162,10 @@ public class GroupActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.i(TAG, "onPause: started");
+
+        mViewModel.getUserSubscriptionMediatorLiveData().removeObserver(subscriptionObserver);
+        mViewModel.getViewOnSchedule().removeObserver(scheduleViewVisibilityObserver);
+
 
         Log.i(TAG, "onPause: finished");
     }
@@ -174,15 +196,29 @@ public class GroupActivity extends AppCompatActivity {
             message = "Sign Out";
         } else if (item.getItemId() == R.id.menu_item_settings) {
             message = "Settings";
+        } else if (item.getItemId() == R.id.schedules) {
+            message = "Schedules";
+            Boolean b = mViewModel.getViewOnSchedule().getValue();
+            if (b != null && !b) {
+//            if (mViewModel.getViewOnSchedule() != null && !mViewModel.getViewOnSchedule().getValue()) {
+                // FIXME : mViewModel.setIsViewOnSchedule(true);
+                NavigationUI.onNavDestinationSelected(item, navController);
+            }
         }
         Toast.makeText(GroupActivity.this, message, Toast.LENGTH_SHORT).show();
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onSupportNavigateUp() {
+        Boolean b = mViewModel.getViewOnSchedule().getValue();
+//        if (isViewOnSchedule)
+        if (b != null && b)
+            mViewModel.setIsViewOnSchedule(false);
 //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_group);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
 }

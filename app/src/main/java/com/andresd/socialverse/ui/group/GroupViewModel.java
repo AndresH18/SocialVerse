@@ -20,10 +20,14 @@ public class GroupViewModel extends ViewModel {
     private final MutableLiveData<AbstractGroup> group = new MutableLiveData<>();
     private final MutableLiveData<AbstractUser> user = new MutableLiveData<>();
 
+    private final MutableLiveData<Boolean> isViewOnSchedule = new MutableLiveData<>(false);
+
     public GroupViewModel() {
         // listen livedata and notifies changes to the mediatorLiveData to via the observer,
         // this allows to observe the livedata inside the ViewModel and respond to its changes
         userSubscriptionMediatorLiveData.addSource(user,
+                u -> userSubscriptionMediatorLiveData.setValue(checkUserSubscribed()));
+        userSubscriptionMediatorLiveData.addSource(group,
                 u -> userSubscriptionMediatorLiveData.setValue(checkUserSubscribed()));
     }
 
@@ -64,6 +68,14 @@ public class GroupViewModel extends ViewModel {
         return false;
     }
 
+    public void setIsViewOnSchedule(boolean isViewOnSchedule) {
+        this.isViewOnSchedule.postValue(isViewOnSchedule);
+    }
+
+
+    public LiveData<Boolean> getUserSubscriptionMediatorLiveData() {
+        return userSubscriptionMediatorLiveData;
+    }
 
     public LiveData<AbstractGroup> getGroup() {
         return group;
@@ -73,5 +85,7 @@ public class GroupViewModel extends ViewModel {
         return user;
     }
 
-
+    public LiveData<Boolean> getViewOnSchedule() {
+        return isViewOnSchedule;
+    }
 }
