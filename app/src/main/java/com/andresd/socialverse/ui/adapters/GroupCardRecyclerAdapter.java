@@ -69,7 +69,8 @@ public class GroupCardRecyclerAdapter extends RecyclerView.Adapter<GroupCardRecy
 
         @Override
         public void onClick(View v) {
-            int position = getAdapterPosition();
+//            int position = getAdapterPosition();
+            int position = getBindingAdapterPosition();
             Log.d(TAG, "onClick: selected item:" + position);
             AbstractGroup group = groupCards.get(position);
             String groupId = group.getId().getId();

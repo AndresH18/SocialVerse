@@ -13,8 +13,7 @@ import com.andresd.socialverse.data.model.AbstractUser;
 import com.andresd.socialverse.data.repository.GroupRepository;
 import com.andresd.socialverse.data.repository.UserRepository;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class GroupViewModel extends ViewModel {
@@ -22,7 +21,7 @@ public class GroupViewModel extends ViewModel {
     private final MediatorLiveData<Boolean> userSubscriptionMediatorLiveData = new MediatorLiveData<>();
     private final MutableLiveData<AbstractGroup> group = new MutableLiveData<>();
     private final MutableLiveData<AbstractUser> user = new MutableLiveData<>();
-    private final MutableLiveData<List<AbstractScheduleItem>> scheduleItemsList = new MutableLiveData<>(new LinkedList<>());
+    private final MutableLiveData<ArrayList<AbstractScheduleItem>> scheduleItemsList = new MutableLiveData<>(new ArrayList<>());
 
     private final MutableLiveData<Boolean> isViewOnSchedule = new MutableLiveData<>(false);
 
@@ -64,6 +63,10 @@ public class GroupViewModel extends ViewModel {
         return false;
     }
 
+    public void addSchedule(@NonNull AbstractScheduleItem scheduleItem) {
+
+    }
+
     public boolean isUserSubscribed() {
         Boolean b = userSubscriptionMediatorLiveData.getValue();
         if (b != null) {
@@ -93,7 +96,7 @@ public class GroupViewModel extends ViewModel {
         return isViewOnSchedule;
     }
 
-    public LiveData<List<AbstractScheduleItem>> getScheduleItemsList() {
+    public LiveData<ArrayList<AbstractScheduleItem>> getScheduleItemsList() {
         return scheduleItemsList;
     }
 }

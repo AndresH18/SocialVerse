@@ -2,9 +2,11 @@ package com.andresd.socialverse.data.model;
 
 import androidx.annotation.NonNull;
 
-public class AbstractScheduleItem {
+import com.google.firebase.Timestamp;
 
-    private String dateTime;
+public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
+
+    private Timestamp timestamp;
     private String title;
     private String details;
 
@@ -12,18 +14,20 @@ public class AbstractScheduleItem {
         // required Empty Constructor
     }
 
-    protected AbstractScheduleItem(String dateTime, String title, String details) {
-        this.dateTime = dateTime;
+    protected AbstractScheduleItem(Timestamp dateTime, String title, String details) {
+        this.timestamp = dateTime;
         this.title = title;
         this.details = details;
+//        dateTime = new Timestamp(new java.util.Date());
     }
 
-    public String getDateTime() {
-        return dateTime;
+
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 
-    protected void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    protected void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getTitle() {
@@ -42,10 +46,36 @@ public class AbstractScheduleItem {
         this.details = details;
     }
 
+    @Override
+    public int compareTo(AbstractScheduleItem o) {
+        return timestamp.compareTo(o.timestamp);
+    }
+
     @NonNull
     @Override
     public String toString() {
         return title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AbstractScheduleItem that = (AbstractScheduleItem) o;
+
+        if (timestamp != null ? !timestamp.equals(that.timestamp) : that.timestamp != null)
+            return false;
+        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        return details != null ? details.equals(that.details) : that.details == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = timestamp != null ? timestamp.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (details != null ? details.hashCode() : 0);
+        return result;
     }
 
     public static class MutableScheduleItem extends AbstractScheduleItem {
@@ -53,13 +83,13 @@ public class AbstractScheduleItem {
         public MutableScheduleItem() {
         }
 
-        public MutableScheduleItem(String dateTime, String title, String details) {
-            super(dateTime, title, details);
+        public MutableScheduleItem(Timestamp timestamp, String title, String details) {
+            super(timestamp, title, details);
         }
 
         @Override
-        public void setDateTime(String dateTime) {
-            super.setDateTime(dateTime);
+        public void setTimestamp(Timestamp timestamp) {
+            super.setTimestamp(timestamp);
         }
 
         @Override

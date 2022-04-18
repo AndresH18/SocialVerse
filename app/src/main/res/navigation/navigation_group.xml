@@ -21,7 +21,16 @@
     </fragment>
     <fragment
         android:id="@+id/schedules"
+        android:name="com.andresd.socialverse.ui.group.MySchedulesFragment"
+        android:label="@string/title_schedule"
+        tools:layout="@layout/fragment_my_schedules_list" >
+        <action
+            android:id="@+id/action_schedules_to_addScheduleFragment"
+            app:destination="@id/scheduleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scheduleFragment"
         android:name="com.andresd.socialverse.ui.group.ScheduleFragment"
         android:label="@string/title_schedule"
-        tools:layout="@layout/fragment_schedule_item_list" />
+        tools:layout="@layout/fragment_schedule" />
 </navigation>

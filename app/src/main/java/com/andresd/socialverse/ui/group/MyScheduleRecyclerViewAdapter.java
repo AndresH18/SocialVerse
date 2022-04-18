@@ -4,35 +4,61 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.andresd.socialverse.data.model.AbstractScheduleItem;
 import com.andresd.socialverse.databinding.FragmentScheduleItemBinding;
-import com.andresd.socialverse.ui.group.placeholder.PlaceholderContent.PlaceholderItem;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
- * TODO: Replace the implementation with code for your data type.
- */
+
 public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MyScheduleRecyclerViewAdapter.ViewHolder> {
 
-    private List<AbstractScheduleItem> mValues = new LinkedList<>();
+    private MyScheduleRecyclerViewAdapter.OnItemListener mOnItemListener;
+    private ArrayList<AbstractScheduleItem> mValues = new ArrayList<>();
 
 //    public MyScheduleRecyclerViewAdapter(@NonNull List<AbstractScheduleItem> items) {
 //        mValues = items;
 //    }
 
-    public MyScheduleRecyclerViewAdapter() {
+    public MyScheduleRecyclerViewAdapter(OnItemListener onItemListener) {
+        this.mOnItemListener = onItemListener;
+    }
+
+    public void updateDataSet(@NonNull ArrayList<AbstractScheduleItem> values) {
+        // FIXME : Implementar bien
+        if (mValues.size() == values.size()) {
+            mValues = values;
+            notifyDataSetChanged();
+        } else {
+
+            if (mValues.size() > values.size()) {
+                // items where removed
+                removeItems();
+            } else {
+                // items where added
+                insertItems();
+            }
+        }
+         /*
+         FIXME : Tener en cuenta la forma en la que se van a agregar y remover horarios, porque si se hace uno a la vez
+            entonces la implementacion es mas facil.
+            Para remover elementos se puede ver si el metodo de getcursor del viewholder sirve para obtener el indice, o usando la interfaz "OnItemListener"
+            para asi informar que se elimino, agrego, modifico.
+        */
+
+        // TODO : crear implementacion para buscar en donde agregar el elemento, usando metodo de busqueda
+        // TODO : crear implementacion para buscar en donde se quito el elemento
+    }
+
+    private void insertItems() {
 
     }
 
-    public void setValues(List<AbstractScheduleItem> values) {
-        mValues = values;
-        notifyDataSetChanged();
-        // TODO : crear implementacion para mejor manejo del notify change del adapter
+    private void removeItems() {
+
     }
 
     @Override
@@ -45,7 +71,8 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mDateTime.setText(mValues.get(position).getDateTime());
+        // FIXME : FORMAT timestamp to date
+        holder.mDate.setText(mValues.get(position).getTimestamp().toDate().toString());
         holder.mTitle.setText(mValues.get(position).getTitle());
         holder.mDetails.setText(mValues.get(position).getDetails());
     }
@@ -56,21 +83,61 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView mDateTime;
+        private TextView mDate;
+        private TextView mTime;
         private TextView mTitle;
         private TextView mDetails;
         private AbstractScheduleItem mItem;
 
         public ViewHolder(FragmentScheduleItemBinding binding) {
             super(binding.getRoot());
-            mDateTime = binding.dateTimeTextView;
+            mDate = binding.dateTextView;
+            mTime = binding.timeTextView;
             mTitle = binding.titleTextView;
             mDetails = binding.detailsTextView;
+
+            binding.editImageButton.setOnClickListener(v -> mOnItemListener.onModifyItem());
+            binding.deleteImageButton.setOnClickListener(v -> mOnItemListener.onDeleteItem());
         }
 
         @Override
         public String toString() {
             return super.toString() + " '" + mTitle.getText() + "'";
+        }
+    }
+
+
+    public interface OnItemListener {
+
+        void onDeleteItem();
+
+        void onModifyItem();
+
+    }
+
+
+    // FIXME
+    static class Formatter {
+        /* FORMATTERS */
+        private static final SimpleDateFormat formatter12 = new SimpleDateFormat("yyyy-MM-dd HH:mm aa");
+        private static final SimpleDateFormat formatter24 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+        public static final String format12Hour(java.util.Date date) {
+        /*
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm aa");
+        Date d = new Date(1647508626000L);
+        System.out.println(formatter.format(d));
+         */
+            return formatter12.format(date);
+        }
+
+        public static final String format24Hour(java.util.Date date) {
+        /*
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm aa");
+        Date d = new Date(1647508626000L);
+        System.out.println(formatter.format(d));
+         */
+            return formatter24.format(date);
         }
     }
 }

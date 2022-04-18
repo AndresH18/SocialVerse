@@ -9,46 +9,49 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.andresd.socialverse.data.model.AbstractScheduleItem;
-import com.andresd.socialverse.databinding.FragmentScheduleItemListBinding;
-
-import java.util.List;
+import com.andresd.socialverse.databinding.FragmentScheduleBinding;
 
 /**
- * A fragment representing a list of Items.
+ * A simple {@link Fragment} subclass.
+ * Use the {@link ScheduleFragment#newInstance} factory method to
+ * create an instance of this fragment.
  */
 public class ScheduleFragment extends Fragment {
 
     private static final String TAG = ScheduleFragment.class.getSimpleName();
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+    private FragmentScheduleBinding binding;
 
-    private MyScheduleRecyclerViewAdapter adapter;
-
-    private FragmentScheduleItemListBinding binding;
     private GroupViewModel mViewModel;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
     public ScheduleFragment() {
+        // Required empty public constructor
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static ScheduleFragment newInstance(int columnCount) {
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment AddScheduleFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static ScheduleFragment newInstance(String param1, String param2) {
         ScheduleFragment fragment = new ScheduleFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,81 +59,32 @@ public class ScheduleFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG, "onCreate: ");
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView: ");
+        // Inflate the layout for this fragment
+        Log.i(TAG, "onCreateView: inflating layout");
+        binding = FragmentScheduleBinding.inflate(inflater, container, false);
 
-        binding = FragmentScheduleItemListBinding.inflate(inflater, container, false);
-        if (mColumnCount <= 1) {
-            binding.list.setLayoutManager(new LinearLayoutManager(requireContext()));
-        } else {
-            binding.list.setLayoutManager(new GridLayoutManager(requireContext(), mColumnCount));
-        }
-        // Set the adapter
-//        binding.list.setAdapter(new MyScheduleRecyclerViewAdapter(PlaceholderContent.ITEMS));
-        adapter = new MyScheduleRecyclerViewAdapter();
-        binding.list.setAdapter(adapter);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Log.i(TAG, "onViewCreated: ");
+        super.onViewCreated(view, savedInstanceState); // not required
+        Log.i(TAG, "onViewCreated: acquiring view model");
 
         mViewModel = new ViewModelProvider(requireActivity(), new GroupViewModelFactory()).get(GroupViewModel.class);
-        mViewModel.setIsViewOnSchedule(true);
-        mViewModel.getScheduleItemsList().observe(getViewLifecycleOwner(), new Observer<List<AbstractScheduleItem>>() {
-            @Override
-            public void onChanged(List<AbstractScheduleItem> abstractScheduleItems) {
-                adapter.setValues(abstractScheduleItems);
-            }
-        });
-
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.i(TAG, "onStart: ");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.i(TAG, "onResume: ");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.i(TAG, "onPause: ");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.i(TAG, "onStop: ");
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.i(TAG, "onSaveInstanceState: ");
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG, "onDestroy: ");
-        mViewModel.setIsViewOnSchedule(false);
-        binding = null;
+    private void addSchedule() {
+        // TODO : implement code to add the schedule to the schedule list through the view model
+        mViewModel.addSchedule(null);
     }
 }
