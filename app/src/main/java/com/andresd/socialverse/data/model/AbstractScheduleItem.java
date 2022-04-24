@@ -4,8 +4,11 @@ import androidx.annotation.NonNull;
 
 import com.google.firebase.Timestamp;
 
+import java.util.Date;
+
 public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
 
+    // FIXME : use java.util.Date?
     private Timestamp timestamp;
     private String title;
     private String details;
@@ -78,6 +81,7 @@ public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
         return result;
     }
 
+
     public static class MutableScheduleItem extends AbstractScheduleItem {
 
         public MutableScheduleItem() {
@@ -85,6 +89,10 @@ public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
 
         public MutableScheduleItem(Timestamp timestamp, String title, String details) {
             super(timestamp, title, details);
+        }
+
+        public MutableScheduleItem(Date date, String title, String details) {
+            super(new Timestamp(date), title, details);
         }
 
         @Override

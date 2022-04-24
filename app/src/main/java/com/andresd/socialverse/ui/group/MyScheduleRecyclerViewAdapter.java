@@ -29,7 +29,7 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
 
     public void updateDataSet(@NonNull ArrayList<AbstractScheduleItem> values) {
         // FIXME : Implementar bien
-        if (mValues.size() == values.size()) {
+        if (mValues.size() == values.size() || true) {
             mValues = values;
             notifyDataSetChanged();
         } else {
@@ -54,11 +54,11 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
     }
 
     private void insertItems() {
-
+        // TODO
     }
 
     private void removeItems() {
-
+        // TODO
     }
 
     @Override

@@ -32,5 +32,11 @@
         android:id="@+id/scheduleFragment"
         android:name="com.andresd.socialverse.ui.group.ScheduleFragment"
         android:label="@string/title_schedule"
-        tools:layout="@layout/fragment_schedule" />
+        tools:layout="@layout/fragment_schedule" >
+        <argument
+            android:name="scheduleItem"
+            app:argType="com.andresd.socialverse.data.model.AbstractScheduleItem"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>

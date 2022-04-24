@@ -45,7 +45,6 @@ public class MySchedulesFragment extends Fragment implements MyScheduleRecyclerV
     }
 
     // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
     public static MySchedulesFragment newInstance(int columnCount) {
         MySchedulesFragment fragment = new MySchedulesFragment();
         Bundle args = new Bundle();
@@ -75,10 +74,8 @@ public class MySchedulesFragment extends Fragment implements MyScheduleRecyclerV
             binding.list.setLayoutManager(new GridLayoutManager(requireContext(), mColumnCount));
         }
         // Set the adapter
-//        binding.list.setAdapter(new MyScheduleRecyclerViewAdapter(PlaceholderContent.ITEMS));
         adapter = new MyScheduleRecyclerViewAdapter(this);
         binding.list.setAdapter(adapter);
-
 
         /* Listeners */
 

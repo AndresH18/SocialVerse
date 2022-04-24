@@ -63,8 +63,9 @@ public class GroupViewModel extends ViewModel {
         return false;
     }
 
-    public void addSchedule(@NonNull AbstractScheduleItem scheduleItem) {
-
+    public boolean addSchedule(@NonNull AbstractScheduleItem scheduleItem) {
+        // TODO: Implement
+        return false;
     }
 
     public boolean isUserSubscribed() {
