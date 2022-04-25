@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/schedules"
-        android:name="com.andresd.socialverse.ui.group.MySchedulesFragment"
+        android:name="com.andresd.socialverse.ui.group.MySchedulesListFragment"
         android:label="@string/title_schedule"
         tools:layout="@layout/fragment_my_schedules_list" >
         <action
@@ -34,9 +34,7 @@
         android:label="@string/title_schedule"
         tools:layout="@layout/fragment_schedule" >
         <argument
-            android:name="scheduleItem"
-            app:argType="com.andresd.socialverse.data.model.AbstractScheduleItem"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            android:name="itemId"
+            app:argType="integer" />
     </fragment>
 </navigation>

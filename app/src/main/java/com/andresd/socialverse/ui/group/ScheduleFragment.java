@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,8 +30,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
-
-public class ScheduleFragment extends Fragment implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+public class ScheduleFragment extends Fragment implements TextWatcher,
+        TimePickerDialog.OnTimeSetListener,
+        DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = ScheduleFragment.class.getSimpleName();
 
@@ -40,52 +42,34 @@ public class ScheduleFragment extends Fragment implements TimePickerDialog.OnTim
     private DialogsFactory.DateDialog dateDialog;
     private DialogsFactory.TimeDialog timeDialog;
 
+    private AbstractScheduleItem.MutableScheduleItem mScheduleItem;
 
-    private AbstractScheduleItem.MutableScheduleItem mItem;
+    private LocalDateTime mLocalDateTime = LocalDateTime.now();
+
     private String mTitle = "";
     private String mDetails = "";
-    private int mYear = LocalDateTime.now().getYear();
-    private int mMonth = LocalDateTime.now().getMonthValue();
-    private int mDayOfMonth = LocalDateTime.now().getDayOfMonth();
-    private int mHourOfDay = LocalDateTime.now().getHour();
-    private int mMinute = LocalDateTime.now().getMinute();
+    private int mYear = mLocalDateTime.getYear();
+    private int mMonth = mLocalDateTime.getMonthValue();
+    private int mDayOfMonth = mLocalDateTime.getDayOfMonth();
+    private int mHourOfDay = mLocalDateTime.getHour();
+    private int mMinute = mLocalDateTime.getMinute();
 
 
-    private TextWatcher textChangeListener = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            // Do Nothing
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // Do Nothing
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            mTitle = binding.titleEditText.getText().toString();
-            mDetails = binding.detailsEditText.getText().toString();
-        }
-    };
-
-
+    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.i(TAG, "onCreateView: inflating layout");
         binding = FragmentScheduleBinding.inflate(inflater, container, false);
 
-
-        binding.titleEditText.addTextChangedListener(textChangeListener);
-        binding.detailsEditText.addTextChangedListener(textChangeListener);
+        binding.titleEditText.addTextChangedListener(this);
+        binding.detailsEditText.addTextChangedListener(this);
 
         binding.dateImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (dateDialog == null) {
-                    dateDialog = new DialogsFactory.DateDialog(ScheduleFragment.this);
+                    dateDialog = new DialogsFactory.DateDialog(ScheduleFragment.this, mLocalDateTime);
                 }
                 dateDialog.show(requireActivity().getSupportFragmentManager(), "datePicker");
             }
@@ -95,9 +79,9 @@ public class ScheduleFragment extends Fragment implements TimePickerDialog.OnTim
             @Override
             public void onClick(View v) {
                 if (timeDialog == null) {
-                    timeDialog = new DialogsFactory.TimeDialog(ScheduleFragment.this);
+                    timeDialog = new DialogsFactory.TimeDialog(ScheduleFragment.this, mLocalDateTime);
                 }
-                timeDialog.show(requireActivity().getSupportFragmentManager(), "timePicker");
+                timeDialog.show(requireActivity().getSupportFragmentManager(), "timeDialog");
             }
         });
 
@@ -112,11 +96,11 @@ public class ScheduleFragment extends Fragment implements TimePickerDialog.OnTim
         binding.saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mTitle.trim().isEmpty() || mDetails.trim().isEmpty()) {
-                    if (mTitle.trim().isEmpty()) {
+                if (mTitle.isEmpty() || mDetails.isEmpty()) {
+                    if (mTitle.isEmpty()) {
                         binding.titleEditText.setError(getString(R.string.invalid_title));
                     }
-                    if (mDetails.trim().isEmpty()) {
+                    if (mDetails.isEmpty()) {
                         binding.detailsEditText.setError(getString(R.string.invalid_detail));
                     }
                 } else {
@@ -125,54 +109,55 @@ public class ScheduleFragment extends Fragment implements TimePickerDialog.OnTim
             }
         });
 
-
-
-
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState); // not required
-        Log.i(TAG, "onViewCreated: acquiring view model");
+        super.onViewCreated(view, savedInstanceState);
 
+        Log.i(TAG, "onViewCreated: retrieving arguments");
         ScheduleFragmentArgs args = ScheduleFragmentArgs.fromBundle(getArguments());
-        // FIXME : Do I need to be Fixed?
-        mItem = (AbstractScheduleItem.MutableScheduleItem) args.getScheduleItem();
 
+        Log.i(TAG, "onViewCreated: getting view Model");
         mViewModel = new ViewModelProvider(requireActivity(), new GroupViewModelFactory()).get(GroupViewModel.class);
 
-        if (mItem != null) {
-            binding.titleEditText.setText(mItem.getTitle());
+        if (args.getItemId() >= 0) {
+            // an item was selected
+            mScheduleItem = (AbstractScheduleItem.MutableScheduleItem) mViewModel.getItem(args.getItemId());
 
-            binding.detailsEditText.setText(mItem.getDetails());
+            mLocalDateTime = mScheduleItem.getTimestamp().toDate().toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDateTime();
 
+            mTitle = mScheduleItem.getTitle();
+            mDetails = mScheduleItem.getDetails();
+            mYear = mLocalDateTime.getYear();
+            mMonth = mLocalDateTime.getMonthValue();
+            mDayOfMonth = mLocalDateTime.getDayOfMonth();
+            mHourOfDay = mLocalDateTime.getHour();
+            mMinute = mLocalDateTime.getMinute();
+
+            binding.titleEditText.setText(mTitle);
+            binding.detailsEditText.setText(mDetails);
         } else {
-            binding.date.setText(DateTimeFormatter.ofPattern("yyyy-MMMM-dd", Locale.getDefault()).
-                    format(LocalDateTime.of(mYear,
-                            mMonth,
-                            mDayOfMonth,
-                            mHourOfDay,
-                            mMinute)));
-            binding.time.setText(DateTimeFormatter.ofPattern("hh:mm a", Locale.getDefault()).
-                    format(LocalDateTime.of(mYear,
-                            mMonth,
-                            mDayOfMonth,
-                            mHourOfDay,
-                            mMinute)));
+            // no item selected -> new ShceduleItem
         }
-
-
+        binding.date.setText(DateTimeFormatter.ofPattern("yyyy-MMMM-dd", Locale.getDefault())
+                .format(mLocalDateTime));
+        binding.time.setText(DateTimeFormatter.ofPattern("hh:mm a")
+                .format(mLocalDateTime));
     }
 
     private void addSchedule(View v) {
+        binding.progressBar.setVisibility(View.VISIBLE);
 
-//        Date d = new Date(mYear, mMonth, mDayOfMonth, mHourOfDay, mMinute);
+        /*
+         Date d = new Date(mYear, mMonth, mDayOfMonth, mHourOfDay, mMinute);
         LocalDateTime now = LocalDateTime.of(mYear, mMonth, mDayOfMonth, mHourOfDay, mMinute);
         Date d = Date.from(now.atZone(ZoneId.systemDefault())
                 .toInstant());
 
-        // TODO: si custom parceable funciona de Navigation, devolver el item modificado....
         AbstractScheduleItem.MutableScheduleItem item = new AbstractScheduleItem.MutableScheduleItem(d, mTitle, mDetails);
 
         if (mViewModel.addSchedule(item)) {
@@ -180,6 +165,54 @@ public class ScheduleFragment extends Fragment implements TimePickerDialog.OnTim
         } else {
             Snackbar.make(v, R.string.result_failed, Snackbar.LENGTH_SHORT).show();
         }
+         */
+        Date date = Date.from(mLocalDateTime.atZone(ZoneId.systemDefault()).toInstant());
+
+        if (mScheduleItem == null) {
+            AbstractScheduleItem.MutableScheduleItem item = new AbstractScheduleItem.MutableScheduleItem(date, mTitle, mDetails);
+            if (mViewModel.addScheduleItem(item)) {
+                Toast.makeText(requireContext(), R.string.result_saved, Toast.LENGTH_SHORT).show();
+                requireActivity().onBackPressed();
+            } else {
+                Snackbar.make(v, R.string.result_failed, Snackbar.LENGTH_SHORT).show();
+            }
+        } else {
+            mScheduleItem.setTimestamp(date);
+            mScheduleItem.setTitle(mTitle);
+            mScheduleItem.setDetails(mDetails);
+
+            if (mViewModel.updateElement(mScheduleItem)) {
+                Toast.makeText(requireContext(), R.string.result_update_successful, Toast.LENGTH_SHORT).show();
+                requireActivity().onBackPressed();
+            } else {
+                Snackbar.make(v, R.string.result_update_failed, Snackbar.LENGTH_SHORT).show();
+            }
+
+        }
+
+        binding.progressBar.setVisibility(View.GONE);
+
+    }
+
+    private void setDate(int year, int month, int dayOfMonth) {
+        mYear = year;
+        mMonth = month;
+        mDayOfMonth = dayOfMonth;
+
+        mLocalDateTime = LocalDateTime.of(mYear, mMonth, mDayOfMonth, mHourOfDay, mMinute);
+
+        String date = DateTimeFormatter.ofPattern("yyyy-MMMM-dd", Locale.getDefault()).format(mLocalDateTime);
+        binding.date.setText(date);
+    }
+
+    private void setTime(int hourOfDay, int minute) {
+        mHourOfDay = hourOfDay;
+        mMinute = minute;
+
+        mLocalDateTime = LocalDateTime.of(mYear, mMonth, mDayOfMonth, mHourOfDay, mMinute);
+
+        String time = DateTimeFormatter.ofPattern("hh:mm a").format(mLocalDateTime);
+        binding.time.setText(time);
     }
 
     @Override
@@ -187,26 +220,31 @@ public class ScheduleFragment extends Fragment implements TimePickerDialog.OnTim
         setDate(year, month + 1, dayOfMonth);
     }
 
-
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         setTime(hourOfDay, minute);
     }
 
-    private void setTime(int hourOfDay, int minute) {
-        mHourOfDay = hourOfDay;
-        mMinute = minute;
-        // String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute);
-        String time = DateTimeFormatter.ofPattern("hh:mm a").format(LocalDateTime.of(mYear, mMonth, mDayOfMonth, mHourOfDay, mMinute));
-        binding.time.setText(time);
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        // Do Nothing
     }
 
-    private void setDate(int year, int month, int dayOfMonth) {
-        mYear = year;
-        mMonth = month;
-        mDayOfMonth = dayOfMonth;
-        String date = DateTimeFormatter.ofPattern("yyyy-MMMM-dd").format(LocalDateTime.of(mYear, mMonth, mDayOfMonth, mHourOfDay, mMinute));
-        binding.date.setText(date);
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        // Do Nothing
     }
 
+    @Override
+    public void afterTextChanged(Editable s) {
+        mTitle = binding.titleEditText.getText().toString().trim();
+        mDetails = binding.detailsEditText.getText().toString().trim();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
 }

@@ -5,67 +5,48 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.andresd.socialverse.data.model.AbstractScheduleItem;
 import com.andresd.socialverse.databinding.FragmentScheduleItemBinding;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 
 public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MyScheduleRecyclerViewAdapter.ViewHolder> {
 
-    private MyScheduleRecyclerViewAdapter.OnItemListener mOnItemListener;
+    private final MyScheduleRecyclerViewAdapter.OnItemListener mOnItemListener;
+
     private ArrayList<AbstractScheduleItem> mValues = new ArrayList<>();
 
-//    public MyScheduleRecyclerViewAdapter(@NonNull List<AbstractScheduleItem> items) {
-//        mValues = items;
-//    }
 
-    public MyScheduleRecyclerViewAdapter(OnItemListener onItemListener) {
+    public MyScheduleRecyclerViewAdapter(@Nullable OnItemListener onItemListener) {
         this.mOnItemListener = onItemListener;
     }
 
-    public void updateDataSet(@NonNull ArrayList<AbstractScheduleItem> values) {
-        // FIXME : Implementar bien
-        if (mValues.size() == values.size() || true) {
-            mValues = values;
-            notifyDataSetChanged();
-        } else {
+    public void updateDataSet(TreeSet<AbstractScheduleItem> itemTreeSet) {
+        mValues.clear();
 
-            if (mValues.size() > values.size()) {
-                // items where removed
-                removeItems();
-            } else {
-                // items where added
-                insertItems();
-            }
-        }
-         /*
-         FIXME : Tener en cuenta la forma en la que se van a agregar y remover horarios, porque si se hace uno a la vez
-            entonces la implementacion es mas facil.
-            Para remover elementos se puede ver si el metodo de getcursor del viewholder sirve para obtener el indice, o usando la interfaz "OnItemListener"
-            para asi informar que se elimino, agrego, modifico.
-        */
-
-        // TODO : crear implementacion para buscar en donde agregar el elemento, usando metodo de busqueda
-        // TODO : crear implementacion para buscar en donde se quito el elemento
+        mValues.addAll(itemTreeSet);
+        notifyDataSetChanged();
     }
+//    @Deprecated
+//    public void updateDataSet(@NonNull Map<Integer, AbstractScheduleItem> scheduleItemMap) {
+//        mValues = new ArrayList<>(scheduleItemMap.values());
+//        Collections.sort(mValues);
+//        notifyDataSetChanged();
+//    }
 
-    private void insertItems() {
-        // TODO
-    }
 
-    private void removeItems() {
-        // TODO
-    }
-
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        return new ViewHolder(FragmentScheduleItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(FragmentScheduleItemBinding.inflate(
+                LayoutInflater.from(parent.getContext()),
+                parent,
+                false));
     }
 
     @Override
@@ -96,8 +77,8 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
             mTitle = binding.titleTextView;
             mDetails = binding.detailsTextView;
 
-            binding.editImageButton.setOnClickListener(v -> mOnItemListener.onModifyItem());
-            binding.deleteImageButton.setOnClickListener(v -> mOnItemListener.onDeleteItem());
+            binding.editImageButton.setOnClickListener(v -> mOnItemListener.onModifyItemClicked());
+            binding.deleteImageButton.setOnClickListener(v -> mOnItemListener.onDeleteItemClicked());
         }
 
         @Override
@@ -109,35 +90,10 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
 
     public interface OnItemListener {
 
-        void onDeleteItem();
+        void onDeleteItemClicked();
 
-        void onModifyItem();
+        void onModifyItemClicked();
 
     }
 
-
-    // FIXME
-    static class Formatter {
-        /* FORMATTERS */
-        private static final SimpleDateFormat formatter12 = new SimpleDateFormat("yyyy-MM-dd HH:mm aa");
-        private static final SimpleDateFormat formatter24 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
-        public static final String format12Hour(java.util.Date date) {
-        /*
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm aa");
-        Date d = new Date(1647508626000L);
-        System.out.println(formatter.format(d));
-         */
-            return formatter12.format(date);
-        }
-
-        public static final String format24Hour(java.util.Date date) {
-        /*
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm aa");
-        Date d = new Date(1647508626000L);
-        System.out.println(formatter.format(d));
-         */
-            return formatter24.format(date);
-        }
-    }
 }

@@ -18,14 +18,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.andresd.socialverse.data.model.AbstractScheduleItem;
 import com.andresd.socialverse.databinding.FragmentMySchedulesListBinding;
 
-import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  * A fragment representing a list of Items.
  */
-public class MySchedulesFragment extends Fragment implements MyScheduleRecyclerViewAdapter.OnItemListener {
+public class MySchedulesListFragment extends Fragment implements MyScheduleRecyclerViewAdapter.OnItemListener {
 
-    private static final String TAG = MySchedulesFragment.class.getSimpleName();
+    private static final String TAG = MySchedulesListFragment.class.getSimpleName();
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -41,12 +41,12 @@ public class MySchedulesFragment extends Fragment implements MyScheduleRecyclerV
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public MySchedulesFragment() {
+    public MySchedulesListFragment() {
     }
 
     // TODO: Customize parameter initialization
-    public static MySchedulesFragment newInstance(int columnCount) {
-        MySchedulesFragment fragment = new MySchedulesFragment();
+    public static MySchedulesListFragment newInstance(int columnCount) {
+        MySchedulesListFragment fragment = new MySchedulesListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -67,7 +67,7 @@ public class MySchedulesFragment extends Fragment implements MyScheduleRecyclerV
                              Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView: ");
 
-        binding = FragmentMySchedulesListBinding.inflate(inflater, container, false);
+        binding = com.andresd.socialverse.databinding.FragmentMySchedulesListBinding.inflate(inflater, container, false);
         if (mColumnCount <= 1) {
             binding.list.setLayoutManager(new LinearLayoutManager(requireContext()));
         } else {
@@ -82,8 +82,7 @@ public class MySchedulesFragment extends Fragment implements MyScheduleRecyclerV
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MySchedulesFragmentDirections.actionSchedulesToAddScheduleFragment();
-                Navigation.findNavController(v).navigate(MySchedulesFragmentDirections.actionSchedulesToAddScheduleFragment());
+                Navigation.findNavController(v).navigate(MySchedulesListFragmentDirections.actionSchedulesToAddScheduleFragment(-1));
             }
         });
 
@@ -97,11 +96,10 @@ public class MySchedulesFragment extends Fragment implements MyScheduleRecyclerV
 
         mViewModel = new ViewModelProvider(requireActivity(), new GroupViewModelFactory()).get(GroupViewModel.class);
         mViewModel.setIsViewOnSchedule(true);
-        mViewModel.getScheduleItemsList().observe(getViewLifecycleOwner(), new Observer<ArrayList<AbstractScheduleItem>>() {
+        mViewModel.getItemsTreeSetLiveData().observe(getViewLifecycleOwner(), new Observer<TreeSet<AbstractScheduleItem>>() {
             @Override
-            public void onChanged(ArrayList<AbstractScheduleItem> abstractScheduleItems) {
-                adapter.updateDataSet(abstractScheduleItems);
-                // Usar conjuntos y la diferencia entre ellos para saber que elementos son nuevos
+            public void onChanged(TreeSet<AbstractScheduleItem> itemTreeSet) {
+                adapter.updateDataSet(itemTreeSet);
             }
         });
 
@@ -117,12 +115,12 @@ public class MySchedulesFragment extends Fragment implements MyScheduleRecyclerV
     }
 
     @Override
-    public void onDeleteItem() {
+    public void onDeleteItemClicked() {
         // TODO
     }
 
     @Override
-    public void onModifyItem() {
+    public void onModifyItemClicked() {
         // TODO
     }
 }

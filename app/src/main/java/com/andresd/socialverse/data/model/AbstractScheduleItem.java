@@ -24,6 +24,10 @@ public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
 //        dateTime = new Timestamp(new java.util.Date());
     }
 
+    protected AbstractScheduleItem(Date date, String title, String details) {
+        this(new Timestamp(date), title, details);
+    }
+
 
     public Timestamp getTimestamp() {
         return timestamp;
@@ -31,6 +35,10 @@ public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
 
     protected void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
+    }
+
+    protected void setTimestamp(Date date) {
+        this.timestamp = new Timestamp(date);
     }
 
     public String getTitle() {
@@ -92,7 +100,12 @@ public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
         }
 
         public MutableScheduleItem(Date date, String title, String details) {
-            super(new Timestamp(date), title, details);
+            super(date, title, details);
+        }
+
+        @Override
+        public void setTimestamp(Date date) {
+            super.setTimestamp(date);
         }
 
         @Override

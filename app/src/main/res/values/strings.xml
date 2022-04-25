@@ -63,6 +63,10 @@
     <string name="result_wrong_password">Invalid Password</string>
     <string name="result_no_network_connection">No Network Connection</string>
     <string name="result_logout_successful">Logged Out</string>
+    <string name="result_saved">Saved!</string>
+    <string name="result_update_successful">Update Successful</string>
+    <string name="result_update_failed">Update Failed</string>
+    <!-- -->
     <string name="title_activity_group">GroupActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
