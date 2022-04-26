@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.andresd.socialverse.data.model.AbstractGroup;
+import com.andresd.socialverse.data.model.AbstractScheduleItem;
 import com.andresd.socialverse.data.model.GroupCard;
 import com.andresd.socialverse.data.model.MutableGroup;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,19 +18,23 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 public class GroupRepository {
 
     private static final String TAG = GroupRepository.class.getSimpleName();
 
     private static final String COLLECTION_GROUPS = "groups";
+    private static final String SCHEDULES_COLLECTION = "schedules";
     private static final String FIELD_TAGS = "tags";
     private static final String FIELD_NAME = "name";
 
     private static volatile GroupRepository instance;
 
-    private GroupRepository() {
+    private final MutableLiveData<TreeSet<AbstractScheduleItem>> itemsTreeSetLiveData;
 
+    private GroupRepository() {
+        itemsTreeSetLiveData = new MutableLiveData<>(new TreeSet<>());
     }
 
     /**
@@ -70,6 +75,7 @@ public class GroupRepository {
         });
     }
 
+    @Deprecated
     public void getGroup(@NonNull DocumentReference reference, @NonNull MutableLiveData<AbstractGroup> mutableLiveData) {
         FirebaseFirestore.getInstance().document(reference.getPath())
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -151,4 +157,46 @@ public class GroupRepository {
         });
     }
 
+
+    public void addScheduleItem(@NonNull String groupId, @NonNull AbstractScheduleItem item) {
+        final DocumentReference doc = FirebaseFirestore.getInstance().collection(COLLECTION_GROUPS).document(groupId)
+                .collection(SCHEDULES_COLLECTION).document();
+        doc.set(item).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    ((AbstractScheduleItem.MutableScheduleItem) item).setId(doc.getId());
+                    TreeSet<AbstractScheduleItem> treeSet = itemsTreeSetLiveData.getValue();
+                    if (treeSet != null) {
+                        treeSet.add(item);
+                        itemsTreeSetLiveData.postValue(treeSet);
+                    } else {
+                        Log.w(TAG, "onComplete: set is null");
+                    }
+                } else {
+                    Log.e(TAG, "onComplete: task failed", task.getException());
+                }
+            }
+        });
+    }
+
+    public void updateScheduleItem(@NonNull String groupId, @NonNull AbstractScheduleItem item) {
+        // TODO:
+    }
+
+    public void deleteScheduleItem(@NonNull String groupId, @NonNull AbstractScheduleItem item) {
+        // TODO:
+    }
+
+    public void acquireSchedules(@NonNull String groupId) {
+        // TODO:
+    }
+
+    public void cleanData() {
+        // TODO : CLEAN DATA FROM GROUP_REPOSITORY
+    }
+
+    public MutableLiveData<TreeSet<AbstractScheduleItem>> getItemsTreeSetLiveData() {
+        return itemsTreeSetLiveData;
+    }
 }

@@ -65,6 +65,7 @@ public class ScheduleFragment extends Fragment implements TextWatcher,
         binding.titleEditText.addTextChangedListener(this);
         binding.detailsEditText.addTextChangedListener(this);
 
+
         binding.dateImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,7 +178,7 @@ public class ScheduleFragment extends Fragment implements TextWatcher,
                 Snackbar.make(v, R.string.result_failed, Snackbar.LENGTH_SHORT).show();
             }
         } else {
-            mScheduleItem.setTimestamp(date);
+            mScheduleItem.setTimestampFromDate(date);
             mScheduleItem.setTitle(mTitle);
             mScheduleItem.setDetails(mDetails);
 

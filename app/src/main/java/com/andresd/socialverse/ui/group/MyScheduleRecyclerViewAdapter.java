@@ -53,7 +53,7 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         // FIXME : FORMAT timestamp to date
-        holder.mDate.setText(mValues.get(position).getTimestamp().toDate().toString());
+        holder.mDate.setText(mValues.get(position).getTimestamp().toString());
         holder.mTitle.setText(mValues.get(position).getTitle());
         holder.mDetails.setText(mValues.get(position).getDetails());
     }

@@ -80,21 +80,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="title_text_view, details_text_view, header_date_text_view, header_time_text_view" />
+            app:constraint_referenced_ids="title_text_view, details_text_view, header_date_text_view, header_time_text_view"
+            tools:layout_editor_absoluteX="75dp" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/top_barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="title_text_view, details_text_view, title_edit_text, details_edit_text" />
+            app:constraint_referenced_ids="title_text_view, details_text_view, title_edit_text, details_edit_text"
+            tools:layout_editor_absoluteY="122dp" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/center_barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="date, time" />
+            app:constraint_referenced_ids="date, time"
+            tools:layout_editor_absoluteX="123dp" />
 
         <TextView
             android:id="@+id/date"

@@ -29,11 +29,17 @@ public class GroupViewModel extends ViewModel {
 
     private final MutableLiveData<Boolean> isViewOnSchedule = new MutableLiveData<>(false);
     //
-    private TreeSet<AbstractScheduleItem> itemTreeSet = new TreeSet<>();
-    private Map<Integer, AbstractScheduleItem> itemMap = new HashMap<>();
-    private final MutableLiveData<TreeSet<AbstractScheduleItem>> itemsTreeSetLiveData = new MutableLiveData<>(itemTreeSet);
+    private final TreeSet<AbstractScheduleItem> itemTreeSet;
+    private final Map<Integer, AbstractScheduleItem> itemMap = new HashMap<>();
+    private final MutableLiveData<TreeSet<AbstractScheduleItem>> itemsTreeSetLiveData;
+    private final MediatorLiveData<Void> itemSetMediator = new MediatorLiveData<>();
 
     public GroupViewModel() {
+
+        itemsTreeSetLiveData = GroupRepository.getInstance().getItemsTreeSetLiveData();
+        itemTreeSet = itemsTreeSetLiveData.getValue();
+        itemSetMediator.addSource(itemsTreeSetLiveData, itemTreeSet -> notifyDataSetChange());
+
         // listen livedata and notifies changes to the mediatorLiveData to via the observer,
         // this allows to observe the livedata inside the ViewModel and respond to its changes
         userSubscriptionMediatorLiveData.addSource(user,
@@ -73,26 +79,25 @@ public class GroupViewModel extends ViewModel {
 
 
     public boolean addScheduleItem(@NonNull AbstractScheduleItem scheduleItem) {
-        itemTreeSet.add(scheduleItem);
-        itemMap.clear();
-        int i = 0;
-        for (AbstractScheduleItem item : itemTreeSet) {
-            itemMap.put(i++, item);
+
+//        if (itemTreeSet.add(scheduleItem)) {
+        if (!itemTreeSet.contains(scheduleItem)) {
+            if (group.getValue() != null) {
+                GroupRepository.getInstance().addScheduleItem(group.getValue().getId().getId(), scheduleItem);
+                return true;
+            } else {
+                Log.e(TAG, "addScheduleItem: received null Document Reference");
+                return false;
+            }
         }
 
-        notifyDataSetChange();
-
-        return true;
+        return false;
     }
 
     public boolean removeScheduleItem(@NonNull AbstractScheduleItem scheduleItem) {
         itemTreeSet.remove(scheduleItem);
-        itemMap.clear();
-        int i = 0;
-        for (AbstractScheduleItem item : itemTreeSet) {
-            itemMap.put(i++, item);
-        }
-
+        // TODO: Implement GroupRepository#DeleteScheduleItem
+        // verify if #notifyDataSetChange is needed here
         notifyDataSetChange();
 
         return true;
@@ -104,11 +109,13 @@ public class GroupViewModel extends ViewModel {
     }
 
     private void notifyDataSetChange() {
-
         itemsTreeSetLiveData.setValue(null);
-
+        itemMap.clear();
+        int i = 0;
+        for (AbstractScheduleItem item : itemTreeSet) {
+            itemMap.put(i++, item);
+        }
         itemsTreeSetLiveData.setValue(itemTreeSet);
-
     }
 
     @NonNull
@@ -154,5 +161,9 @@ public class GroupViewModel extends ViewModel {
 
     public MutableLiveData<TreeSet<AbstractScheduleItem>> getItemsTreeSetLiveData() {
         return itemsTreeSetLiveData;
+    }
+
+    public final void cleanRepository() {
+        GroupRepository.getInstance().cleanData();
     }
 }

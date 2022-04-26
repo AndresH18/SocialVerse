@@ -9,6 +9,7 @@ import java.util.Date;
 public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
 
     // FIXME : use java.util.Date?
+    private String id;
     private Timestamp timestamp;
     private String title;
     private String details;
@@ -28,7 +29,6 @@ public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
         this(new Timestamp(date), title, details);
     }
 
-
     public Timestamp getTimestamp() {
         return timestamp;
     }
@@ -37,7 +37,7 @@ public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
         this.timestamp = timestamp;
     }
 
-    protected void setTimestamp(Date date) {
+    protected void setTimestampFromDate(Date date) {
         this.timestamp = new Timestamp(date);
     }
 
@@ -55,6 +55,14 @@ public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
 
     protected void setDetails(String details) {
         this.details = details;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    protected void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -104,8 +112,8 @@ public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
         }
 
         @Override
-        public void setTimestamp(Date date) {
-            super.setTimestamp(date);
+        public void setTimestampFromDate(Date date) {
+            super.setTimestampFromDate(date);
         }
 
         @Override
@@ -121,6 +129,11 @@ public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
         @Override
         public void setDetails(String details) {
             super.setDetails(details);
+        }
+
+        @Override
+        public void setId(String id) {
+            super.setId(id);
         }
     }
 }

@@ -174,6 +174,7 @@ public class GroupActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.i(TAG, "onStop: started");
+        mViewModel.cleanRepository();
 
         Log.i(TAG, "onStop: finished");
     }
