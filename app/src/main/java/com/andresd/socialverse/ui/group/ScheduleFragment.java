@@ -141,9 +141,10 @@ public class ScheduleFragment extends Fragment implements TextWatcher,
 
             binding.titleEditText.setText(mTitle);
             binding.detailsEditText.setText(mDetails);
-        } else {
-            // no item selected -> new ShceduleItem
         }
+
+        // else { /* no item selected -> new ScheduleItem */ }
+
         binding.date.setText(DateTimeFormatter.ofPattern("yyyy-MMMM-dd", Locale.getDefault())
                 .format(mLocalDateTime));
         binding.time.setText(DateTimeFormatter.ofPattern("hh:mm a")

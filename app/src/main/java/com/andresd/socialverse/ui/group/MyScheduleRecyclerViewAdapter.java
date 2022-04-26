@@ -76,10 +76,10 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView mDate;
-        private TextView mTime;
-        private TextView mTitle;
-        private TextView mDetails;
+        private final TextView mDate;
+        private final TextView mTime;
+        private final TextView mTitle;
+        private final TextView mDetails;
         private AbstractScheduleItem mItem;
 
         public ViewHolder(FragmentScheduleItemBinding binding) {
@@ -102,6 +102,7 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
             });
         }
 
+        @NonNull
         @Override
         public String toString() {
             return super.toString() + " '" + mTitle.getText() + "'";
