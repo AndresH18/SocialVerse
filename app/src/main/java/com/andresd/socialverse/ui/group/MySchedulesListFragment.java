@@ -95,6 +95,7 @@ public class MySchedulesListFragment extends Fragment implements MyScheduleRecyc
         Log.i(TAG, "onViewCreated: ");
 
         mViewModel = new ViewModelProvider(requireActivity(), new GroupViewModelFactory()).get(GroupViewModel.class);
+        mViewModel.updateDataSet();
         mViewModel.setIsViewOnSchedule(true);
         mViewModel.getItemsTreeSetLiveData().observe(getViewLifecycleOwner(), new Observer<TreeSet<AbstractScheduleItem>>() {
             @Override

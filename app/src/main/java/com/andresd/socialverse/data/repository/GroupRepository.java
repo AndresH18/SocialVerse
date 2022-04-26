@@ -25,7 +25,8 @@ public class GroupRepository {
     private static final String TAG = GroupRepository.class.getSimpleName();
 
     private static final String COLLECTION_GROUPS = "groups";
-    private static final String SCHEDULES_COLLECTION = "schedules";
+    private static final String COLLECTION_SCHEDULES = "schedules";
+
     private static final String FIELD_TAGS = "tags";
     private static final String FIELD_NAME = "name";
 
@@ -160,12 +161,12 @@ public class GroupRepository {
 
     public void addScheduleItem(@NonNull String groupId, @NonNull AbstractScheduleItem item) {
         final DocumentReference doc = FirebaseFirestore.getInstance().collection(COLLECTION_GROUPS).document(groupId)
-                .collection(SCHEDULES_COLLECTION).document();
+                .collection(COLLECTION_SCHEDULES).document();
+        ((AbstractScheduleItem.MutableScheduleItem) item).setId(doc.getId());
         doc.set(item).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    ((AbstractScheduleItem.MutableScheduleItem) item).setId(doc.getId());
                     TreeSet<AbstractScheduleItem> treeSet = itemsTreeSetLiveData.getValue();
                     if (treeSet != null) {
                         treeSet.add(item);
@@ -189,11 +190,30 @@ public class GroupRepository {
     }
 
     public void acquireSchedules(@NonNull String groupId) {
-        // TODO:
+        FirebaseFirestore.getInstance().collection(COLLECTION_GROUPS).document(groupId)
+                .collection(COLLECTION_SCHEDULES).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot snapshot = task.getResult();
+                    TreeSet<AbstractScheduleItem> set = itemsTreeSetLiveData.getValue();
+                    if (set != null) {
+                        for (DocumentSnapshot document : snapshot.getDocuments()) {
+                            AbstractScheduleItem.MutableScheduleItem item = document.toObject(AbstractScheduleItem.MutableScheduleItem.class);
+                            set.add(item);
+                        }
+                        itemsTreeSetLiveData.postValue(set);
+                    } else {
+                        Log.w(TAG, "onComplete: Set is null");
+                    }
+                }
+            }
+        });
     }
 
     public void cleanData() {
         // TODO : CLEAN DATA FROM GROUP_REPOSITORY
+        itemsTreeSetLiveData.setValue(null);
     }
 
     public MutableLiveData<TreeSet<AbstractScheduleItem>> getItemsTreeSetLiveData() {

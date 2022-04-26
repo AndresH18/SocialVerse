@@ -118,6 +118,14 @@ public class GroupViewModel extends ViewModel {
         itemsTreeSetLiveData.setValue(itemTreeSet);
     }
 
+    public void updateDataSet() {
+        if (group.getValue() != null) {
+            GroupRepository.getInstance().acquireSchedules(group.getValue().getId().getId());
+        } else {
+            Log.w(TAG, "updateDataSet: User value is null");
+        }
+    }
+
     @NonNull
     public AbstractScheduleItem getItem(int index) {
         if (index < 0) {

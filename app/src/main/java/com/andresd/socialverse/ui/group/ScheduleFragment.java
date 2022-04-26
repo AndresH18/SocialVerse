@@ -127,7 +127,7 @@ public class ScheduleFragment extends Fragment implements TextWatcher,
             // an item was selected
             mScheduleItem = (AbstractScheduleItem.MutableScheduleItem) mViewModel.getItem(args.getItemId());
 
-            mLocalDateTime = mScheduleItem.getTimestamp().toDate().toInstant()
+            mLocalDateTime = mScheduleItem.getDateTime().toInstant()
                     .atZone(ZoneId.systemDefault())
                     .toLocalDateTime();
 
