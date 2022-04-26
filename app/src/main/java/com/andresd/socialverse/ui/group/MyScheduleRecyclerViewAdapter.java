@@ -10,7 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.andresd.socialverse.data.model.AbstractScheduleItem;
 import com.andresd.socialverse.databinding.FragmentScheduleItemBinding;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
@@ -51,9 +55,17 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+//        final LocalDateTime dateTime = mValues.get(position).getDateTime().toDate().toInstant()
+//                .atZone(ZoneId.systemDefault())
+//                .toLocalDateTime();
+        final LocalDateTime dateTime = mValues.get(position).getDateTime().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        final String date = DateTimeFormatter.ofPattern("yyyy MMMM dd").format(dateTime);
+        final String time = DateTimeFormatter.ofPattern("hh:mm a").format(dateTime);
         holder.mItem = mValues.get(position);
-        // FIXME : FORMAT timestamp to date
-        holder.mDate.setText(mValues.get(position).getTimestamp().toString());
+        holder.mDate.setText(date);
+        holder.mTime.setText(time);
         holder.mTitle.setText(mValues.get(position).getTitle());
         holder.mDetails.setText(mValues.get(position).getDetails());
     }
@@ -77,8 +89,17 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
             mTitle = binding.titleTextView;
             mDetails = binding.detailsTextView;
 
-            binding.editImageButton.setOnClickListener(v -> mOnItemListener.onModifyItemClicked());
-            binding.deleteImageButton.setOnClickListener(v -> mOnItemListener.onDeleteItemClicked());
+            binding.editImageButton.setOnClickListener(v -> {
+
+                Snackbar.make(v, "Edit not implemented", Snackbar.LENGTH_SHORT).show();
+                mOnItemListener.onModifyItemClicked();
+
+            });
+            binding.deleteImageButton.setOnClickListener(v -> {
+                Snackbar.make(v, "Delete not implemented", Snackbar.LENGTH_SHORT).show();
+                mOnItemListener.onDeleteItemClicked();
+
+            });
         }
 
         @Override

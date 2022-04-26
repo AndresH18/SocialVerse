@@ -2,15 +2,16 @@ package com.andresd.socialverse.data.model;
 
 import androidx.annotation.NonNull;
 
-import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.util.Date;
 
+@IgnoreExtraProperties
 public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
 
-    // FIXME : use java.util.Date?
+
     private String id;
-    private Timestamp timestamp;
+    private Date dateTime;
     private String title;
     private String details;
 
@@ -18,27 +19,25 @@ public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
         // required Empty Constructor
     }
 
-    protected AbstractScheduleItem(Timestamp dateTime, String title, String details) {
-        this.timestamp = dateTime;
+    protected AbstractScheduleItem(Date date, String title, String details) {
+//        this.dateTime = new Timestamp(date);
+        this.dateTime = date;
         this.title = title;
         this.details = details;
 //        dateTime = new Timestamp(new java.util.Date());
     }
 
-    protected AbstractScheduleItem(Date date, String title, String details) {
-        this(new Timestamp(date), title, details);
+
+    public Date getDateTime() {
+        return dateTime;
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-    protected void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    protected void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
     }
 
     protected void setTimestampFromDate(Date date) {
-        this.timestamp = new Timestamp(date);
+        this.dateTime = (date);
     }
 
     public String getTitle() {
@@ -67,7 +66,7 @@ public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
 
     @Override
     public int compareTo(AbstractScheduleItem o) {
-        return timestamp.compareTo(o.timestamp);
+        return dateTime.compareTo(o.dateTime);
     }
 
     @NonNull
@@ -83,7 +82,7 @@ public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
 
         AbstractScheduleItem that = (AbstractScheduleItem) o;
 
-        if (timestamp != null ? !timestamp.equals(that.timestamp) : that.timestamp != null)
+        if (dateTime != null ? !dateTime.equals(that.dateTime) : that.dateTime != null)
             return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         return details != null ? details.equals(that.details) : that.details == null;
@@ -91,7 +90,7 @@ public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
 
     @Override
     public int hashCode() {
-        int result = timestamp != null ? timestamp.hashCode() : 0;
+        int result = dateTime != null ? dateTime.hashCode() : 0;
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (details != null ? details.hashCode() : 0);
         return result;
@@ -103,22 +102,18 @@ public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
         public MutableScheduleItem() {
         }
 
-        public MutableScheduleItem(Timestamp timestamp, String title, String details) {
-            super(timestamp, title, details);
-        }
-
         public MutableScheduleItem(Date date, String title, String details) {
             super(date, title, details);
         }
 
         @Override
-        public void setTimestampFromDate(Date date) {
-            super.setTimestampFromDate(date);
+        public void setDateTime(Date dateTime) {
+            super.setDateTime(dateTime);
         }
 
         @Override
-        public void setTimestamp(Timestamp timestamp) {
-            super.setTimestamp(timestamp);
+        public void setTimestampFromDate(Date date) {
+            super.setTimestampFromDate(date);
         }
 
         @Override
