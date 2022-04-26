@@ -214,6 +214,7 @@ public class GroupRepository {
     public void cleanData() {
         // TODO : CLEAN DATA FROM GROUP_REPOSITORY
         itemsTreeSetLiveData.setValue(null);
+
     }
 
     public MutableLiveData<TreeSet<AbstractScheduleItem>> getItemsTreeSetLiveData() {
