@@ -1,5 +1,6 @@
 package com.andresd.socialverse.ui.group;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,7 +17,11 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.andresd.socialverse.R;
+import com.andresd.socialverse.data.repository.UserRepository;
 import com.andresd.socialverse.databinding.ActivityGroupBinding;
+import com.andresd.socialverse.ui.login.LoginActivity;
+import com.andresd.socialverse.ui.main.MainActivity;
+import com.google.android.material.snackbar.Snackbar;
 
 public class GroupActivity extends AppCompatActivity {
 
@@ -95,6 +100,24 @@ public class GroupActivity extends AppCompatActivity {
 
         // create/get viewModel
         mViewModel = new ViewModelProvider(this, new GroupViewModelFactory()).get(GroupViewModel.class);
+
+        mViewModel.getUserState().observe(this, new Observer<UserRepository.UserAuthState>() {
+            @Override
+            public void onChanged(UserRepository.UserAuthState userAuthState) {
+                switch (userAuthState) {
+                    // user is signed out
+                    case INVALID:
+                    case SIGNED_OUT:
+                        Toast.makeText(GroupActivity.this, R.string.result_logout_successful, Toast.LENGTH_SHORT).show();
+                    case NOT_LOGGED_IN:
+                        // go back
+                        finish();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
 
 
 //        mViewModel.getGroup().observe
@@ -194,6 +217,8 @@ public class GroupActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.menu_item_refresh) {
             message = "Refresh";
         } else if (item.getItemId() == R.id.menu_item_sign_out) {
+            Snackbar.make(binding.coordinator, R.string.question_sign_out, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.action_sign_out, view -> signOut()).show();
             message = "Sign Out";
         } else if (item.getItemId() == R.id.menu_item_settings) {
             message = "Settings";
@@ -208,6 +233,10 @@ public class GroupActivity extends AppCompatActivity {
         }
         Toast.makeText(GroupActivity.this, message, Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
+    }
+
+    private void signOut() {
+        mViewModel.signOut();
     }
 
     @Override

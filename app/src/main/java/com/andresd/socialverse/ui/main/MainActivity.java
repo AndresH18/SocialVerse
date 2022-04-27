@@ -17,6 +17,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.andresd.socialverse.R;
+import com.andresd.socialverse.data.repository.UserRepository;
 import com.andresd.socialverse.databinding.ActivityMainBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
 import com.andresd.socialverse.ui.main.mygroups.MyGroupsFragment;
@@ -77,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
         /* Observe the state of the User Auth */
         // Since it also receives the value when the observer is added, it also functions as
         // the first check to see if the user is logged in
-        mViewModel.getUserState().observe(this, new Observer<MainActivityViewModel.UserAuthState>() {
+        mViewModel.getUserState().observe(this, new Observer<UserRepository.UserAuthState>() {
             @Override
-            public void onChanged(MainActivityViewModel.UserAuthState userState) {
+            public void onChanged(UserRepository.UserAuthState userState) {
                 switch (userState) {
                     // user is signed out
                     case INVALID:
@@ -113,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void signOut() {
         mViewModel.signOut();
-
     }
 
     /**

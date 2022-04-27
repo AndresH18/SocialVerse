@@ -18,24 +18,20 @@ import java.util.List;
 public class MainActivityViewModel extends ViewModel {
     // some sort of user object?
     //
-    private MutableLiveData<AbstractUser> currentUser = new MutableLiveData<>();
-    private MutableLiveData<List<AbstractGroup>> searchGroups = new MutableLiveData<>();
+    private final MutableLiveData<AbstractUser> currentUser = new MutableLiveData<>();
+    private final MutableLiveData<List<AbstractGroup>> searchGroups = new MutableLiveData<>();
 
-    private MutableLiveData<UserAuthState> userState = new MutableLiveData<>();
-    private String lastUID;
+    private final LiveData<UserRepository.UserAuthState> userState;
+//    private String lastUID;
 
-    private MutableLiveData<String> mHomeText = new MutableLiveData<>("This is Home Fragment");
+    private final MutableLiveData<String> mHomeText = new MutableLiveData<>("This is Home Fragment");
 
     MainActivityViewModel() {
+        userState = UserRepository.getInstance().getUserAuthState();
         // initialize values
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            userState.setValue(UserAuthState.VALID);
-            lastUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            UserRepository.getInstance().setUserState(currentUser);
+//            lastUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 //            currentUserLiveData = UserRepository.getUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            UserRepository.getInstance().getUser(FirebaseAuth.getInstance().getCurrentUser().getUid(), currentUser);
-        } else {
-            userState.setValue(UserAuthState.NOT_LOGGED_IN);
-        }
 
         // TODO: Add auth state change listener
 //        FirebaseAuth.getInstance().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
@@ -47,8 +43,8 @@ public class MainActivityViewModel extends ViewModel {
     }
 
     public void signOut() {
-        FirebaseAuth.getInstance().signOut();
-        userState.setValue(UserAuthState.INVALID); // or SIGNED_OUT
+        UserRepository.getInstance().signOut();
+//        userState.setValue(UserRepository.UserAuthState.INVALID); // or SIGNED_OUT
     }
 
     public void searchGroupByName(@NonNull String groupName) {
@@ -64,7 +60,7 @@ public class MainActivityViewModel extends ViewModel {
         return searchGroups;
     }
 
-    public LiveData<UserAuthState> getUserState() {
+    public LiveData<UserRepository.UserAuthState> getUserState() {
         return userState;
     }
 
@@ -77,19 +73,5 @@ public class MainActivityViewModel extends ViewModel {
     }
 
 
-    public enum UserAuthState {
-        // TODO: use better states
-        VALID,
-        INVALID,
-        SIGNED_IN,
-        /**
-         * <p>The user has signed out.</p>
-         */
-        SIGNED_OUT,
-        /**
-         * <p>The user has not been logged.</p>
-         */
-        NOT_LOGGED_IN,
-        ;
-    }
+
 }

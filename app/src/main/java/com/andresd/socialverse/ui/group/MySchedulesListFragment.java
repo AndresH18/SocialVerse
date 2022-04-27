@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.andresd.socialverse.data.model.AbstractScheduleItem;
 import com.andresd.socialverse.databinding.FragmentMySchedulesListBinding;
 
+import java.util.ArrayList;
 import java.util.TreeSet;
 
 /**
@@ -97,10 +98,10 @@ public class MySchedulesListFragment extends Fragment implements MyScheduleRecyc
         mViewModel = new ViewModelProvider(requireActivity(), new GroupViewModelFactory()).get(GroupViewModel.class);
         mViewModel.updateDataSet();
         mViewModel.setIsViewOnSchedule(true);
-        mViewModel.getItemsTreeSetLiveData().observe(getViewLifecycleOwner(), new Observer<TreeSet<AbstractScheduleItem>>() {
+        mViewModel.getListLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<AbstractScheduleItem>>() {
             @Override
-            public void onChanged(TreeSet<AbstractScheduleItem> itemTreeSet) {
-                adapter.updateDataSet(itemTreeSet);
+            public void onChanged(ArrayList<AbstractScheduleItem> abstractScheduleItems) {
+                adapter.setDataList(abstractScheduleItems);
             }
         });
 

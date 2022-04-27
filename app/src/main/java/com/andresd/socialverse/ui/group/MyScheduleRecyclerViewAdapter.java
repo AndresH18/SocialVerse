@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.TreeSet;
 
 
 public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MyScheduleRecyclerViewAdapter.ViewHolder> {
@@ -30,19 +29,12 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
         this.mOnItemListener = onItemListener;
     }
 
-    public void updateDataSet(TreeSet<AbstractScheduleItem> itemTreeSet) {
-        mValues.clear();
-
-        mValues.addAll(itemTreeSet);
-        notifyDataSetChanged();
+    public void setDataList(ArrayList<AbstractScheduleItem> itemArrayList) {
+        if (itemArrayList != null) {
+            this.mValues = itemArrayList;
+            notifyDataSetChanged();
+        }
     }
-//    @Deprecated
-//    public void updateDataSet(@NonNull Map<Integer, AbstractScheduleItem> scheduleItemMap) {
-//        mValues = new ArrayList<>(scheduleItemMap.values());
-//        Collections.sort(mValues);
-//        notifyDataSetChanged();
-//    }
-
 
     @NonNull
     @Override
@@ -73,6 +65,14 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
     @Override
     public int getItemCount() {
         return mValues.size();
+    }
+
+    public interface OnItemListener {
+
+        void onDeleteItemClicked();
+
+        void onModifyItemClicked();
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -107,15 +107,6 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
         public String toString() {
             return super.toString() + " '" + mTitle.getText() + "'";
         }
-    }
-
-
-    public interface OnItemListener {
-
-        void onDeleteItemClicked();
-
-        void onModifyItemClicked();
-
     }
 
 }

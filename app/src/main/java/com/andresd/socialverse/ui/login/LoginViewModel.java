@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.andresd.socialverse.R;
+import com.andresd.socialverse.data.repository.UserRepository;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseNetworkException;
@@ -31,8 +32,8 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void signIn(@NonNull String username, @NonNull String password) {
-//        LoginRepository.getInstance().signIn(username, password);
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(username, password)
+
+        UserRepository.getInstance().signInWithEmailAndPassword(username, password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
@@ -53,6 +54,28 @@ public class LoginViewModel extends ViewModel {
                         }
                     }
                 });
+//        LoginRepository.getInstance().signIn(username, password);
+        /*FirebaseAuth.getInstance().signInWithEmailAndPassword(username, password)
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        loginResult.postValue(LoginResult.SUCCESSFUL);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if (e instanceof FirebaseAuthInvalidUserException) {
+                            loginResult.postValue(LoginResult.WRONG_USERNAME);
+                        } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                            loginResult.postValue(LoginResult.WRONG_PASSWORD);
+                        } else if (e instanceof FirebaseNetworkException) {
+                            loginResult.postValue(LoginResult.NO_NETWORK_CONNECTION);
+                        } else {
+                            loginResult.postValue(LoginResult.FAILED);
+                        }
+                    }
+                });*/
     }
     @SignUpElement
     public void signUp(@NonNull String firstName, @NonNull String lastName, @NonNull String email, @NonNull String password) {
