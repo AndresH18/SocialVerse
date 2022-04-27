@@ -20,7 +20,7 @@ import com.andresd.socialverse.databinding.ActivityGroupBinding;
 
 public class GroupActivity extends AppCompatActivity {
 
-    private static final String TAG = GroupActivity.class.getSimpleName();
+    private static final String TAG = GroupActivity.class.getName();
 
     private GroupViewModel mViewModel;
 

@@ -18,7 +18,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class GroupHomeFragment extends Fragment {
 
-    private static final String TAG = GroupHomeFragment.class.getSimpleName();
+    private static final String TAG = GroupHomeFragment.class.getName();
 
     private FragmentGroupHomeBinding binding;
     private GroupViewModel mViewModel;

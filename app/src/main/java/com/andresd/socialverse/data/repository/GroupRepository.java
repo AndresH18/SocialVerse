@@ -22,7 +22,7 @@ import java.util.TreeSet;
 
 public class GroupRepository {
 
-    private static final String TAG = GroupRepository.class.getSimpleName();
+    private static final String TAG = GroupRepository.class.getName();
 
     private static final String COLLECTION_GROUPS = "groups";
     private static final String COLLECTION_SCHEDULES = "schedules";

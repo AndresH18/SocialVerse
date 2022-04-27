@@ -34,7 +34,7 @@ public class ScheduleFragment extends Fragment implements TextWatcher,
         TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener {
 
-    private static final String TAG = ScheduleFragment.class.getSimpleName();
+    private static final String TAG = ScheduleFragment.class.getName();
 
     private FragmentScheduleBinding binding;
     private GroupViewModel mViewModel;

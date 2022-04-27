@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginViewModel extends ViewModel {
+
     private MutableLiveData<SignInFormState> signInFormState = new MutableLiveData<>();
     private MutableLiveData<SignUpFormState> signUpFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>(LoginResult.NO_ACTION);

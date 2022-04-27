@@ -21,7 +21,7 @@ import java.util.TreeSet;
 
 public class GroupViewModel extends ViewModel {
 
-    private static final String TAG = GroupViewModel.class.getSimpleName();
+    private static final String TAG = GroupViewModel.class.getName();
 
     private final MediatorLiveData<Boolean> userSubscriptionMediatorLiveData = new MediatorLiveData<>();
     private final MutableLiveData<AbstractGroup> group = new MutableLiveData<>();

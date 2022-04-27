@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Logcat tag
      */
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getName();
 
     private MainActivityViewModel mViewModel;
     /**

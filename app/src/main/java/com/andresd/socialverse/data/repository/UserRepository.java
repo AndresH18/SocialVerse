@@ -14,7 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UserRepository {
 
-    private static final String TAG = UserRepository.class.getSimpleName();
+    private static final String TAG = UserRepository.class.getName();
 
     private static final String COLLECTION_USERS = "users";
     private static UserRepository instance;

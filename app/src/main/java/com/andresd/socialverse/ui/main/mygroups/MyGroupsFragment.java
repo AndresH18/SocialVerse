@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class MyGroupsFragment extends Fragment implements OnCardItemSelectedListener {
 
-    private static final String TAG = MyGroupsFragment.class.getSimpleName();
+    private static final String TAG = MyGroupsFragment.class.getName();
 
     private FragmentMyGroupsBinding binding;
     private MainActivityViewModel mViewModel;

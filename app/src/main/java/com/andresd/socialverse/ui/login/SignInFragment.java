@@ -25,7 +25,7 @@ import com.andresd.socialverse.databinding.FragmentSignInBinding;
 
 public class SignInFragment extends Fragment {
 
-    private static final String TAG = SignInFragment.class.getSimpleName();
+    private static final String TAG = SignInFragment.class.getName();
 
     private LoginViewModel mViewModel;
     private FragmentSignInBinding binding;

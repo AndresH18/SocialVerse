@@ -25,7 +25,7 @@ import java.util.TreeSet;
  */
 public class MySchedulesListFragment extends Fragment implements MyScheduleRecyclerViewAdapter.OnItemListener {
 
-    private static final String TAG = MySchedulesListFragment.class.getSimpleName();
+    private static final String TAG = MySchedulesListFragment.class.getName();
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";

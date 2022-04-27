@@ -17,7 +17,7 @@ import java.util.List;
 
 public class GroupCardRecyclerAdapter extends RecyclerView.Adapter<GroupCardRecyclerAdapter.AdapterViewHolder> {
 
-    private static final String TAG = GroupCardRecyclerAdapter.class.getSimpleName();
+    private static final String TAG = GroupCardRecyclerAdapter.class.getName();
 
     private List<AbstractGroup> groupCards = new ArrayList<>();
     private final OnCardItemSelectedListener onCardItemSelectedListener;
