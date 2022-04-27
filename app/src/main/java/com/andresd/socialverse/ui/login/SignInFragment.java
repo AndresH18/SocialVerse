@@ -159,8 +159,8 @@ public class SignInFragment extends Fragment {
         });
 
         // TODO: Delete test user and password
-        binding.username.setText("testing@socialverse.test");
-        binding.password.setText("socialTest");
+        binding.username.setText("developing@socialverse.test");
+        binding.password.setText("developTest");
 
         Log.i(TAG, "onViewCreated: finished");
     }
