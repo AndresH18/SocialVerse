@@ -5,7 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/GroupHome">
 
-    <!-- TODO: Use argument as label -->
     <fragment
         android:id="@+id/GroupHome"
         android:name="com.andresd.socialverse.ui.group.GroupHomeFragment"

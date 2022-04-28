@@ -116,19 +116,6 @@ public class MainActivity extends AppCompatActivity {
         mViewModel.signOut();
     }
 
-    /**
-     * <p>Called when the bottom navigation items are selected</p>
-     */
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Sets the add icon's visibility when the item is search
-        // TODO: decidir si mejor poner un button cuando no haya resultado sobre el grupo.
-        //  Si se va a poner el button, entonces borrar el item de agregar grupo del menu
-        // FIXME: Se va a tener que crear el button, porque usar este listener daña la funcionalidad del nav_host
-        binding.toolbar.getMenu().getItem(0).setVisible(item.getItemId() == R.id.navigation_search);
-
-        return true;
-    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_item_sign_out) {

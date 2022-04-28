@@ -117,8 +117,6 @@ public class MySchedulesListFragment extends Fragment implements MyScheduleRecyc
 
     @Override
     public void onDeleteItemClicked(View v, int index) {
-        // TODO
-//        mViewModel.checkIndex(index);
         mViewModel.removeScheduleItem(index);
     }
 
