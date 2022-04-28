@@ -1,4 +1,5 @@
 <resources>
+    <!-- STRINGS -->
     <!--Name of the app-->
     <string name="app_name">SocialVerse</string>
     <!--Titles-->
@@ -11,6 +12,7 @@
     <string name="title_my_groups">My Groups</string>
     <string name="title_sign_in">Sign In</string>
     <string name="title_sign_up">Sign Up</string>
+    <string name="title_schedule">Schedule</string>
     <!--Prompts-->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -20,9 +22,13 @@
     <string name="action_sign_up">Sign Up</string>
     <string name="action_sign_out">Sign Out</string>
     <string name="action_search_tags">By Tags</string>
+    <string name="action_view_schedule">Schedule</string>
+    <string name="action_add_time">Add Time</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_save">Save</string>
     <!--Requests-->
     <string name="question_sign_out">Sign Out?</string>
-
+    <!---->
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
@@ -30,6 +36,8 @@
     <string name="invalid_first_name">Invalid First Name</string>
     <string name="invalid_last_name">Invalid Last Name</string>
     <string name="invalid_email">Invalid Email</string>
+    <string name="invalid_title">Invalid Title</string>
+    <string name="invalid_detail">Invalid Detail</string>
 
 
     <string name="login_failed">"Login failed"</string>
@@ -40,6 +48,10 @@
     <string name="label_email">Email</string>
     <string name="label_settings">Settings</string>
     <string name="label_search">Search</string>
+    <string name="label_title">Title</string>
+    <string name="label_details">Details</string>
+    <string name="label_time">Time</string>
+    <string name="label_date">Date</string>
     <!--Hints-->
     <string name="hint_first_name">Enter your First Name</string>
     <string name="hint_last_name">Enter your Last Name</string>
@@ -52,6 +64,10 @@
     <string name="result_wrong_password">Invalid Password</string>
     <string name="result_no_network_connection">No Network Connection</string>
     <string name="result_logout_successful">Logged Out</string>
+    <string name="result_saved">Saved!</string>
+    <string name="result_update_successful">Update Successful</string>
+    <string name="result_update_failed">Update Failed</string>
+    <!-- -->
     <string name="title_activity_group">GroupActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -59,7 +75,14 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <!--Symbols-->
+    <string name="symbol_date_time_join">\@</string>
+
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- BOOLEANS -->
+    <bool name="schedule_recycler_view_items_clickable">false</bool>
 
 </resources>

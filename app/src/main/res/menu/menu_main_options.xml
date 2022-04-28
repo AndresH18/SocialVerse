@@ -5,7 +5,7 @@
     <item
         android:id="@+id/menu_item_refresh"
         android:icon="@drawable/icon_refresh"
-        android:title="Create group"
+        android:title="Restart Activity"
         android:visible="true"
         app:showAsAction="ifRoom" />
     <item

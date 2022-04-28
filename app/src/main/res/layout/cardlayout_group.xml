@@ -24,6 +24,7 @@
             android:id="@+id/itemImage"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:src="@drawable/icon_groups"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

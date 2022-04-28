@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.group.ScheduleFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/header_time_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_time"
+            app:layout_constraintBottom_toBottomOf="@+id/time"
+            app:layout_constraintStart_toStartOf="@+id/title_text_view"
+            app:layout_constraintTop_toTopOf="@+id/time" />
+
+        <TextView
+            android:id="@+id/header_date_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_date"
+            app:layout_constraintBottom_toBottomOf="@+id/date"
+            app:layout_constraintStart_toStartOf="@+id/title_text_view"
+            app:layout_constraintTop_toTopOf="@+id/date" />
+
+        <EditText
+            android:id="@+id/title_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:ems="10"
+            android:hint="@string/label_title"
+            android:imeOptions="actionNext"
+            android:inputType="textPersonName"
+            android:maxLength="25"
+            android:minHeight="48dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/title_text_view"
+            app:layout_constraintStart_toEndOf="@id/start_barrier" />
+
+        <EditText
+            android:id="@+id/details_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:ems="10"
+            android:hint="@string/label_details"
+            android:imeOptions="actionDone"
+            android:inputType="textPersonName"
+            android:maxLength="40"
+            android:minHeight="48dp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/details_text_view"
+            app:layout_constraintStart_toEndOf="@id/start_barrier" />
+
+        <TextView
+            android:id="@+id/title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/label_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/details_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/label_details"
+            app:layout_constraintStart_toStartOf="@+id/title_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/title_edit_text" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/start_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="title_text_view, details_text_view, header_date_text_view, header_time_text_view"
+            tools:layout_editor_absoluteX="75dp" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/top_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="title_text_view, details_text_view, title_edit_text, details_edit_text"
+            tools:layout_editor_absoluteY="122dp" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/center_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="date, time"
+            tools:layout_editor_absoluteX="123dp" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/date_image_button"
+            app:layout_constraintStart_toEndOf="@id/start_barrier"
+            app:layout_constraintTop_toTopOf="@+id/date_image_button"
+            tools:text="Date" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/time_image_button"
+            app:layout_constraintStart_toEndOf="@id/start_barrier"
+            app:layout_constraintTop_toTopOf="@+id/time_image_button"
+            tools:text="Time" />
+
+        <ImageButton
+            android:id="@+id/date_image_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:minHeight="48dp"
+            android:src="@drawable/icon_calendar"
+            app:layout_constraintStart_toEndOf="@id/center_barrier"
+            app:layout_constraintTop_toBottomOf="@id/top_barrier" />
+
+        <ImageButton
+            android:id="@+id/time_image_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:minHeight="48dp"
+            android:src="@drawable/icon_clock"
+            app:layout_constraintStart_toEndOf="@id/center_barrier"
+            app:layout_constraintTop_toBottomOf="@+id/date_image_button" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/cancel_button"
+            app:layout_constraintTop_toTopOf="@+id/cancel_button" />
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/save_button"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/time_image_button"
+            app:layout_constraintVertical_bias="0.20" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.4"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

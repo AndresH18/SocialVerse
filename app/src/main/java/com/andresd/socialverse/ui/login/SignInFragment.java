@@ -25,7 +25,7 @@ import com.andresd.socialverse.databinding.FragmentSignInBinding;
 
 public class SignInFragment extends Fragment {
 
-    private static final String TAG = SignInFragment.class.getSimpleName();
+    private static final String TAG = SignInFragment.class.getName();
 
     private LoginViewModel mViewModel;
     private FragmentSignInBinding binding;
@@ -159,8 +159,8 @@ public class SignInFragment extends Fragment {
         });
 
         // TODO: Delete test user and password
-        binding.username.setText("testing@socialverse.test");
-        binding.password.setText("socialTest");
+        binding.username.setText("developing@socialverse.test");
+        binding.password.setText("developTest");
 
         Log.i(TAG, "onViewCreated: finished");
     }

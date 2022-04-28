@@ -24,7 +24,7 @@ import com.andresd.socialverse.ui.main.MainActivity;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final String TAG = LoginActivity.class.getName();
 
     private AppBarConfiguration appBarConfiguration;
     private NavController navController;

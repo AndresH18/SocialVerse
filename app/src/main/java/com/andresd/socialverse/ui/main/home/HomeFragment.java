@@ -19,7 +19,7 @@ import com.andresd.socialverse.ui.main.MainActivityViewModelFactory;
 
 public class HomeFragment extends Fragment {
 
-    private static final String TAG = HomeFragment.class.getSimpleName();
+    private static final String TAG = HomeFragment.class.getName();
 
     private FragmentHomeBinding binding;
     private MainActivityViewModel mViewModel;

@@ -31,7 +31,8 @@ import java.util.List;
 
 
 public class SearchFragment extends Fragment implements OnCardItemSelectedListener {
-    private static final String TAG = SearchFragment.class.getSimpleName();
+
+    private static final String TAG = SearchFragment.class.getName();
 
     private FragmentSearchBinding binding;
     private MainActivityViewModel mViewModel;

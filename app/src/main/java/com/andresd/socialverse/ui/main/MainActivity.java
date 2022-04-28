@@ -17,6 +17,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.andresd.socialverse.R;
+import com.andresd.socialverse.data.repository.UserRepository;
 import com.andresd.socialverse.databinding.ActivityMainBinding;
 import com.andresd.socialverse.ui.login.LoginActivity;
 import com.andresd.socialverse.ui.main.mygroups.MyGroupsFragment;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Logcat tag
      */
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getName();
 
     private MainActivityViewModel mViewModel;
     /**
@@ -77,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
         /* Observe the state of the User Auth */
         // Since it also receives the value when the observer is added, it also functions as
         // the first check to see if the user is logged in
-        mViewModel.getUserState().observe(this, new Observer<MainActivityViewModel.UserAuthState>() {
+        mViewModel.getUserState().observe(this, new Observer<UserRepository.UserAuthState>() {
             @Override
-            public void onChanged(MainActivityViewModel.UserAuthState userState) {
+            public void onChanged(UserRepository.UserAuthState userState) {
                 switch (userState) {
                     // user is signed out
                     case INVALID:
@@ -113,20 +114,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void signOut() {
         mViewModel.signOut();
-
-    }
-
-    /**
-     * <p>Called when the bottom navigation items are selected</p>
-     */
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Sets the add icon's visibility when the item is search
-        // TODO: decidir si mejor poner un button cuando no haya resultado sobre el grupo.
-        //  Si se va a poner el button, entonces borrar el item de agregar grupo del menu
-        // FIXME: Se va a tener que crear el button, porque usar este listener daña la funcionalidad del nav_host
-        binding.toolbar.getMenu().getItem(0).setVisible(item.getItemId() == R.id.navigation_search);
-
-        return true;
     }
 
     @Override
@@ -134,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.menu_item_sign_out) {
             Snackbar.make(binding.coordinator, R.string.question_sign_out, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_sign_out, view -> signOut()).show();
+        } else if (item.getItemId() == R.id.menu_item_settings) {
+            Snackbar.make(binding.coordinator, "Setting not implemented", Snackbar.LENGTH_SHORT).show();
         }
         // TODO (TESTING)
         if (item.getItemId() == R.id.menu_item_refresh) {
@@ -175,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i(TAG, "onResume: finished");
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // called after onResume
@@ -204,10 +194,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "onDestroy: started");
-
         Log.i(TAG, "onDestroy: finished");
     }
-
 
 
     @Override
