@@ -1,6 +1,7 @@
 package com.andresd.socialverse.ui.group;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -10,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.andresd.socialverse.data.model.AbstractScheduleItem;
 import com.andresd.socialverse.databinding.FragmentScheduleItemBinding;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -69,9 +69,9 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
 
     public interface OnItemListener {
 
-        void onDeleteItemClicked();
+        void onDeleteItemClicked(View v, int index);
 
-        void onModifyItemClicked();
+        void onModifyItemClicked(View v, int index);
 
     }
 
@@ -89,17 +89,12 @@ public class MyScheduleRecyclerViewAdapter extends RecyclerView.Adapter<MySchedu
             mTitle = binding.titleTextView;
             mDetails = binding.detailsTextView;
 
-            binding.editImageButton.setOnClickListener(v -> {
+            binding.editImageButton.setOnClickListener(
+                    v -> mOnItemListener.onModifyItemClicked(v, getBindingAdapterPosition()));
 
-                Snackbar.make(v, "Edit not implemented", Snackbar.LENGTH_SHORT).show();
-                mOnItemListener.onModifyItemClicked();
+            binding.deleteImageButton.setOnClickListener(
+                    v -> mOnItemListener.onDeleteItemClicked(v, getBindingAdapterPosition()));
 
-            });
-            binding.deleteImageButton.setOnClickListener(v -> {
-                Snackbar.make(v, "Delete not implemented", Snackbar.LENGTH_SHORT).show();
-                mOnItemListener.onDeleteItemClicked();
-
-            });
         }
 
         @NonNull

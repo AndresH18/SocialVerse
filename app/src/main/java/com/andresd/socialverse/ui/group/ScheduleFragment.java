@@ -30,7 +30,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
-public class ScheduleFragment extends Fragment implements TextWatcher,
+public class ScheduleFragment extends Fragment implements
         TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener {
 
@@ -55,6 +55,41 @@ public class ScheduleFragment extends Fragment implements TextWatcher,
     private int mMinute = mLocalDateTime.getMinute();
 
 
+    private final TextWatcher mTitleTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // DO Nothing
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // DO NOTHING
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            mTitle = binding.titleEditText.getText().toString();
+        }
+    };
+
+    private final TextWatcher mDetailsTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // DO NOTHING
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // DO NOTHING
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            mDetails = binding.detailsEditText.getText().toString();
+        }
+    };
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,8 +97,8 @@ public class ScheduleFragment extends Fragment implements TextWatcher,
         Log.i(TAG, "onCreateView: inflating layout");
         binding = FragmentScheduleBinding.inflate(inflater, container, false);
 
-        binding.titleEditText.addTextChangedListener(this);
-        binding.detailsEditText.addTextChangedListener(this);
+        binding.titleEditText.addTextChangedListener(mTitleTextWatcher);
+        binding.detailsEditText.addTextChangedListener(mDetailsTextWatcher);
 
 
         binding.dateImageButton.setOnClickListener(new View.OnClickListener() {
@@ -123,9 +158,9 @@ public class ScheduleFragment extends Fragment implements TextWatcher,
         Log.i(TAG, "onViewCreated: getting view Model");
         mViewModel = new ViewModelProvider(requireActivity(), new GroupViewModelFactory()).get(GroupViewModel.class);
 
-        if (args.getItemId() >= 0) {
+        if (args.getItemIndex() >= 0) {
             // an item was selected
-            mScheduleItem = (AbstractScheduleItem.MutableScheduleItem) mViewModel.getItem(args.getItemId());
+            mScheduleItem = (AbstractScheduleItem.MutableScheduleItem) mViewModel.getItem(args.getItemIndex());
 
             mLocalDateTime = mScheduleItem.getDateTime().toInstant()
                     .atZone(ZoneId.systemDefault())
@@ -184,7 +219,7 @@ public class ScheduleFragment extends Fragment implements TextWatcher,
             mScheduleItem.setDetails(mDetails);
 
             if (mViewModel.updateElement(mScheduleItem)) {
-                Toast.makeText(requireContext(), R.string.result_update_successful, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(requireContext(), R.string.result_update_successful, Toast.LENGTH_SHORT).show();
                 requireActivity().onBackPressed();
             } else {
                 Snackbar.make(v, R.string.result_update_failed, Snackbar.LENGTH_SHORT).show();
@@ -226,23 +261,6 @@ public class ScheduleFragment extends Fragment implements TextWatcher,
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         setTime(hourOfDay, minute);
     }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        // Do Nothing
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        // Do Nothing
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        mTitle = binding.titleEditText.getText().toString().trim();
-        mDetails = binding.detailsEditText.getText().toString().trim();
-    }
-
 
     @Override
     public void onDestroy() {

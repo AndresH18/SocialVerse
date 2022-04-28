@@ -19,7 +19,6 @@ import com.andresd.socialverse.data.model.AbstractScheduleItem;
 import com.andresd.socialverse.databinding.FragmentMySchedulesListBinding;
 
 import java.util.ArrayList;
-import java.util.TreeSet;
 
 /**
  * A fragment representing a list of Items.
@@ -117,12 +116,18 @@ public class MySchedulesListFragment extends Fragment implements MyScheduleRecyc
     }
 
     @Override
-    public void onDeleteItemClicked() {
+    public void onDeleteItemClicked(View v, int index) {
         // TODO
+//        mViewModel.checkIndex(index);
+        mViewModel.removeScheduleItem(index);
     }
 
     @Override
-    public void onModifyItemClicked() {
-        // TODO
+    public void onModifyItemClicked(View v, int index) {
+        MySchedulesListFragmentDirections.ActionSchedulesToAddScheduleFragment directions
+                = MySchedulesListFragmentDirections.actionSchedulesToAddScheduleFragment(index);
+
+        Navigation.findNavController(v).navigate(directions);
+
     }
 }

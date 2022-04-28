@@ -17,7 +17,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 
 public class GroupRepository {
@@ -70,7 +72,11 @@ public class GroupRepository {
                             group.setId(documentSnapshot.getReference());
                             mutableLiveData.postValue(group);
                         }
+                    } else {
+                        Log.w(TAG, "onComplete: document doesn't exists");
                     }
+                } else {
+                    Log.e(TAG, "onComplete: task failed", task.getException());
                 }
             }
         });
@@ -90,7 +96,11 @@ public class GroupRepository {
                             group.setId(documentSnapshot.getReference());
                             mutableLiveData.postValue(group);
                         }
+                    } else {
+                        Log.w(TAG, "onComplete: Document doesn't exist");
                     }
+                } else {
+                    Log.e(TAG, "onComplete: task failed", task.getException());
                 }
             }
         });
@@ -122,6 +132,8 @@ public class GroupRepository {
                         }
                     }
                     mutableLiveData.postValue(groupList);
+                } else {
+                    Log.e(TAG, "onComplete: task failed", task.getException());
                 }
             }
         });
@@ -153,6 +165,8 @@ public class GroupRepository {
                         }
                     }
                     mutableLiveData.postValue(groupList);
+                } else {
+                    Log.e(TAG, "onComplete: task failed", task.getException());
                 }
             }
         });
@@ -183,10 +197,47 @@ public class GroupRepository {
 
     public void updateScheduleItem(@NonNull String groupId, @NonNull AbstractScheduleItem item) {
         // TODO:
+        final Map<String, Object> updateMap = new HashMap<>();
+        updateMap.put("dateTime", item.getDateTime());
+        updateMap.put("details", item.getDetails());
+        updateMap.put("title", item.getTitle());
+
+        FirebaseFirestore.getInstance().collection(COLLECTION_GROUPS).document(groupId)
+                .collection(COLLECTION_SCHEDULES).document(item.getId())
+                .update(updateMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    itemsTreeSetLiveData.postValue(itemsTreeSetLiveData.getValue());
+                } else {
+                    Log.e(TAG, "onComplete: task failed", task.getException());
+                }
+            }
+        });
+
     }
 
-    public void deleteScheduleItem(@NonNull String groupId, @NonNull AbstractScheduleItem item) {
-        // TODO:
+    public void deleteScheduleItem(@NonNull String groupId, @NonNull final AbstractScheduleItem item) {
+        final DocumentReference doc =
+                FirebaseFirestore.getInstance().collection(COLLECTION_GROUPS).document(groupId)
+                        .collection(COLLECTION_SCHEDULES).document(item.getId());
+
+        doc.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    TreeSet<AbstractScheduleItem> treeSet = itemsTreeSetLiveData.getValue();
+                    if (treeSet != null) {
+                        treeSet.remove(item);
+                    } else {
+                        treeSet = new TreeSet<>();
+                    }
+                    itemsTreeSetLiveData.postValue(treeSet);
+                } else {
+                    Log.e(TAG, "onComplete: task failed", task.getException());
+                }
+            }
+        });
     }
 
     public void acquireSchedules(@NonNull String groupId) {
@@ -197,15 +248,16 @@ public class GroupRepository {
                 if (task.isSuccessful()) {
                     QuerySnapshot snapshot = task.getResult();
                     TreeSet<AbstractScheduleItem> set = itemsTreeSetLiveData.getValue();
-                    if (set != null) {
-                        for (DocumentSnapshot document : snapshot.getDocuments()) {
-                            AbstractScheduleItem.MutableScheduleItem item = document.toObject(AbstractScheduleItem.MutableScheduleItem.class);
-                            set.add(item);
-                        }
-                        itemsTreeSetLiveData.postValue(set);
-                    } else {
-                        Log.w(TAG, "onComplete: Set is null");
+                    if (set == null) {
+                        set = new TreeSet<>();
                     }
+                    for (DocumentSnapshot document : snapshot.getDocuments()) {
+                        AbstractScheduleItem.MutableScheduleItem item = document.toObject(AbstractScheduleItem.MutableScheduleItem.class);
+                        set.add(item);
+                    }
+                    itemsTreeSetLiveData.postValue(set);
+                } else {
+                    Log.e(TAG, "onComplete: task failed", task.getException());
                 }
             }
         });

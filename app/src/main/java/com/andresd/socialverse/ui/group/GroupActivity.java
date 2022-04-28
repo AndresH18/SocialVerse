@@ -1,6 +1,5 @@
 package com.andresd.socialverse.ui.group;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,8 +18,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.andresd.socialverse.R;
 import com.andresd.socialverse.data.repository.UserRepository;
 import com.andresd.socialverse.databinding.ActivityGroupBinding;
-import com.andresd.socialverse.ui.login.LoginActivity;
-import com.andresd.socialverse.ui.main.MainActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 public class GroupActivity extends AppCompatActivity {
@@ -197,7 +194,6 @@ public class GroupActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.i(TAG, "onStop: started");
-        mViewModel.cleanRepository();
 
         Log.i(TAG, "onStop: finished");
     }
@@ -213,17 +209,16 @@ public class GroupActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        String message = "Options Item Message Holder";
+
         if (item.getItemId() == R.id.menu_item_refresh) {
-            message = "Refresh";
+            Snackbar.make(binding.coordinator, "Refresh", Snackbar.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.menu_item_sign_out) {
             Snackbar.make(binding.coordinator, R.string.question_sign_out, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_sign_out, view -> signOut()).show();
-            message = "Sign Out";
         } else if (item.getItemId() == R.id.menu_item_settings) {
-            message = "Settings";
+            Snackbar.make(binding.coordinator, "Settings not implemented", Snackbar.LENGTH_SHORT).show();
         } else if (item.getItemId() == R.id.schedules) {
-            message = "Schedules";
+
             Boolean b = mViewModel.getIsViewOnSchedule().getValue();
             if (b != null && !b) {
 //            if (mViewModel.getViewOnSchedule() != null && !mViewModel.getViewOnSchedule().getValue()) {
@@ -231,7 +226,6 @@ public class GroupActivity extends AppCompatActivity {
                 NavigationUI.onNavDestinationSelected(item, navController);
             }
         }
-        Toast.makeText(GroupActivity.this, message, Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
 

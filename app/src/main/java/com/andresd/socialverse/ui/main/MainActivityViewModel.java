@@ -9,7 +9,6 @@ import com.andresd.socialverse.data.model.AbstractGroup;
 import com.andresd.socialverse.data.model.AbstractUser;
 import com.andresd.socialverse.data.repository.GroupRepository;
 import com.andresd.socialverse.data.repository.UserRepository;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,6 +43,7 @@ public class MainActivityViewModel extends ViewModel {
 
     public void signOut() {
         UserRepository.getInstance().signOut();
+        GroupRepository.getInstance().cleanData();
 //        userState.setValue(UserRepository.UserAuthState.INVALID); // or SIGNED_OUT
     }
 

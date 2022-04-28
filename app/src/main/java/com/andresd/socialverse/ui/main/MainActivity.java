@@ -134,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.menu_item_sign_out) {
             Snackbar.make(binding.coordinator, R.string.question_sign_out, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_sign_out, view -> signOut()).show();
+        } else if (item.getItemId() == R.id.menu_item_settings) {
+            Snackbar.make(binding.coordinator, "Setting not implemented", Snackbar.LENGTH_SHORT).show();
         }
         // TODO (TESTING)
         if (item.getItemId() == R.id.menu_item_refresh) {
@@ -175,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i(TAG, "onResume: finished");
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // called after onResume
@@ -204,10 +207,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "onDestroy: started");
-
         Log.i(TAG, "onDestroy: finished");
     }
-
 
 
     @Override

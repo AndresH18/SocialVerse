@@ -15,7 +15,6 @@ import com.andresd.socialverse.data.model.AbstractScheduleItem;
 import com.andresd.socialverse.data.model.AbstractUser;
 import com.andresd.socialverse.data.repository.GroupRepository;
 import com.andresd.socialverse.data.repository.UserRepository;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -38,7 +37,8 @@ public class GroupViewModel extends ViewModel {
 
     GroupViewModel() {
         userState = UserRepository.getInstance().getUserAuthState();
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+        if (UserRepository.UserAuthState.checkStateIsValid(userState.getValue())) {
+//        if (FirebaseAuth.getInstance().getCurrentUser() != null) { // esto se puede remplazar con userState.getValue() == VALID o algo asi
 //            userState.setValue(UserRepository.UserAuthState.VALID);
 
             itemsTreeSetLiveData = GroupRepository.getInstance().getItemsTreeSetLiveData();
@@ -66,9 +66,10 @@ public class GroupViewModel extends ViewModel {
             userSubscriptionMediatorLiveData.addSource(group,
                     u -> userSubscriptionMediatorLiveData.setValue(checkUserSubscribed()));
 
-        } else {
-//            userState.setValue(UserRepository.UserAuthState.NOT_LOGGED_IN);
         }
+//        else {
+//            userState.setValue(UserRepository.UserAuthState.NOT_LOGGED_IN);
+//        }
     }
 
     public void setGroupId(@NonNull String groupId) {
@@ -108,7 +109,7 @@ public class GroupViewModel extends ViewModel {
 
         return false;
     }
-
+    @Deprecated
     public boolean removeScheduleItem(@NonNull AbstractScheduleItem scheduleItem) {
         if (itemsTreeSetLiveData.getValue() != null) {
             itemsTreeSetLiveData.getValue().remove(scheduleItem);
@@ -118,14 +119,37 @@ public class GroupViewModel extends ViewModel {
 
             return true;
         }
-        int i = 11;
         return false;
     }
 
+    public void removeScheduleItem(int itemIndex) {
+        if (itemsTreeSetLiveData.getValue() != null && group.getValue() != null) {
+            AbstractScheduleItem item = getItem(itemIndex);
+
+            GroupRepository.getInstance().deleteScheduleItem(group.getValue().getId().getId(), item);
+        }
+    }
+
     public boolean updateElement(@NonNull AbstractScheduleItem scheduleItem) {
+//        if (itemsTreeSetLiveData.getValue() != null) {
+//            itemsTreeSetLiveData.getValue().remove(scheduleItem);
+//            return addScheduleItem(scheduleItem);
+//        }
+
         if (itemsTreeSetLiveData.getValue() != null) {
-            itemsTreeSetLiveData.getValue().remove(scheduleItem);
-            return addScheduleItem(scheduleItem);
+            if (itemsTreeSetLiveData.getValue().contains(scheduleItem)) {
+                // update
+                if (group.getValue() != null) {
+                    GroupRepository.getInstance().updateScheduleItem(group.getValue().getId().getId(), scheduleItem);
+                    return true;
+                } else {
+                    Log.w(TAG, "updateElement: group is null");
+                }
+            } else {
+                // add
+                return addScheduleItem(scheduleItem);
+            }
+
         }
         return false;
     }
@@ -139,18 +163,19 @@ public class GroupViewModel extends ViewModel {
     }
 
     @NonNull
-    public AbstractScheduleItem getItem(int index) {
+    public final AbstractScheduleItem getItem(int index) {
         try {
             return itemArrayList.get(index);
         } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             Log.e(TAG, "getItem: index out bounds");
             throw new IllegalArgumentException("Index " + index + " is out of bounds");
         }
-
     }
+
 
     public void signOut() {
         UserRepository.getInstance().signOut();
+        GroupRepository.getInstance().cleanData();
     }
 
     public boolean isUserSubscribed() {

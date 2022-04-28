@@ -76,6 +76,8 @@ public class UserRepository {
                                 Log.e(TAG, "onComplete: document.toObject() is null");
                             }
                         }
+                    } else {
+                        Log.e(TAG, "onComplete: task was not successful");
                     }
                 }
             });
@@ -128,6 +130,11 @@ public class UserRepository {
          */
         NOT_LOGGED_IN,
         ;
+
+        public static boolean checkStateIsValid(UserAuthState authState) {
+            return authState == VALID || authState == SIGNED_IN;
+        }
+
     }
 
 }
