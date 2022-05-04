@@ -14,4 +14,7 @@
     <color name="secondary">#004E59</color>
     <color name="secondary_light">#3D7A86</color>
     <color name="secondary_dark">#002630</color>
+
+
+    <color name="post_background">#EDEDED</color>
 </resources>
