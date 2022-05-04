@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory()).get(LoginViewModel.class);
 
-        setSupportActionBar(binding.toolbar);
+//        setSupportActionBar(binding.toolbar);
         navController = Navigation.findNavController(this, R.id.login_nav_host_fragment);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController);

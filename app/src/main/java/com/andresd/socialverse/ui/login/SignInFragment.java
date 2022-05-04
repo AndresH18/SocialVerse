@@ -55,7 +55,6 @@ public class SignInFragment extends Fragment {
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
         final Button signInButton = binding.login;
-        final Button signUpButton = binding.signUpButton;
         final ProgressBar loadingProgressBar = binding.loading;
 
 
@@ -144,19 +143,7 @@ public class SignInFragment extends Fragment {
         signUpButton.setOnClickListener(Navigation.createNavigateOnClickListener(action));
 
          */
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Navigation.findNavController(v).navigate(R.id.signinToSignup);
-                final String email = usernameEditText.getText().toString().trim();
-                final String password = passwordEditText.getText().toString().trim();
-                // using safe args
-                SignInFragmentDirections.SigninToSignup action = SignInFragmentDirections.signinToSignup(email, password);
-//                action.setEmail(usernameEditText.getText().toString());
-//                action.setPassword(passwordEditText.getText().toString());
-                Navigation.findNavController(v).navigate(action);
-            }
-        });
+
 
         // TODO: Delete test user and password
         binding.username.setText("developing@socialverse.test");
