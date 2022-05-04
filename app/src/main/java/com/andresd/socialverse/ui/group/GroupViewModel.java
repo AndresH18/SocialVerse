@@ -46,13 +46,15 @@ public class GroupViewModel extends ViewModel {
             listMediatorLiveData.addSource(itemsTreeSetLiveData, new Observer<TreeSet<AbstractScheduleItem>>() {
                 @Override
                 public void onChanged(TreeSet<AbstractScheduleItem> abstractScheduleItems) {
-                    itemArrayList.clear();
+                    if (abstractScheduleItems != null) {
+                        itemArrayList.clear();
 
-                    itemArrayList.addAll(abstractScheduleItems);
+                        itemArrayList.addAll(abstractScheduleItems);
 
-                    itemArrayList.trimToSize();
+                        itemArrayList.trimToSize();
 
-                    listMediatorLiveData.setValue(itemArrayList);
+                        listMediatorLiveData.setValue(itemArrayList);
+                    }
                 }
             });
 

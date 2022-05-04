@@ -202,7 +202,9 @@ public class GroupActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "onDestroy: started");
-
+        if (mViewModel != null) {
+            mViewModel.cleanRepository();
+        }
         Log.i(TAG, "onDestroy: finished");
     }
 
