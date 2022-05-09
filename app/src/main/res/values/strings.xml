@@ -26,6 +26,7 @@
     <string name="action_add_time">Add Time</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_save">Save</string>
+    <string name="question_confirm_delete">Delete?</string>
     <!--Requests-->
     <string name="question_sign_out">Sign Out?</string>
     <!---->
