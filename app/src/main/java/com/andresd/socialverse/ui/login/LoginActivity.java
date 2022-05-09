@@ -21,6 +21,7 @@ import com.andresd.socialverse.databinding.ActivityLoginBinding;
 import com.andresd.socialverse.ui.main.MainActivity;
 
 /**
+ *
  */
 public class LoginActivity extends AppCompatActivity {
 
@@ -43,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory()).get(LoginViewModel.class);
 
-//        setSupportActionBar(binding.toolbar);
+        setSupportActionBar(binding.toolbar);
         navController = Navigation.findNavController(this, R.id.login_nav_host_fragment);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController);
@@ -140,6 +141,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
     @SignUpElement
     private void signUp() {
         // TODO
