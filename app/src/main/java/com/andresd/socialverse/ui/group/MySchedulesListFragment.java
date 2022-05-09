@@ -15,8 +15,10 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.andresd.socialverse.R;
 import com.andresd.socialverse.data.model.AbstractScheduleItem;
 import com.andresd.socialverse.databinding.FragmentMySchedulesListBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -117,7 +119,13 @@ public class MySchedulesListFragment extends Fragment implements MyScheduleRecyc
 
     @Override
     public void onDeleteItemClicked(View v, int index) {
-        mViewModel.removeScheduleItem(index);
+        Snackbar.make(v, R.string.question_confirm_delete, Snackbar.LENGTH_SHORT)
+                .setAction("Delete", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mViewModel.removeScheduleItem(index);
+                    }
+                }).show();
     }
 
     @Override
