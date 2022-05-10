@@ -2,16 +2,22 @@ package com.andresd.socialverse.ui.main;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.andresd.socialverse.data.model.AbstractGroup;
+import com.andresd.socialverse.data.model.AbstractPost;
 import com.andresd.socialverse.data.model.AbstractUser;
 import com.andresd.socialverse.data.repository.GroupRepository;
 import com.andresd.socialverse.data.repository.UserRepository;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 
 public class MainActivityViewModel extends ViewModel {
@@ -24,11 +30,12 @@ public class MainActivityViewModel extends ViewModel {
 //    private String lastUID;
 
     private final MutableLiveData<String> mHomeText = new MutableLiveData<>("This is Home Fragment");
+    private final MediatorLiveData<SortedSet<AbstractPost>> universityPostsMediator = new MediatorLiveData<>();
 
     MainActivityViewModel() {
         userState = UserRepository.getInstance().getUserAuthState();
         // initialize values
-            UserRepository.getInstance().setUserState(currentUser);
+        UserRepository.getInstance().setUserState(currentUser);
 //            lastUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 //            currentUserLiveData = UserRepository.getUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
@@ -39,7 +46,19 @@ public class MainActivityViewModel extends ViewModel {
 //                  // use lastUID to check if user changed
 //            }
 //        });
+
+        universityPostsMediator.addSource(GroupRepository.getInstance().getUniversityPosts(),
+                new Observer<Map<AbstractPost, AbstractPost>>() {
+                    @Override
+                    public void onChanged(Map<AbstractPost, AbstractPost> abstractPostAbstractPostTreeMap) {
+                        if (abstractPostAbstractPostTreeMap != null) {
+                            universityPostsMediator.setValue(new TreeSet<>(abstractPostAbstractPostTreeMap.keySet()));
+                        }
+                    }
+                });
+
     }
+
 
     public void signOut() {
         UserRepository.getInstance().signOut();
@@ -71,7 +90,6 @@ public class MainActivityViewModel extends ViewModel {
     public LiveData<String> getText() {
         return mHomeText;
     }
-
 
 
 }

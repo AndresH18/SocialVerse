@@ -61,7 +61,7 @@ public class UserRepository {
             userMutableLiveData.setValue(user);
         } else {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection(COLLECTION_USERS).document(uid)
+             Task s = db.collection(COLLECTION_USERS).document(uid)
                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
