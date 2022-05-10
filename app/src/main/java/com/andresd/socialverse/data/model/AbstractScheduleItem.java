@@ -2,15 +2,17 @@ package com.andresd.socialverse.data.model;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.util.Date;
 
 @IgnoreExtraProperties
-public class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
+public abstract class AbstractScheduleItem implements Comparable<AbstractScheduleItem> {
 
-
+    @Exclude
     private String id;
+
     private Date dateTime;
     private String title;
     private String details;

@@ -3,17 +3,24 @@ package com.andresd.socialverse.data.repository;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
 import com.andresd.socialverse.data.model.AbstractGroup;
+import com.andresd.socialverse.data.model.AbstractPost;
 import com.andresd.socialverse.data.model.AbstractScheduleItem;
 import com.andresd.socialverse.data.model.GroupCard;
 import com.andresd.socialverse.data.model.MutableGroup;
+import com.andresd.socialverse.data.model.Post;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -26,18 +33,71 @@ public class GroupRepository {
 
     private static final String TAG = GroupRepository.class.getName();
 
-    private static final String COLLECTION_GROUPS = "groups";
+    private static final String ROOT_COLLECTION_GROUPS = "groups";
     private static final String COLLECTION_SCHEDULES = "schedules";
+    private static final String COLLECTION_POSTS = "posts";
+
+    private static final String ROOT_COLLECTION_UNIVERSITY = "university";
 
     private static final String FIELD_TAGS = "tags";
     private static final String FIELD_NAME = "name";
 
     private static volatile GroupRepository instance;
 
-    private final MutableLiveData<TreeSet<AbstractScheduleItem>> itemsTreeSetLiveData;
+    private CollectionReference universityPostsCollection = FirebaseFirestore.getInstance()
+            .collection(ROOT_COLLECTION_UNIVERSITY).document(COLLECTION_POSTS)
+            .collection(COLLECTION_POSTS);
+
+    private final MutableLiveData<TreeSet<AbstractScheduleItem>> itemsTreeSetLiveData = new MutableLiveData<>(new TreeSet<>());
+
+    private final MutableLiveData<Map<AbstractPost, AbstractPost>> universityPosts = new MutableLiveData<>(new HashMap<>());
+
 
     private GroupRepository() {
-        itemsTreeSetLiveData = new MutableLiveData<>(new TreeSet<>());
+        universityPostsCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.w(TAG, "onEvent: listen failed.", error);
+                }
+                if (value != null) {
+                    Map<AbstractPost, AbstractPost> map = universityPosts.getValue() != null ?
+                            universityPosts.getValue() : new HashMap<>();
+
+                    for (DocumentChange documentChange : value.getDocumentChanges()) {
+                        try {
+                            final Post post = documentChange.getDocument().toObject(Post.class);
+                            post.setId(documentChange.getDocument().getId());
+
+                            switch (documentChange.getType()) {
+                                case ADDED:
+                                    map.put(post, post);
+                                    break;
+                                case REMOVED:
+                                    map.remove(post);
+                                    break;
+                                case MODIFIED:
+                                    Post p = (Post) map.get(post);
+                                    if (p != null) {
+                                        p.setMessage(post.getMessage());
+                                        p.setTitle(post.getTitle());
+                                    } else {
+                                        map.put(post, post);
+                                    }
+                                default:
+                                    break;
+                            }
+                        } catch (Exception e) {
+                            Log.w(TAG, "onEvent: Failed to Convert Object", e);
+                        }
+                    }
+                    universityPosts.postValue(map);
+                } else {
+                    Log.w(TAG, "onEvent: listen Failed, QuerySnapshot is null");
+                }
+
+            }
+        });
     }
 
     /**
@@ -60,7 +120,7 @@ public class GroupRepository {
      * @param mutableLiveData where to post the group
      */
     public void getGroup(@NonNull String id, @NonNull MutableLiveData<AbstractGroup> mutableLiveData) {
-        FirebaseFirestore.getInstance().collection(COLLECTION_GROUPS).document(id)
+        FirebaseFirestore.getInstance().collection(ROOT_COLLECTION_GROUPS).document(id)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -82,7 +142,7 @@ public class GroupRepository {
         });
     }
 
-    @Deprecated
+   /* @Deprecated
     public void getGroup(@NonNull DocumentReference reference, @NonNull MutableLiveData<AbstractGroup> mutableLiveData) {
         FirebaseFirestore.getInstance().document(reference.getPath())
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -104,7 +164,7 @@ public class GroupRepository {
                 }
             }
         });
-    }
+    }*/
 
     /**
      * <p>Searches the {@link AbstractGroup}s that contain any of the groupTags, and posts <br>
@@ -114,7 +174,7 @@ public class GroupRepository {
      * @param mutableLiveData where to post the result
      */
     public void searchGroupsByTags(@NonNull List<String> groupTags, @NonNull MutableLiveData<List<AbstractGroup>> mutableLiveData) {
-        FirebaseFirestore.getInstance().collection(COLLECTION_GROUPS).whereArrayContainsAny(FIELD_TAGS, groupTags)
+        FirebaseFirestore.getInstance().collection(ROOT_COLLECTION_GROUPS).whereArrayContainsAny(FIELD_TAGS, groupTags)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -147,7 +207,7 @@ public class GroupRepository {
      * @param mutableLiveData where to post the result
      */
     public void searchGroupByName(@NonNull String groupName, @NonNull MutableLiveData<List<AbstractGroup>> mutableLiveData) {
-        FirebaseFirestore.getInstance().collection(COLLECTION_GROUPS).whereEqualTo(FIELD_NAME, groupName)
+        FirebaseFirestore.getInstance().collection(ROOT_COLLECTION_GROUPS).whereEqualTo(FIELD_NAME, groupName)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -174,7 +234,7 @@ public class GroupRepository {
 
 
     public void addScheduleItem(@NonNull String groupId, @NonNull AbstractScheduleItem item) {
-        final DocumentReference doc = FirebaseFirestore.getInstance().collection(COLLECTION_GROUPS).document(groupId)
+        final DocumentReference doc = FirebaseFirestore.getInstance().collection(ROOT_COLLECTION_GROUPS).document(groupId)
                 .collection(COLLECTION_SCHEDULES).document();
         ((AbstractScheduleItem.MutableScheduleItem) item).setId(doc.getId());
         doc.set(item).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -202,7 +262,7 @@ public class GroupRepository {
         updateMap.put("details", item.getDetails());
         updateMap.put("title", item.getTitle());
 
-        FirebaseFirestore.getInstance().collection(COLLECTION_GROUPS).document(groupId)
+        FirebaseFirestore.getInstance().collection(ROOT_COLLECTION_GROUPS).document(groupId)
                 .collection(COLLECTION_SCHEDULES).document(item.getId())
                 .update(updateMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -219,7 +279,7 @@ public class GroupRepository {
 
     public void deleteScheduleItem(@NonNull String groupId, @NonNull final AbstractScheduleItem item) {
         final DocumentReference doc =
-                FirebaseFirestore.getInstance().collection(COLLECTION_GROUPS).document(groupId)
+                FirebaseFirestore.getInstance().collection(ROOT_COLLECTION_GROUPS).document(groupId)
                         .collection(COLLECTION_SCHEDULES).document(item.getId());
 
         doc.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -241,7 +301,7 @@ public class GroupRepository {
     }
 
     public void acquireSchedules(@NonNull String groupId) {
-        FirebaseFirestore.getInstance().collection(COLLECTION_GROUPS).document(groupId)
+        FirebaseFirestore.getInstance().collection(ROOT_COLLECTION_GROUPS).document(groupId)
                 .collection(COLLECTION_SCHEDULES).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -253,6 +313,7 @@ public class GroupRepository {
                     }
                     for (DocumentSnapshot document : snapshot.getDocuments()) {
                         AbstractScheduleItem.MutableScheduleItem item = document.toObject(AbstractScheduleItem.MutableScheduleItem.class);
+                        item.setId(document.getId());
                         set.add(item);
                     }
                     itemsTreeSetLiveData.postValue(set);
@@ -271,5 +332,9 @@ public class GroupRepository {
 
     public MutableLiveData<TreeSet<AbstractScheduleItem>> getItemsTreeSetLiveData() {
         return itemsTreeSetLiveData;
+    }
+
+    public MutableLiveData<Map<AbstractPost, AbstractPost>> getUniversityPosts() {
+        return universityPosts;
     }
 }

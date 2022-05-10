@@ -1,12 +1,16 @@
 package com.andresd.socialverse.data.model;
 
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.util.List;
 
+@IgnoreExtraProperties
 public abstract class AbstractGroup {
 
     // attributes
+    @Exclude
     private DocumentReference id;
     private String name;
     private String detail;
