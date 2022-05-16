@@ -1,8 +1,10 @@
 package com.andresd.socialverse.data.model;
 
+import com.google.firebase.firestore.IgnoreExtraProperties;
+
 import java.util.List;
 import java.util.Map;
-
+@IgnoreExtraProperties
 public abstract class AbstractUser {
 
     private String id;

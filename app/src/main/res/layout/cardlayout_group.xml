@@ -28,7 +28,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/icon_groups" />
+            app:srcCompat="@drawable/icon_groups" />
 
         <TextView
             android:id="@+id/itemTitle"

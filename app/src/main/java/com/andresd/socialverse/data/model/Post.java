@@ -1,7 +1,9 @@
 package com.andresd.socialverse.data.model;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.IgnoreExtraProperties;
 
+@IgnoreExtraProperties
 public class Post extends AbstractPost {
 
     @Override

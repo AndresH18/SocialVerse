@@ -13,6 +13,7 @@ import com.andresd.socialverse.data.model.AbstractUser;
 import com.andresd.socialverse.data.repository.GroupRepository;
 import com.andresd.socialverse.data.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +30,7 @@ public class MainActivityViewModel extends ViewModel {
     private final LiveData<UserRepository.UserAuthState> userState;
 //    private String lastUID;
 
-    private final MutableLiveData<String> mHomeText = new MutableLiveData<>("This is Home Fragment");
-    private final MediatorLiveData<SortedSet<AbstractPost>> universityPostsMediator = new MediatorLiveData<>();
+    private final MediatorLiveData<ArrayList<AbstractPost>> universityPostsMediator = new MediatorLiveData<>();
 
     MainActivityViewModel() {
         userState = UserRepository.getInstance().getUserAuthState();
@@ -52,7 +52,11 @@ public class MainActivityViewModel extends ViewModel {
                     @Override
                     public void onChanged(Map<AbstractPost, AbstractPost> abstractPostAbstractPostTreeMap) {
                         if (abstractPostAbstractPostTreeMap != null) {
-                            universityPostsMediator.setValue(new TreeSet<>(abstractPostAbstractPostTreeMap.keySet()));
+                            SortedSet<AbstractPost> sortedSet = new TreeSet<>(abstractPostAbstractPostTreeMap.keySet());
+
+                            ArrayList<AbstractPost> list = new ArrayList<>(sortedSet);
+
+                            universityPostsMediator.setValue(list);
                         }
                     }
                 });
@@ -87,9 +91,7 @@ public class MainActivityViewModel extends ViewModel {
         return currentUser;
     }
 
-    public LiveData<String> getText() {
-        return mHomeText;
+    public LiveData<ArrayList<AbstractPost>> getUniversityPosts() {
+        return universityPostsMediator;
     }
-
-
 }

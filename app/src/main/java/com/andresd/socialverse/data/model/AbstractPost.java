@@ -49,4 +49,22 @@ public abstract class AbstractPost implements Comparable<AbstractPost> {
     public int compareTo(AbstractPost o) {
         return id.equals(o.id) ? 0 : timestamp.compareTo(o.timestamp);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AbstractPost that = (AbstractPost) o;
+
+        if (!id.equals(that.id)) return false;
+        return timestamp.equals(that.timestamp);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + timestamp.hashCode();
+        return result;
+    }
 }

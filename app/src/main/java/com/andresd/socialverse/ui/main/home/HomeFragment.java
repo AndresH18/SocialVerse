@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,15 +12,20 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.andresd.socialverse.data.model.AbstractPost;
 import com.andresd.socialverse.databinding.FragmentHomeBinding;
+import com.andresd.socialverse.ui.adapters.PostRecyclerAdapter;
 import com.andresd.socialverse.ui.main.MainActivityViewModel;
 import com.andresd.socialverse.ui.main.MainActivityViewModelFactory;
+
+import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
     private static final String TAG = HomeFragment.class.getName();
 
     private FragmentHomeBinding binding;
+    private PostRecyclerAdapter adapter;
     private MainActivityViewModel mViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -29,6 +33,10 @@ public class HomeFragment extends Fragment {
         Log.i(TAG, "onCreateView: started");
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         Log.i(TAG, "onCreateView: finished");
+
+        // set adapter
+        adapter = new PostRecyclerAdapter();
+        binding.list.setAdapter(adapter);
         return binding.getRoot();
     }
 
@@ -39,11 +47,10 @@ public class HomeFragment extends Fragment {
         // create viewModel
         mViewModel = new ViewModelProvider(requireActivity(), new MainActivityViewModelFactory()).get(MainActivityViewModel.class);
 
-        final TextView textView = binding.textHome;
-        mViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        mViewModel.getUniversityPosts().observe(getViewLifecycleOwner(), new Observer<ArrayList<AbstractPost>>() {
             @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            public void onChanged(ArrayList<AbstractPost> abstractPosts) {
+                adapter.setData(abstractPosts);
             }
         });
 
