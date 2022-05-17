@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_GroupHome_to_scheduleFragment"
             app:destination="@id/schedules" />
+        <action
+            android:id="@+id/action_GroupHome_to_createPostFragment"
+            app:destination="@id/createPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/schedules"
@@ -36,4 +39,9 @@
             android:name="itemIndex"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="com.andresd.socialverse.ui.group.CreatePostFragment"
+        android:label="fragment_create_post"
+        tools:layout="@layout/fragment_create_post" />
 </navigation>

@@ -269,6 +269,24 @@ public class GroupRepository {
         }
     }
 
+    public void createPost(@NonNull String groupId, @NonNull AbstractPost post) {
+        final DocumentReference doc = FirebaseFirestore.getInstance().collection(ROOT_COLLECTION_GROUPS)
+                .document(groupId).collection(COLLECTION_POSTS)
+                .document();
+//        ((Post)post).setTimestamp(null);
+        ((Post) post).setId(doc.getId());
+        doc.set(post).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.i(TAG, "onComplete: Post published successfully");
+                } else {
+                    Log.w(TAG, "onComplete: task failed", task.getException());
+                }
+            }
+        });
+    }
+
 
     public void addScheduleItem(@NonNull String groupId, @NonNull AbstractScheduleItem item) {
         final DocumentReference doc = FirebaseFirestore.getInstance().collection(ROOT_COLLECTION_GROUPS)

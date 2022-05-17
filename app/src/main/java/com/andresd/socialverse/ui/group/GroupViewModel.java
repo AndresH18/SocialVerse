@@ -14,6 +14,7 @@ import com.andresd.socialverse.data.model.AbstractGroup;
 import com.andresd.socialverse.data.model.AbstractPost;
 import com.andresd.socialverse.data.model.AbstractScheduleItem;
 import com.andresd.socialverse.data.model.AbstractUser;
+import com.andresd.socialverse.data.model.Post;
 import com.andresd.socialverse.data.repository.GroupRepository;
 import com.andresd.socialverse.data.repository.UserRepository;
 
@@ -190,6 +191,11 @@ public class GroupViewModel extends ViewModel {
         }
     }
 
+    public void createPost(@NonNull String title, @NonNull String message) {
+        final AbstractPost post = new Post(title, message, userId);
+        GroupRepository.getInstance().createPost(groupId, post);
+    }
+
 
     public void signOut() {
         UserRepository.getInstance().signOut();
@@ -256,4 +262,6 @@ public class GroupViewModel extends ViewModel {
     public final void cleanRepository() {
         GroupRepository.getInstance().cleanData();
     }
+
+
 }

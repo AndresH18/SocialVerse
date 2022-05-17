@@ -3,16 +3,31 @@ package com.andresd.socialverse.data.model;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
+import com.google.firebase.firestore.ServerTimestamp;
 
 @IgnoreExtraProperties
 public abstract class AbstractPost implements Comparable<AbstractPost> {
+
     @Exclude
     private String id;
 
     private String title;
     private String message;
     private String owner;
+    @ServerTimestamp
     private Timestamp timestamp;
+
+    public AbstractPost() {
+
+    }
+
+    public AbstractPost(String title, String message, String owner) {
+        this.title = title;
+        this.message = message;
+        this.owner = owner;
+        this.id = null;
+        this.timestamp = null;
+    }
 
     public Timestamp getTimestamp() {
         return timestamp;

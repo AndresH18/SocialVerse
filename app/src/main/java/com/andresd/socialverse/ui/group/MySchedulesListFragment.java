@@ -102,6 +102,7 @@ public class MySchedulesListFragment extends Fragment implements MyScheduleRecyc
         mViewModel.getListLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<AbstractScheduleItem>>() {
             @Override
             public void onChanged(ArrayList<AbstractScheduleItem> abstractScheduleItems) {
+                binding.nothingHere.setVisibility(abstractScheduleItems == null || abstractScheduleItems.size() == 0? View.VISIBLE : View.GONE);
                 adapter.setDataList(abstractScheduleItems);
             }
         });

@@ -11,12 +11,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
-import com.andresd.socialverse.data.model.AbstractGroup;
 import com.andresd.socialverse.data.model.AbstractPost;
 import com.andresd.socialverse.databinding.FragmentGroupHomeBinding;
 import com.andresd.socialverse.ui.adapters.PostRecyclerAdapter;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -49,14 +48,14 @@ public class GroupHomeFragment extends Fragment {
         // create the viewModel
         mViewModel = new ViewModelProvider(requireActivity(), new GroupViewModelFactory()).get(GroupViewModel.class);
 
-        mViewModel.getGroup().observe(getViewLifecycleOwner(), new Observer<AbstractGroup>() {
-            @Override
-            public void onChanged(AbstractGroup abstractGroup) {
-                // TODO:
-                //  layout: create layout file, maybe use book guide for a collapsable toolbar, etc.
-                //  implement: show group information on the layout.
-            }
-        });
+//        mViewModel.getGroup().observe(getViewLifecycleOwner(), new Observer<AbstractGroup>() {
+//            @Override
+//            public void onChanged(AbstractGroup abstractGroup) {
+//                // T ODO:
+//                //  layout: create layout file, maybe use book guide for a collapsable toolbar, etc.
+//                //  implement: show group information on the layout.
+//            }
+//        });
 
         mViewModel.getUserSubscriptionMediatorLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
@@ -77,6 +76,7 @@ public class GroupHomeFragment extends Fragment {
         mViewModel.getGroupPostsLiveData().observe(getViewLifecycleOwner(), new Observer<List<AbstractPost>>() {
             @Override
             public void onChanged(List<AbstractPost> abstractPosts) {
+                binding.nothingHere.setVisibility(abstractPosts == null || abstractPosts.size() == 0? View.VISIBLE : View.GONE);
                 adapter.setData(abstractPosts);
             }
         });
@@ -84,9 +84,8 @@ public class GroupHomeFragment extends Fragment {
         binding.postFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO:
-                Snackbar.make(requireView(), "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Log.i(TAG, "onClick: navigating to post creation");
+                Navigation.findNavController(view).navigate(GroupHomeFragmentDirections.actionGroupHomeToCreatePostFragment());
             }
         });
 

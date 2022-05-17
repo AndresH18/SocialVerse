@@ -6,6 +6,13 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Post extends AbstractPost {
 
+    public Post() {
+    }
+
+    public Post(String title, String message, String owner) {
+        super(title, message, owner);
+    }
+
     @Override
     public Timestamp getTimestamp() {
         return super.getTimestamp();

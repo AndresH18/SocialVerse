@@ -50,6 +50,7 @@ public class HomeFragment extends Fragment {
         mViewModel.getUniversityPosts().observe(getViewLifecycleOwner(), new Observer<ArrayList<AbstractPost>>() {
             @Override
             public void onChanged(ArrayList<AbstractPost> abstractPosts) {
+                binding.nothingHere.setVisibility(abstractPosts == null || abstractPosts.size() == 0 ? View.VISIBLE : View.GONE);
                 adapter.setData(abstractPosts);
             }
         });

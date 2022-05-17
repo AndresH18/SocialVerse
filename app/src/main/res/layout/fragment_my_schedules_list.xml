@@ -7,15 +7,33 @@
     android:layout_height="match_parent"
     tools:context=".ui.group.MySchedulesListFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
-        android:name="com.andresd.socialverse.ui.group.ScheduleFragment"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager"
-        android:paddingBottom="48dp"
-        android:clipToPadding="false"
-        tools:listitem="@layout/fragment_schedule_item" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/nothing_here"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nothing_here"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_anchorGravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:name="com.andresd.socialverse.ui.group.ScheduleFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="48dp"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/fragment_schedule_item" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
