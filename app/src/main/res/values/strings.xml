@@ -26,9 +26,13 @@
     <string name="action_add_time">Add Time</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_save">Save</string>
+    <string name="action_reload">Reload</string>
     <string name="question_confirm_delete">Delete?</string>
+
     <!--Requests-->
     <string name="question_sign_out">Sign Out?</string>
+    <string name="question_reload">Reload?</string>
+
     <!---->
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>

@@ -20,19 +20,24 @@
             android:id="@+id/university_image_view"
             android:layout_width="@dimen/post_group_image_dimen"
             android:layout_height="@dimen/post_group_image_dimen"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name_text_view"
             app:srcCompat="@drawable/icon_groups"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/title_edit_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            tools:text="Title"
-            app:layout_constraintStart_toEndOf="@+id/university_image_view"
-            app:layout_constraintTop_toTopOf="@+id/university_image_view" />
+            android:textAlignment="center"
+            android:textSize="@dimen/header_text_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/university_image_view"
+            app:layout_constraintTop_toTopOf="@+id/university_image_view"
+            tools:text="Title" />
 
         <TextView
             android:id="@+id/message_text_view"
@@ -40,10 +45,20 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            tools:text="message"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/university_image_view"
-            app:layout_constraintTop_toBottomOf="@+id/title_edit_text" />
+            app:layout_constraintStart_toEndOf="@id/university_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/title_edit_text"
+            tools:text="message" />
+
+        <TextView
+            android:id="@+id/name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/name_text_size"
+            android:textStyle="italic"
+            app:layout_constraintStart_toStartOf="@+id/university_image_view"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

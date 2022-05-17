@@ -11,12 +11,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.andresd.socialverse.data.model.AbstractGroup;
+import com.andresd.socialverse.data.model.AbstractPost;
 import com.andresd.socialverse.data.model.AbstractScheduleItem;
 import com.andresd.socialverse.data.model.AbstractUser;
 import com.andresd.socialverse.data.repository.GroupRepository;
 import com.andresd.socialverse.data.repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -30,12 +32,24 @@ public class GroupViewModel extends ViewModel {
     private final MutableLiveData<AbstractGroup> group = new MutableLiveData<>();
     private final MutableLiveData<AbstractUser> user = new MutableLiveData<>();
 
+    private final MediatorLiveData<List<AbstractPost>> groupPostsMediator = new MediatorLiveData<>();
+
     private final MutableLiveData<Boolean> isViewOnSchedule = new MutableLiveData<>(false);
     private final MediatorLiveData<ArrayList<AbstractScheduleItem>> listMediatorLiveData = new MediatorLiveData<>();
     private final ArrayList<AbstractScheduleItem> itemArrayList = new ArrayList<>(0);
     private LiveData<TreeSet<AbstractScheduleItem>> itemsTreeSetLiveData;
 
+
+    private String groupId;
+    private String userId;
+
     GroupViewModel() {
+        groupPostsMediator.addSource(group, new Observer<AbstractGroup>() {
+            @Override
+            public void onChanged(AbstractGroup abstractGroup) {
+                GroupRepository.getInstance().getGroupPosts(abstractGroup, groupPostsMediator);
+            }
+        });
         userState = UserRepository.getInstance().getUserAuthState();
         if (UserRepository.UserAuthState.checkStateIsValid(userState.getValue())) {
 //        if (FirebaseAuth.getInstance().getCurrentUser() != null) { // esto se puede remplazar con userState.getValue() == VALID o algo asi
@@ -76,6 +90,7 @@ public class GroupViewModel extends ViewModel {
 
     public void setGroupId(@NonNull String groupId) {
         GroupRepository.getInstance().getGroup(groupId, group);
+        this.groupId = groupId;
     }
 
     /**
@@ -111,6 +126,7 @@ public class GroupViewModel extends ViewModel {
 
         return false;
     }
+
     @Deprecated
     public boolean removeScheduleItem(@NonNull AbstractScheduleItem scheduleItem) {
         if (itemsTreeSetLiveData.getValue() != null) {
@@ -203,6 +219,7 @@ public class GroupViewModel extends ViewModel {
     public void setUser(@Nullable String userId) {
         if (userId != null) {
             UserRepository.getInstance().setUserState(userId, user);
+            this.userId = userId;
         } else {
             user.setValue(null);
         }
@@ -222,6 +239,18 @@ public class GroupViewModel extends ViewModel {
 
     public LiveData<UserRepository.UserAuthState> getUserState() {
         return userState;
+    }
+
+    public LiveData<List<AbstractPost>> getGroupPostsLiveData() {
+        return groupPostsMediator;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public final void cleanRepository() {

@@ -13,14 +13,19 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.andresd.socialverse.data.model.AbstractGroup;
+import com.andresd.socialverse.data.model.AbstractPost;
 import com.andresd.socialverse.databinding.FragmentGroupHomeBinding;
+import com.andresd.socialverse.ui.adapters.PostRecyclerAdapter;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.List;
 
 public class GroupHomeFragment extends Fragment {
 
     private static final String TAG = GroupHomeFragment.class.getName();
 
     private FragmentGroupHomeBinding binding;
+    private PostRecyclerAdapter adapter;
     private GroupViewModel mViewModel;
 
     @Override
@@ -30,6 +35,9 @@ public class GroupHomeFragment extends Fragment {
     ) {
         Log.i(TAG, "onCreateView: ");
         binding = FragmentGroupHomeBinding.inflate(inflater, container, false);
+
+        adapter = new PostRecyclerAdapter();
+        binding.list.setAdapter(adapter);
 
         return binding.getRoot();
 
@@ -66,11 +74,10 @@ public class GroupHomeFragment extends Fragment {
         });
 
 
-        binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
+        mViewModel.getGroupPostsLiveData().observe(getViewLifecycleOwner(), new Observer<List<AbstractPost>>() {
             @Override
-            public void onClick(View view) {
-//                NavHostFragment.findNavController(FirstFragment.this)
-//                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
+            public void onChanged(List<AbstractPost> abstractPosts) {
+                adapter.setData(abstractPosts);
             }
         });
 

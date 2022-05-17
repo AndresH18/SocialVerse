@@ -30,4 +30,9 @@ public class Post extends AbstractPost {
     public void setId(String id) {
         super.setId(id);
     }
+
+    @Override
+    public void setOwner(String owner) {
+        super.setOwner(owner);
+    }
 }

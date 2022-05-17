@@ -1,9 +1,11 @@
 package com.andresd.socialverse.ui.group;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -213,7 +215,16 @@ public class GroupActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if (item.getItemId() == R.id.menu_item_refresh) {
-            Snackbar.make(binding.coordinator, "Refresh", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(binding.coordinator, R.string.question_reload, Snackbar.LENGTH_SHORT)
+                    .setAction(R.string.action_reload, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = getIntent();
+                            startActivity(intent);
+                            finish();
+                        }
+                    }).show();
+
         } else if (item.getItemId() == R.id.menu_item_sign_out) {
             Snackbar.make(binding.coordinator, R.string.question_sign_out, Snackbar.LENGTH_LONG)
                     .setAction(R.string.action_sign_out, view -> signOut()).show();

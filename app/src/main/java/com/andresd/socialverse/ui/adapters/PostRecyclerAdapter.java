@@ -48,6 +48,7 @@ public final class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecycler
 
         holder.mTitle.setText(post.getTitle());
         holder.mMessage.setText(post.getMessage());
+        holder.mOwner.setText(post.getOwner());
         holder.mPost = post;
 
     }
@@ -61,6 +62,7 @@ public final class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecycler
         private final ImageView mImage;
         private final TextView mTitle;
         private final TextView mMessage;
+        private final TextView mOwner;
         private AbstractPost mPost;
 
         public ViewHolder(FragmentPostItemBinding binding) {
@@ -68,6 +70,7 @@ public final class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecycler
             this.mImage = binding.universityImageView;
             this.mTitle = binding.titleEditText;
             this.mMessage = binding.messageTextView;
+            this.mOwner = binding.nameTextView;
         }
 
     }

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class GroupRepository {
@@ -38,6 +39,7 @@ public class GroupRepository {
     private static final String COLLECTION_POSTS = "posts";
 
     private static final String ROOT_COLLECTION_UNIVERSITY = "university";
+    private static final String UNIVERSITY_NAME = "EIA";
 
     private static final String FIELD_TAGS = "tags";
     private static final String FIELD_NAME = "name";
@@ -68,6 +70,7 @@ public class GroupRepository {
                         try {
                             final Post post = documentChange.getDocument().toObject(Post.class);
                             post.setId(documentChange.getDocument().getId());
+                            post.setOwner(UNIVERSITY_NAME);
 
                             switch (documentChange.getType()) {
                                 case ADDED:
@@ -173,8 +176,11 @@ public class GroupRepository {
      * @param groupTags       {@link List} of tags to search
      * @param mutableLiveData where to post the result
      */
-    public void searchGroupsByTags(@NonNull List<String> groupTags, @NonNull MutableLiveData<List<AbstractGroup>> mutableLiveData) {
-        FirebaseFirestore.getInstance().collection(ROOT_COLLECTION_GROUPS).whereArrayContainsAny(FIELD_TAGS, groupTags)
+    public void searchGroupsByTags(@NonNull List<String> groupTags,
+                                   @NonNull MutableLiveData<List<AbstractGroup>> mutableLiveData) {
+
+        FirebaseFirestore.getInstance().collection(ROOT_COLLECTION_GROUPS)
+                .whereArrayContainsAny(FIELD_TAGS, groupTags)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -207,7 +213,8 @@ public class GroupRepository {
      * @param mutableLiveData where to post the result
      */
     public void searchGroupByName(@NonNull String groupName, @NonNull MutableLiveData<List<AbstractGroup>> mutableLiveData) {
-        FirebaseFirestore.getInstance().collection(ROOT_COLLECTION_GROUPS).whereEqualTo(FIELD_NAME, groupName)
+        FirebaseFirestore.getInstance().collection(ROOT_COLLECTION_GROUPS)
+                .whereEqualTo(FIELD_NAME, groupName)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -232,10 +239,41 @@ public class GroupRepository {
         });
     }
 
+    public void getGroupPosts(@NonNull AbstractGroup group,
+                              @NonNull MutableLiveData<List<AbstractPost>> mutableLiveData) {
+
+        final DocumentReference id = group.getId();
+        if (id != null) {
+            FirebaseFirestore.getInstance().document(id.getPath())
+                    .collection(COLLECTION_POSTS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        SortedSet<AbstractPost> sortedSet = new TreeSet<>();
+
+                        for (DocumentSnapshot document : task.getResult().getDocuments()) {
+                            Post post = document.toObject(Post.class);
+                            if (post != null) {
+                                post.setId(document.getId());
+                                sortedSet.add(post);
+                            }
+                        }
+
+                        mutableLiveData.postValue(new ArrayList<>(sortedSet));
+
+                    } else {
+                        Log.w(TAG, "onComplete: Error getting posts", task.getException());
+                    }
+                }
+            });
+        }
+    }
+
 
     public void addScheduleItem(@NonNull String groupId, @NonNull AbstractScheduleItem item) {
-        final DocumentReference doc = FirebaseFirestore.getInstance().collection(ROOT_COLLECTION_GROUPS).document(groupId)
-                .collection(COLLECTION_SCHEDULES).document();
+        final DocumentReference doc = FirebaseFirestore.getInstance().collection(ROOT_COLLECTION_GROUPS)
+                .document(groupId).collection(COLLECTION_SCHEDULES)
+                .document();
         ((AbstractScheduleItem.MutableScheduleItem) item).setId(doc.getId());
         doc.set(item).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -312,9 +350,12 @@ public class GroupRepository {
                         set = new TreeSet<>();
                     }
                     for (DocumentSnapshot document : snapshot.getDocuments()) {
-                        AbstractScheduleItem.MutableScheduleItem item = document.toObject(AbstractScheduleItem.MutableScheduleItem.class);
-                        item.setId(document.getId());
-                        set.add(item);
+                        AbstractScheduleItem.MutableScheduleItem item =
+                                document.toObject(AbstractScheduleItem.MutableScheduleItem.class);
+                        if (item != null) {
+                            item.setId(document.getId());
+                            set.add(item);
+                        }
                     }
                     itemsTreeSetLiveData.postValue(set);
                 } else {

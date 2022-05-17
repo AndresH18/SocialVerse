@@ -11,6 +11,7 @@ public abstract class AbstractPost implements Comparable<AbstractPost> {
 
     private String title;
     private String message;
+    private String owner;
     private Timestamp timestamp;
 
     public Timestamp getTimestamp() {
@@ -43,6 +44,14 @@ public abstract class AbstractPost implements Comparable<AbstractPost> {
 
     protected void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    protected void setOwner(String owner) {
+        this.owner = owner;
     }
 
     @Override
