@@ -58,7 +58,7 @@ public final class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecycler
         return mPostList.size();
     }
 
-    protected class ViewHolder extends RecyclerView.ViewHolder {
+    protected static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView mImage;
         private final TextView mTitle;
         private final TextView mMessage;
