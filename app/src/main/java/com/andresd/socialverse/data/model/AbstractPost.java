@@ -71,7 +71,7 @@ public abstract class AbstractPost implements Comparable<AbstractPost> {
 
     @Override
     public int compareTo(AbstractPost o) {
-        return id.equals(o.id) ? 0 : timestamp.compareTo(o.timestamp);
+        return id.equals(o.id) ? 0 : o.timestamp.compareTo(this.timestamp);
     }
 
     @Override

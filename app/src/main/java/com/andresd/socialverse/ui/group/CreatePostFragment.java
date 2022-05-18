@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,9 +49,9 @@ public class CreatePostFragment extends Fragment {
                 final String message = binding.messageEditTextMultiLine.getText().toString();
                 if (formatIsValid(title, message)) {
                     // add post
-                    Snackbar.make(v, "Adding post", Snackbar.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Adding post", Toast.LENGTH_SHORT).show();
                     mViewModel.createPost(title, message);
-//                    requireActivity().onBackPressed();
+                    requireActivity().onBackPressed();
                 } else {
                     Snackbar.make(v, "Check the Information.", Snackbar.LENGTH_SHORT).show();
                 }
