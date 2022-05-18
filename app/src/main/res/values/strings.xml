@@ -95,6 +95,7 @@
     <string name="error_add_message">Add a Message</string>
     <string name="error_short_message">Message must be longer</string>
     <string name="nothing_here">There is nothing here! Huh!?</string>
+    <string name="header_create_post">Create Post</string>
 
     <!-- BOOLEANS -->
     <bool name="schedule_recycler_view_items_clickable">false</bool>

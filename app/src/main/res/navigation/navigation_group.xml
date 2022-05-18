@@ -42,6 +42,6 @@
     <fragment
         android:id="@+id/createPostFragment"
         android:name="com.andresd.socialverse.ui.group.CreatePostFragment"
-        android:label="fragment_create_post"
+        android:label="@string/header_create_post"
         tools:layout="@layout/fragment_create_post" />
 </navigation>
